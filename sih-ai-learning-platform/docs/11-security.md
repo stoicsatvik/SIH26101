@@ -4,9 +4,24 @@ Last updated: 2026-08-28
 
 ## Prototype status
 
-This is an SIH26101 hackathon prototype, not an official iGOT Karmayogi, Parichay or Government of India authentication service. The UI must state that clearly.
+This is an independent SIH26101 student hackathon prototype. It is not an official identity service for any external organisation.
 
-The current `workers.dev` production hostname has been classified by Google Safe Browsing as containing deceptive pages. Google Search Console ownership has been verified and remediation/review is in progress. Do not treat local Chrome bypasses as a fix.
+The current `workers.dev` production hostname has been classified by Google Safe Browsing as containing deceptive pages. Google Search Console ownership is verified and remediation/review is in progress. Do not treat local Chrome bypasses as a fix.
+
+## Safe Browsing remediation
+
+Google defines deceptive pages as pages that may look like a trusted entity or try to obtain information such as passwords in a way users would normally reserve for a trusted entity.
+
+Remediation applied on 2026-08-28:
+- landing page no longer collects credentials,
+- credential pages no longer use external/government identity branding,
+- login and registration identify themselves as `SIH26101 Prototype` / `Student Hackathon Demo`,
+- credential pages state that they accept only accounts created specifically for this prototype,
+- users are told not to reuse credentials from other websites or services,
+- inactive external SSO/Parichay-style controls are not presented as working authentication,
+- Google Search Console ownership file remains deployed for review.
+
+The public-service/iGOT-inspired visual direction may remain on non-credential product surfaces, but authentication surfaces must stay clearly independent and prototype-branded.
 
 ## Password handling
 
@@ -47,16 +62,15 @@ Never commit:
 
 The browser must never directly receive the privileged Neon connection string. All current database access goes through the Worker.
 
-## Login branding / phishing risk
+## Authentication branding rules
 
-Because the product is inspired by iGOT, authentication pages must avoid implying they are official government pages.
-
-Requirements:
-- always identify the site as an SIH26101 hackathon prototype,
-- do not ask users for real Government/iGOT credentials,
-- do not label inactive prototype buttons as real Parichay/official SSO,
-- use test/project accounts while the identity integration is not official,
-- keep the landing page free of misleading credential collection.
+Requirements for any page that collects credentials:
+- identify the page as an independent SIH26101 student/hackathon prototype,
+- do not use external organisation/government identity branding,
+- do not request credentials from external services,
+- do not present inactive external SSO as a real login method,
+- tell users to create/use a unique prototype test password,
+- keep the public landing page free of direct credential collection.
 
 ## Google Search Console verification
 
@@ -68,7 +82,7 @@ Purpose: URL-prefix ownership verification for the current Worker hostname. Do n
 ## Future work
 
 Before real production use:
-- replace prototype auth with an approved identity architecture (e.g. WorkOS/official SSO if authorized),
+- replace prototype auth with an approved identity architecture if external SSO is formally authorized,
 - add CSRF analysis/protection where required,
 - add rate limiting for login/register endpoints,
 - add account recovery policy,
