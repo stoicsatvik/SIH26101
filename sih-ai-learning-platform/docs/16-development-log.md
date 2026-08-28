@@ -24,6 +24,12 @@ This log records major implementation changes so contributors can reconstruct wh
 - Added server-side PBKDF2-SHA256 password hashing with random salts.
 - Added random session tokens, hashed storage and HttpOnly/Secure session cookies.
 
+### Backend diagnostics
+- Registration exposed a generic `Server error.` when database setup failed.
+- Added safe database error classification for missing Cloudflare `DATABASE_URL`, unreachable database, and missing Neon schema.
+- Added `GET /api/health` to report Worker/database/schema readiness without exposing connection strings or credentials.
+- Frontend API calls automatically surface these clearer backend messages because they already read the API `error` field.
+
 ### Onboarding/profile collection
 - Added `onboarding.html`, `onboarding.js` and `onboarding.css`.
 - Profile flow collects current employment status, current role/designation, department/organisation, experience, education, previous jobs, completed courses and skills.
@@ -51,6 +57,7 @@ This log records major implementation changes so contributors can reconstruct wh
 - Added `00-repository-map.md` describing what each important file does.
 - Filled previously placeholder system/frontend/database/API/security/deployment/roadmap docs with the actual architecture and status.
 - Updated `11-security.md` with the Safe Browsing remediation rules for future auth-page changes.
+- Updated `10-api-documentation.md` with the health endpoint and backend dependency status codes.
 
 ## Rule for future entries
 
