@@ -30,6 +30,48 @@ function getSql(env) {
   return neon(env.DATABASE_URL);
 }
 
+function errorMessage(error) {
+  return String(error?.message || error || '');
+}
+
+function isMissingRelation(error) {
+  const message = errorMessage(error).toLowerCase();
+  return message.includes('does not exist') && message.includes('relation');
+}
+
+function databaseErrorResponse(error) {
+  const message = errorMessage(error);
+  const lower = message.toLowerCase();
+
+  if (lower.includes('database_url is not configured')) {
+    return json({
+      error: 'Database is not configured on Cloudflare yet. Add the DATABASE_URL Worker secret.',
+      code: 'DATABASE_NOT_CONFIGURED',
+    }, 503);
+  }
+
+  if (isMissingRelation(error)) {
+    return json({
+      error: 'Database schema is not initialized yet. Apply the verified SIH26101 Neon migration.',
+      code: 'DATABASE_SCHEMA_MISSING',
+    }, 503);
+  }
+
+  if (
+    lower.includes('connection') ||
+    lower.includes('fetch failed') ||
+    lower.includes('password authentication failed') ||
+    lower.includes('invalid connection')
+  ) {
+    return json({
+      error: 'Could not connect to the database. Check the Cloudflare DATABASE_URL secret.',
+      code: 'DATABASE_CONNECTION_FAILED',
+    }, 503);
+  }
+
+  return null;
+}
+
 function bytesToHex(bytes) {
   return [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
@@ -161,6 +203,56 @@ function normalizeEmail(value) {
 
 function validEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+async function handleHealth(env) {
+  if (!env.DATABASE_URL) {
+    return json({
+      ok: false,
+      worker: true,
+      databaseConfigured: false,
+      databaseReachable: false,
+      schemaReady: false,
+    }, 503);
+  }
+
+  const sql = getSql(env);
+
+  try {
+    await sql`SELECT 1 AS ok`;
+  } catch {
+    return json({
+      ok: false,
+      worker: true,
+      databaseConfigured: true,
+      databaseReachable: false,
+      schemaReady: false,
+    }, 503);
+  }
+
+  try {
+    await sql`SELECT 1 FROM app_users LIMIT 1`;
+    await sql`SELECT 1 FROM user_sessions LIMIT 1`;
+  } catch (error) {
+    if (isMissingRelation(error)) {
+      return json({
+        ok: false,
+        worker: true,
+        databaseConfigured: true,
+        databaseReachable: true,
+        schemaReady: false,
+      }, 503);
+    }
+    throw error;
+  }
+
+  return json({
+    ok: true,
+    worker: true,
+    databaseConfigured: true,
+    databaseReachable: true,
+    schemaReady: true,
+  });
 }
 
 async function handleRegister(request, env) {
@@ -366,6 +458,7 @@ async function handleApi(request, env) {
   const url = new URL(request.url);
   const key = `${request.method} ${url.pathname}`;
 
+  if (key === 'GET /api/health') return handleHealth(env);
   if (key === 'POST /api/auth/register') return handleRegister(request, env);
   if (key === 'POST /api/auth/login') return handleLogin(request, env);
   if (key === 'POST /api/auth/logout') return handleLogout(request, env);
@@ -385,7 +478,9 @@ export default {
       }
       return env.ASSETS.fetch(request);
     } catch (error) {
-      console.error(error);
+      console.error('Worker request failed:', error);
+      const databaseResponse = databaseErrorResponse(error);
+      if (databaseResponse) return databaseResponse;
       return json({ error: 'Server error.' }, 500);
     }
   },
