@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="SIH26101 official access login prototype." />
-  <title>Login | Karmayogi Intelligence</title>
+  <meta name="description" content="SIH26101 hackathon prototype sign-in." />
+  <title>Sign in | SIH26101</title>
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./alignment-fixes.css" />
 </head>
@@ -14,47 +14,28 @@
       <a class="mobile-back-link" href="./index.html" aria-label="Back to home">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M10 7l-5 5 5 5" /></svg>
       </a>
-
-      <a class="brand-lockup standalone-brand-lockup" href="./index.html" aria-label="Karmayogi Intelligence home">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 48 48">
-            <path d="M10 31c8-2 13-10 14-21 6 8 8 16 5 25" />
-            <path d="M15 38c8-9 17-12 27-10" />
-            <circle cx="32" cy="14" r="3" />
-          </svg>
-        </span>
-        <span class="brand-name">
-          <strong>Karmayogi Intelligence</strong>
-          <small>SIH26101 Prototype</small>
-        </span>
+      <a class="brand-lockup standalone-brand-lockup" href="./index.html" aria-label="SIH26101 home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 31c8-2 13-10 14-21 6 8 8 16 5 25" /><path d="M15 38c8-9 17-12 27-10" /><circle cx="32" cy="14" r="3" /></svg></span>
+        <span class="brand-name"><strong>Karmayogi Intelligence</strong><small>SIH26101 Hackathon Prototype</small></span>
       </a>
     </section>
 
     <section class="standalone-login-content" aria-labelledby="login-title">
       <div class="login-inner standalone-login-inner">
-        <header class="login-topline">
-          <span>Official access</span>
-          <a href="#help">Need help?</a>
-        </header>
-
+        <header class="login-topline"><span>SIH prototype access</span><a href="#help">Need help?</a></header>
         <div class="login-card">
           <div class="login-card__heading">
             <p class="eyebrow eyebrow--blue">Welcome back</p>
             <h1 id="login-title">Sign in to continue</h1>
-            <p>Use your official email, employee ID, or mobile number.</p>
-          </div>
-
-          <div class="auth-tabs" role="tablist" aria-label="Login method">
-            <button class="auth-tab is-active" id="password-tab" type="button" role="tab" aria-selected="true" aria-controls="auth-form" data-mode="password">Password</button>
-            <button class="auth-tab" id="otp-tab" type="button" role="tab" aria-selected="false" aria-controls="auth-form" data-mode="otp">OTP</button>
+            <p>Use the email you registered for this prototype.</p>
           </div>
 
           <form id="auth-form" novalidate>
             <label class="field" for="identity">
-              <span id="identity-label">Official email or employee ID</span>
+              <span id="identity-label">Email</span>
               <span class="input-wrap">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4zM4 7l8 6 8-6" /></svg>
-                <input id="identity" name="identity" autocomplete="username" placeholder="name@department.gov.in" required />
+                <input id="identity" name="identity" type="email" autocomplete="username" placeholder="you@example.com" required />
               </span>
               <small class="field-error" id="identity-error"></small>
             </label>
@@ -63,67 +44,29 @@
               <span>Password</span>
               <span class="input-wrap">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V8a5 5 0 0110 0v2M5 10h14v10H5z" /></svg>
-                <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" />
-                <button class="icon-button" id="toggle-password" type="button" aria-label="Show password">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z" /><circle cx="12" cy="12" r="2.5" /></svg>
-                </button>
+                <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required />
+                <button class="icon-button" id="toggle-password" type="button" aria-label="Show password"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z" /><circle cx="12" cy="12" r="2.5" /></svg></button>
               </span>
               <small class="field-error" id="password-error"></small>
             </label>
 
-            <label class="field is-hidden" id="otp-field" for="otp">
-              <span>Enter 6-digit OTP</span>
-              <span class="input-wrap">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M5 7h14M5 17h14" /></svg>
-                <input id="otp" name="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••" />
-              </span>
-              <small class="field-hint" id="otp-hint">Prototype OTP will be shown here after requesting it.</small>
-              <small class="field-error" id="otp-error"></small>
-            </label>
-
             <div class="form-meta" id="password-meta">
-              <label class="checkbox-row">
-                <input id="remember" type="checkbox" />
-                <span>Keep me signed in</span>
-              </label>
-              <button class="text-button" type="button" id="forgot-password">Forgot password?</button>
+              <span class="field-hint">Do not reuse a government or personal password while this prototype domain is under review.</span>
             </div>
 
-            <button class="primary-button" id="submit-button" type="submit">
-              <span>Log in</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
-            </button>
-
+            <button class="primary-button" id="submit-button" type="submit"><span>Log in</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg></button>
             <div class="status-message" id="status-message" role="status" aria-live="polite"></div>
           </form>
 
-          <div class="separator"><span>or continue with</span></div>
-
-          <button class="secondary-button" id="parichay-button" type="button">
-            <span class="government-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M3 9l9-5 9 5M5 10h14M6 10v7m4-7v7m4-7v7m4-7v7M4 19h16" /></svg>
-            </span>
-            <span>Parichay</span>
-          </button>
+          <div class="separator"><span>new to the prototype?</span></div>
+          <a class="secondary-button" href="./register.html" style="text-decoration:none">Create account</a>
         </div>
 
-        <div class="integration-note">
-          <span class="integration-note__dot" aria-hidden="true"></span>
-          <p><strong>Prototype authentication.</strong> WorkOS + Cloudflare will replace the temporary local handler.</p>
-        </div>
-
-        <footer class="legal-footer" id="help">
-          <p>SIH26101 prototype. Not an official iGOT Karmayogi deployment.</p>
-          <nav aria-label="Footer links">
-            <a href="#privacy">Privacy</a>
-            <a href="#accessibility">Accessibility</a>
-            <a href="#support">Support</a>
-          </nav>
-        </footer>
+        <div class="integration-note"><span class="integration-note__dot" aria-hidden="true"></span><p><strong>Hackathon prototype.</strong> Not an official Government of India or iGOT authentication page.</p></div>
+        <footer class="legal-footer" id="help"><p>SIH26101 prototype.</p><nav aria-label="Footer links"><a href="#privacy">Privacy</a><a href="#support">Support</a></nav></footer>
       </div>
     </section>
   </main>
-
   <script src="./app.js"></script>
 </body>
 </html>
