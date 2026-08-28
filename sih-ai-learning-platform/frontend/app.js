@@ -30,7 +30,7 @@ function validate() {
   } else setFieldError('identity', '');
 
   if (!password) {
-    setFieldError('password', 'Enter your password.');
+    setFieldError('password', 'Enter your prototype account password.');
     ok = false;
   } else setFieldError('password', '');
 
@@ -41,6 +41,7 @@ if (togglePasswordButton) {
   togglePasswordButton.addEventListener('click', () => {
     const show = passwordInput.type === 'password';
     passwordInput.type = show ? 'text' : 'password';
+    togglePasswordButton.textContent = show ? 'Hide' : 'Show';
     togglePasswordButton.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
   });
 }
@@ -54,7 +55,7 @@ form?.addEventListener('submit', async (event) => {
   if (!validate()) return;
 
   submitButton.disabled = true;
-  setStatus('Signing in…', 'info');
+  setStatus('Signing in to the prototype…', 'info');
 
   try {
     const response = await fetch('/api/auth/login', {
@@ -75,7 +76,7 @@ form?.addEventListener('submit', async (event) => {
     setStatus('Signed in. Redirecting…', 'success');
     window.location.assign(data.next || '/onboarding.html');
   } catch {
-    setStatus('Could not reach the authentication backend.', 'error');
+    setStatus('Could not reach the prototype authentication backend.', 'error');
   } finally {
     submitButton.disabled = false;
   }
