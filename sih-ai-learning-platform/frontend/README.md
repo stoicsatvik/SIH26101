@@ -1,66 +1,88 @@
 # Frontend
 
-Cloudflare-friendly frontend for the SIH26101 AI learning and competency intelligence platform.
+Cloudflare-served frontend for the SIH26101 competency intelligence prototype.
 
-## Current prototype
+## Current pages
 
-The first screen is an iGOT Karmayogi-inspired login experience with:
+- `index.html` - public landing page
+- `login.html` - dedicated prototype login
+- `register.html` - prototype account creation
+- `onboarding.html` - first-time profile collection
+- `dashboard.html` - authenticated dashboard placeholder
 
-- password and OTP modes
-- responsive desktop/mobile layout
-- basic client-side validation
-- password visibility control
-- local prototype OTP flow (`123456`)
-- a visual Parichay/SSO handoff button
-- an explicit authentication seam for later Cloudflare + WorkOS integration
+## Current frontend/backend relationship
 
-The prototype deliberately does **not** perform real authentication. No passwords or OTPs are sent or stored anywhere.
+The frontend is static HTML/CSS/JS, but authentication is no longer fake client-side validation.
 
-## Run locally
+The browser calls the Cloudflare Worker backend:
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `POST /api/auth/logout`
+- `GET /api/auth/me`
+- `GET /api/profile`
+- `PUT /api/profile`
 
-No build step is required yet. Serve this directory with any static server, for example:
+Active backend code lives at repository root in `src/worker.js`.
 
-```bash
-python3 -m http.server 8080
-```
+## Profile/onboarding data currently collected
 
-Then open `http://localhost:8080`.
+- employment status
+- current job title/designation
+- department
+- ministry/organisation
+- years of experience
+- current responsibilities
+- target role
+- education/qualifications
+- work history
+- completed courses
+- self-reported skills
 
-## Cloudflare Pages setup
+## Styling files
 
-For the current static prototype:
+- `styles.css` - shared/base visual system
+- `alignment-fixes.css` - landing/login layout corrections
+- `register.css` - isolated registration page styling
+- `onboarding.css` - onboarding/profile form styling
 
-- **Project path:** `sih-ai-learning-platform/frontend`
-- **Framework preset:** None
-- **Build command:** leave blank
-- **Build output directory:** `.`
+Registration has its own stylesheet intentionally because earlier shared standalone-login rules caused desktop alignment collisions.
 
-The included `_headers` file adds basic static security headers when deployed through Cloudflare Pages.
+## JavaScript files
 
-## WorkOS integration seam
+- `app.js` - login behavior and backend login request
+- `register.js` - registration request
+- `onboarding.js` - repeatable profile sections and profile persistence
 
-Authentication behavior is controlled near the top of `app.js`:
+## Mobile behavior
 
-```js
-const AUTH_CONFIG = {
-  mode: "mock",
-  workosStartUrl: "/auth/login",
-  demoOtp: "123456",
-};
-```
-
-When the Cloudflare Worker/WorkOS route is ready, switch `mode` to `"workos"` and point `workosStartUrl` at the Worker endpoint. The form and Parichay-style SSO button will then hand off to that route rather than the local prototype logic.
-
-Real identity verification, sessions, cookies, logout, password recovery, and authorization must live in the server-side identity layer, not in this browser script.
+The mobile landing page exposes a clear login CTA near the hero. Authentication is a separate page rather than stacking a complete desktop login below the landing content.
 
 ## Visual direction
 
-The theme is based on the public iGOT Karmayogi visual language: warm cream/peach surfaces, deep blue government-service branding, saffron highlights, restrained rounded controls, and a role-based public-service message.
+The theme uses an iGOT-inspired public-service palette and spacing language, while remaining an original SIH26101 hackathon prototype.
 
-UI layout/polish references supplied for the project:
+It must not present itself as an official Government of India/iGOT/Parichay authentication page.
 
-- Mobbin: mobile spacing and authentication flow conventions
-- 21st.dev: compact sign-in/card/component conventions
-- Dribbble: split-panel login and brand storytelling patterns
+## Google Search Console verification
 
-The page is an original SIH26101 prototype and is clearly labelled as **not an official iGOT Karmayogi deployment**.
+`google6603f76e5906e835.html` verifies ownership of the current URL-prefix Search Console property. Keep the file deployed while verification/security review is needed.
+
+## Local development
+
+Run from the repository root rather than this frontend directory:
+
+```bash
+npm install
+npm run dev
+```
+
+Wrangler serves both the Worker backend and the frontend asset binding.
+
+## Documentation
+
+See:
+- `../docs/00-repository-map.md`
+- `../docs/07-frontend-architecture.md`
+- `../docs/10-api-documentation.md`
+- `../docs/11-security.md`
+- `../docs/16-development-log.md`
