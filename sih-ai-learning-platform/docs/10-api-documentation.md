@@ -6,6 +6,24 @@ Current API implementation lives in `src/worker.js` and is served by the same Cl
 
 Base path: `/api`
 
+## Health / diagnostics
+
+### `GET /api/health`
+Returns a non-sensitive backend readiness snapshot.
+
+Example response when healthy:
+```json
+{
+  "ok": true,
+  "worker": true,
+  "databaseConfigured": true,
+  "databaseReachable": true,
+  "schemaReady": true
+}
+```
+
+The endpoint never returns the database connection string or credentials. It is intended to distinguish Cloudflare configuration problems from database connectivity/schema problems during development.
+
 ## Authentication
 
 ### `POST /api/auth/register`
@@ -98,7 +116,10 @@ The endpoint updates the profile snapshot and marks onboarding as complete.
 - `401` unauthenticated or invalid credentials
 - `404` API route not found
 - `409` duplicate account
-- `500` Worker/server error
+- `503` backend dependency/configuration not ready (database secret, connection or schema)
+- `500` unexpected Worker/server error
+
+Database-related 503 responses expose only safe error codes/messages, never connection strings or credentials.
 
 ## Session transport
 
