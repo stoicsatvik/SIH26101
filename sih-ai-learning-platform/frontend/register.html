@@ -3,30 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Create a test account for the SIH26101 Karmayogi Intelligence hackathon prototype." />
   <title>Create account | SIH26101</title>
   <link rel="stylesheet" href="./styles.css" />
-  <link rel="stylesheet" href="./alignment-fixes.css" />
-  <link rel="stylesheet" href="./onboarding.css" />
+  <link rel="stylesheet" href="./register.css" />
 </head>
-<body class="standalone-login-page">
-  <main class="standalone-login-shell compact-auth-shell">
-    <section class="standalone-login-brand auth-brand-copy">
-      <a class="mobile-back-link" href="./index.html" aria-label="Back to home">←</a>
-      <p class="eyebrow">SIH26101 prototype</p>
-      <h1>Create your account</h1>
-      <p>Use a project/test email. Do not reuse a government or personal password while this prototype domain is under security review.</p>
+<body class="register-page">
+  <main class="register-shell">
+    <section class="register-hero" aria-labelledby="register-title">
+      <div class="register-hero__glow register-hero__glow--one" aria-hidden="true"></div>
+      <div class="register-hero__glow register-hero__glow--two" aria-hidden="true"></div>
+
+      <header class="register-brand-row">
+        <a class="register-brand" href="./index.html" aria-label="Back to Karmayogi Intelligence home">
+          <span class="register-brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48">
+              <path d="M10 31c8-2 13-10 14-21 6 8 8 16 5 25" />
+              <path d="M15 38c8-9 17-12 27-10" />
+              <circle cx="32" cy="14" r="3" />
+            </svg>
+          </span>
+          <span>
+            <strong>Karmayogi Intelligence</strong>
+            <small>SIH26101 Hackathon Prototype</small>
+          </span>
+        </a>
+        <span class="register-prototype-pill">Prototype</span>
+      </header>
+
+      <div class="register-hero__content">
+        <p class="register-eyebrow">Start your competency profile</p>
+        <h1 id="register-title">Create your account.</h1>
+        <p class="register-hero__lead">
+          Set up a test profile to map your current role, education, experience and completed learning before the competency engine analyses your gaps.
+        </p>
+
+        <div class="register-steps" aria-label="What happens after account creation">
+          <div class="register-step"><span>01</span><div><strong>Create account</strong><small>Secure prototype access</small></div></div>
+          <div class="register-step"><span>02</span><div><strong>Build profile</strong><small>Add role and learning history</small></div></div>
+          <div class="register-step"><span>03</span><div><strong>Analyse gaps</strong><small>Generate competency evidence</small></div></div>
+        </div>
+      </div>
+
+      <div class="register-safety-note">
+        <span aria-hidden="true">i</span>
+        <p><strong>Prototype environment.</strong> Use test credentials only. This is not an official Government of India or iGOT account.</p>
+      </div>
     </section>
 
-    <section class="standalone-login-card onboarding-card">
-      <form id="register-form" class="stack-form" novalidate>
-        <label>Full name<input id="full-name" autocomplete="name" required /></label>
-        <label>Email<input id="register-email" type="email" autocomplete="email" required /></label>
-        <label>Password<input id="register-password" type="password" autocomplete="new-password" minlength="10" required /></label>
-        <p class="form-help">Minimum 10 characters. Passwords are hashed server-side before storage.</p>
-        <button class="primary-button" type="submit">Create account</button>
-        <div id="register-status" class="status-message" role="status"></div>
-      </form>
-      <p class="auth-switch">Already registered? <a href="./login.html">Sign in</a></p>
+    <section class="register-form-panel" aria-label="Create account form">
+      <div class="register-form-wrap">
+        <div class="register-form-topline">
+          <a href="./index.html">← Back</a>
+          <span>SIH26101</span>
+        </div>
+
+        <div class="register-card">
+          <div class="register-card__heading">
+            <p class="register-eyebrow register-eyebrow--blue">Prototype access</p>
+            <h2>Create an account</h2>
+            <p>You’ll complete your professional and educational profile on the next screen.</p>
+          </div>
+
+          <form id="register-form" class="register-form" novalidate>
+            <label class="register-field" for="full-name">
+              <span>Full name</span>
+              <input id="full-name" autocomplete="name" placeholder="Enter your full name" required />
+            </label>
+
+            <label class="register-field" for="register-email">
+              <span>Email</span>
+              <input id="register-email" type="email" autocomplete="email" placeholder="test@example.com" required />
+            </label>
+
+            <label class="register-field" for="register-password">
+              <span>Password</span>
+              <input id="register-password" type="password" autocomplete="new-password" minlength="10" placeholder="Minimum 10 characters" required />
+            </label>
+
+            <div class="register-password-note">
+              <span aria-hidden="true">✓</span>
+              <p>Passwords are hashed by the backend before storage. Do not reuse a personal or government password in this prototype.</p>
+            </div>
+
+            <button class="register-submit" type="submit">
+              <span>Create account</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
+            </button>
+
+            <div id="register-status" class="status-message" role="status" aria-live="polite"></div>
+          </form>
+
+          <p class="register-switch">Already registered? <a href="./login.html">Sign in</a></p>
+        </div>
+
+        <p class="register-legal">SIH26101 hackathon prototype. Not an official iGOT Karmayogi deployment.</p>
+      </div>
     </section>
   </main>
   <script src="./register.js"></script>
