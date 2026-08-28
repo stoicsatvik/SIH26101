@@ -39,15 +39,18 @@ This log records major implementation changes so contributors can reconstruct wh
 ### Safe Browsing / Search Console
 - Chrome/Google Safe Browsing flagged the current `workers.dev` hostname as deceptive.
 - Removed direct credential collection from the landing page.
-- Reworded authentication to clearly identify it as an SIH26101 hackathon prototype rather than an official government login.
-- Removed/avoided pretending inactive Parichay/official SSO is real.
-- Added Google Search Console verification file `google6603f76e5906e835.html`.
-- Search Console now reports the security issue as `Deceptive pages`; review/remediation is in progress.
+- Added Google Search Console verification file `google6603f76e5906e835.html` and verified the URL-prefix property.
+- Search Console reports the security issue as `Deceptive pages` with no sample URLs.
+- Performed a second remediation pass before review: credential pages were fully de-branded from external/government identity language and now identify only as `SIH26101 Prototype` / `Student Hackathon Demo`.
+- Login/register now explicitly accept only prototype accounts created on this site and tell users not to reuse credentials from any external service.
+- Landing keeps the SIH/public-service visual direction but identifies itself as an independent student prototype and does not collect credentials.
+- Next operational step: let Cloudflare deploy these changes, test the public pages, then submit `Request Review` in Search Console.
 
 ### Documentation cleanup
 - Expanded the root README with current implementation status and docs index.
 - Added `00-repository-map.md` describing what each important file does.
 - Filled previously placeholder system/frontend/database/API/security/deployment/roadmap docs with the actual architecture and status.
+- Updated `11-security.md` with the Safe Browsing remediation rules for future auth-page changes.
 
 ## Rule for future entries
 
