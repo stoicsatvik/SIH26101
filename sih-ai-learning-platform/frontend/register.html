@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create account | SIH26101</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./alignment-fixes.css" />
+  <link rel="stylesheet" href="./onboarding.css" />
+</head>
+<body class="standalone-login-page">
+  <main class="standalone-login-shell compact-auth-shell">
+    <section class="standalone-login-brand auth-brand-copy">
+      <a class="mobile-back-link" href="./index.html" aria-label="Back to home">←</a>
+      <p class="eyebrow">SIH26101 prototype</p>
+      <h1>Create your account</h1>
+      <p>Use a project/test email. Do not reuse a government or personal password while this prototype domain is under security review.</p>
+    </section>
+
+    <section class="standalone-login-card onboarding-card">
+      <form id="register-form" class="stack-form" novalidate>
+        <label>Full name<input id="full-name" autocomplete="name" required /></label>
+        <label>Email<input id="register-email" type="email" autocomplete="email" required /></label>
+        <label>Password<input id="register-password" type="password" autocomplete="new-password" minlength="10" required /></label>
+        <p class="form-help">Minimum 10 characters. Passwords are hashed server-side before storage.</p>
+        <button class="primary-button" type="submit">Create account</button>
+        <div id="register-status" class="status-message" role="status"></div>
+      </form>
+      <p class="auth-switch">Already registered? <a href="./login.html">Sign in</a></p>
+    </section>
+  </main>
+  <script src="./register.js"></script>
+</body>
+</html>
