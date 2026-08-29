@@ -3,101 +3,122 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Sign in to the SIH26101 student hackathon prototype using a test account created on this site." />
-  <title>Prototype sign in | SIH26101</title>
+  <meta name="description" content="Sign in to the independent SIH26101 student hackathon prototype using a prototype account created on this site." />
+  <title>Sign in | SIH26101 Prototype</title>
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./login.css" />
 </head>
-<body class="login-page">
-  <main class="register-shell">
-    <section class="register-hero" aria-labelledby="login-hero-title">
-      <div class="register-hero__glow register-hero__glow--one" aria-hidden="true"></div>
-      <div class="register-hero__glow register-hero__glow--two" aria-hidden="true"></div>
-
-      <header class="register-brand-row">
-        <a class="register-brand" href="./index.html" aria-label="Back to SIH26101 home">
-          <span class="register-brand__mark" aria-hidden="true">
-            <svg viewBox="0 0 48 48">
-              <path d="M10 31c8-2 13-10 14-21 6 8 8 16 5 25" />
-              <path d="M15 38c8-9 17-12 27-10" />
-              <circle cx="32" cy="14" r="3" />
-            </svg>
+<body class="igot-login-page">
+  <main class="igot-login-shell">
+    <section class="igot-login-guide" aria-labelledby="guide-title">
+      <div class="igot-pattern" aria-hidden="true"></div>
+      <div class="igot-guide-header">
+        <a class="igot-guide-brand" href="./index.html" aria-label="Back to SIH26101 home">
+          <span class="igot-guide-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><path d="M10 31c8-2 13-10 14-21 6 8 8 16 5 25"/><path d="M15 38c8-9 17-12 27-10"/><circle cx="32" cy="14" r="3"/></svg>
           </span>
-          <span>
-            <strong>SIH26101 Prototype</strong>
-            <small>Student Hackathon Demo</small>
-          </span>
+          <span><strong>SIH26101 Prototype</strong><small>Independent student hackathon demo</small></span>
         </a>
-        <span class="register-prototype-pill">Prototype</span>
-      </header>
-
-      <div class="register-hero__content">
-        <p class="register-eyebrow">Prototype account access</p>
-        <h1 id="login-hero-title">Continue your competency profile.</h1>
-        <p class="register-hero__lead">
-          Sign in only with the test account you created for this SIH26101 demo. This authentication flow is independent from external government or organisational identity systems.
-        </p>
-
-        <div class="register-steps" aria-label="Prototype account flow">
-          <div class="register-step"><span>01</span><div><strong>Sign in</strong><small>Use your prototype account</small></div></div>
-          <div class="register-step"><span>02</span><div><strong>Update profile</strong><small>Keep evidence current</small></div></div>
-          <div class="register-step"><span>03</span><div><strong>Analyse gaps</strong><small>Continue the learning journey</small></div></div>
-        </div>
+        <span class="igot-prototype-pill">Prototype</span>
       </div>
 
-      <div class="register-safety-note">
+      <div class="igot-guide-stage">
+        <article class="igot-callout igot-callout--one">
+          <strong>Use the account created on this prototype</strong>
+          <span class="igot-callout-line"></span>
+          <span class="igot-icon-disc" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg>
+          </span>
+        </article>
+
+        <article class="igot-callout igot-callout--two">
+          <strong>New here? Complete registration first</strong>
+          <span class="igot-callout-line"></span>
+          <span class="igot-icon-disc" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c.7-4 2.7-6 5.5-6s4.8 2 5.5 6M17 8v6M14 11h6"/></svg>
+          </span>
+        </article>
+
+        <div class="igot-guide-center">
+          <span>Welcome to</span>
+          <strong>SIH26101</strong>
+          <b id="guide-title">How to Sign In</b>
+          <small>prototype account access</small>
+        </div>
+
+        <article class="igot-callout igot-callout--three">
+          <span class="igot-icon-disc" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 11h14v9H5zM8 11V8a4 4 0 018 0v3"/><path d="M12 15v2"/></svg>
+          </span>
+          <span class="igot-callout-line"></span>
+          <strong>Enter your prototype email and password</strong>
+        </article>
+
+        <article class="igot-callout igot-callout--four">
+          <span class="igot-icon-disc" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M8 12l2.5 2.5L16.5 8.5"/></svg>
+          </span>
+          <span class="igot-callout-line"></span>
+          <strong>Continue to your competency profile</strong>
+        </article>
+      </div>
+
+      <div class="igot-guide-note">
         <span aria-hidden="true">i</span>
-        <p><strong>Independent student demo.</strong> Do not enter credentials from any external service. Use a unique test password created specifically for this prototype.</p>
+        <p><strong>Independent SIH prototype.</strong> This is not an official iGOT or Government of India authentication service. Use only the test account created here.</p>
       </div>
     </section>
 
-    <section class="register-form-panel" aria-label="Prototype sign-in form">
-      <div class="register-form-wrap">
-        <div class="register-form-topline">
-          <a href="./index.html">← Back</a>
+    <section class="igot-login-form-panel" aria-label="Prototype sign-in form">
+      <div class="igot-login-form-wrap">
+        <div class="igot-form-topline">
+          <a href="./index.html" aria-label="Back to home">← <span>Back</span></a>
           <span>SIH26101</span>
         </div>
 
-        <div class="register-card">
-          <div class="register-card__heading">
-            <p class="register-eyebrow register-eyebrow--blue">Student prototype</p>
-            <h2>Sign in</h2>
-            <p>Use the email and password for the test account you created on this site.</p>
+        <div class="igot-form-content">
+          <div class="igot-form-heading">
+            <p>Prototype access</p>
+            <h1>Sign in</h1>
+            <span>Use the email and password for the test account you created on this site.</span>
           </div>
 
-          <form id="auth-form" class="register-form" novalidate>
-            <label class="register-field" for="identity">
-              <span>Email</span>
-              <input id="identity" name="identity" type="email" autocomplete="username" placeholder="test@example.com" required />
+          <form id="auth-form" class="igot-form" novalidate>
+            <label class="igot-field" for="identity">
+              <span>Email <b>*</b></span>
+              <input id="identity" name="identity" type="email" autocomplete="username" placeholder="Enter your prototype email" required />
               <small class="field-error" id="identity-error"></small>
             </label>
 
-            <label class="register-field" for="password">
-              <span>Password</span>
-              <div style="position:relative">
-                <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Prototype account password" required style="padding-right:56px" />
-                <button id="toggle-password" type="button" aria-label="Show password" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#60748d;cursor:pointer;padding:8px">Show</button>
+            <label class="igot-field" for="password">
+              <span>Password <b>*</b></span>
+              <div class="igot-password-wrap">
+                <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your prototype password" required />
+                <button id="toggle-password" type="button" aria-label="Show password">Show</button>
               </div>
               <small class="field-error" id="password-error"></small>
             </label>
 
-            <div class="register-password-note">
+            <div class="igot-security-note">
               <span aria-hidden="true">i</span>
-              <p>This form accepts only accounts created for this demo. Never reuse a password from another website or service.</p>
+              <p>Use only credentials created for this student prototype. Do not reuse credentials from another website or service.</p>
             </div>
 
-            <button class="register-submit" id="submit-button" type="submit">
-              <span>Sign in to prototype</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
+            <button class="igot-primary-button" id="submit-button" type="submit">
+              <span>Sign in</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"/></svg>
             </button>
 
             <div class="status-message" id="status-message" role="status" aria-live="polite"></div>
           </form>
 
-          <p class="register-switch">Need a test account? <a href="./register.html">Create prototype account</a></p>
+          <div class="igot-register-link">
+            <span>Not registered yet?</span>
+            <a href="./register.html">Create prototype account</a>
+          </div>
         </div>
 
-        <p class="register-legal">Independent SIH26101 student hackathon prototype.</p>
+        <footer class="igot-login-footer">Independent SIH26101 student hackathon prototype.</footer>
       </div>
     </section>
   </main>
