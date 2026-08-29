@@ -4,6 +4,15 @@ This log records major implementation changes so contributors can reconstruct wh
 
 ## 2026-08-29
 
+### Login visual polish + database activation prep
+- Added `login-polish.css` as a dedicated visual override layer so glow/motion can be tuned without changing the stable iGOT-style login structure.
+- Added subtle animated blue/orange glows, pattern drift, center-orb shimmer, ring pulse, icon depth, input focus elevation and button sheen.
+- Added reduced-motion handling so the decorative motion can be disabled by user preference.
+- Improved login API error presentation so missing database configuration no longer exposes raw infrastructure wording to normal users.
+- Added canonical SQL migration file `migrations/001_auth_profile_schema.sql` containing the auth/profile tables expected by `src/worker.js`.
+- Cloudflare still requires a Worker secret named `DATABASE_URL`; it must contain the Neon `stoicdb` main-branch connection string and must not be committed to Git.
+- The connected Neon management tool currently has an argument-schema mismatch when executing migrations/queries, so production schema application was not falsely marked complete from ChatGPT. Use the canonical migration file if manual Neon SQL Editor execution is required.
+
 ### iGOT-style login redesign
 - Reworked `login.html` from a large SaaS-style hero/card layout into an iGOT-inspired split authentication page.
 - Left side now uses a government-style instructional blue panel with technical patterning, four explanatory callouts and a central circular `How to Sign In` visual.
