@@ -2,6 +2,20 @@
 
 This log records major implementation changes so contributors can reconstruct what happened without reverse-engineering every commit.
 
+## 2026-08-29
+
+### iGOT-style registration rebuild
+- Rebuilt `register.html` around the public iGOT registration structure shown in the SIH reference flow.
+- Registration is now a two-step experience instead of a generic name/email/password form.
+- Step 1 collects Center/State, Ministry/Department, Organisation/MDO, Designation and email verification.
+- Step 2 collects name, group, mobile number, prototype password and declaration before account creation.
+- Added Center/State-specific sample directory data for prototype testing.
+- Added demo OTP generation and verification. The generated OTP is shown on-screen because no email/SMS provider is connected yet; the interface labels this clearly as prototype delivery.
+- Added a two-step animated progress indicator and contextual organisation help message.
+- Carried registration organisation/designation context into onboarding through temporary `sessionStorage` so users are not forced to re-enter the same information immediately.
+- Rebuilt `register.css` with an iGOT-inspired instructional left panel plus locally implemented depth, perspective, floating cards and motion patterns inspired by modern open-source component systems such as Watermelon UI.
+- Motion remains framework-free and respects `prefers-reduced-motion`; React/Tailwind/Framer Motion were not added to the current static frontend.
+
 ## 2026-08-28
 
 ### Frontend foundation
@@ -48,9 +62,8 @@ This log records major implementation changes so contributors can reconstruct wh
 - Added Google Search Console verification file `google6603f76e5906e835.html` and verified the URL-prefix property.
 - Search Console reports the security issue as `Deceptive pages` with no sample URLs.
 - Performed a second remediation pass before review: credential pages were fully de-branded from external/government identity language and now identify only as `SIH26101 Prototype` / `Student Hackathon Demo`.
-- Login/register now explicitly accept only prototype accounts created on this site and tell users not to reuse credentials from any external service.
+- Login/register explicitly accept only prototype accounts created on this site and tell users not to reuse credentials from any external service.
 - Landing keeps the SIH/public-service visual direction but identifies itself as an independent student prototype and does not collect credentials.
-- Next operational step: let Cloudflare deploy these changes, test the public pages, then submit `Request Review` in Search Console.
 
 ### Documentation cleanup
 - Expanded the root README with current implementation status and docs index.
