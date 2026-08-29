@@ -4,6 +4,13 @@ This log records major implementation changes so contributors can reconstruct wh
 
 ## 2026-08-29
 
+### iGOT-style login redesign
+- Reworked `login.html` from a large SaaS-style hero/card layout into an iGOT-inspired split authentication page.
+- Left side now uses a government-style instructional blue panel with technical patterning, four explanatory callouts and a central circular `How to Sign In` visual.
+- Right side is now a flatter white form panel with sharper field borders, compact labels, a blue primary action and much less decorative card styling.
+- Kept prominent prototype language on both sides so the page remains clearly independent from official iGOT/Government identity systems.
+- Login keeps its own isolated `login.css`; registration remains on `register.css` so the two flows cannot break each other through shared layout classes.
+
 ### iGOT-style registration rebuild
 - Rebuilt `register.html` around the public iGOT registration structure shown in the SIH reference flow.
 - Registration is now a two-step experience instead of a generic name/email/password form.
