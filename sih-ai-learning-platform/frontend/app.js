@@ -12,6 +12,26 @@ function setStatus(message = '', type = 'info') {
   if (message) statusMessage.classList.add('is-visible', `is-${type}`);
 }
 
+function friendlyApiError(message = '') {
+  const text = String(message || '');
+
+  if (text.includes('DATABASE_URL') || text.toLowerCase().includes('database is not configured')) {
+    return {
+      message: 'Prototype account storage is being connected. Sign-in will be available as soon as database setup finishes.',
+      type: 'info',
+    };
+  }
+
+  if (text.toLowerCase().includes('schema') || text.toLowerCase().includes('app_users')) {
+    return {
+      message: 'The prototype database is connected but still completing account setup. Please retry shortly.',
+      type: 'info',
+    };
+  }
+
+  return { message: text || 'Sign-in failed.', type: 'error' };
+}
+
 function setFieldError(fieldId, message = '') {
   const field = document.querySelector(`[for="${fieldId}"]`);
   const error = document.querySelector(`#${fieldId}-error`);
@@ -55,7 +75,7 @@ form?.addEventListener('submit', async (event) => {
   if (!validate()) return;
 
   submitButton.disabled = true;
-  setStatus('Signing in to the prototype…', 'info');
+  setStatus('Signing in…', 'info');
 
   try {
     const response = await fetch('/api/auth/login', {
@@ -69,14 +89,15 @@ form?.addEventListener('submit', async (event) => {
 
     const data = await response.json();
     if (!response.ok) {
-      setStatus(data.error || 'Sign-in failed.', 'error');
+      const friendly = friendlyApiError(data.error);
+      setStatus(friendly.message, friendly.type);
       return;
     }
 
     setStatus('Signed in. Redirecting…', 'success');
     window.location.assign(data.next || '/onboarding.html');
   } catch {
-    setStatus('Could not reach the prototype authentication backend.', 'error');
+    setStatus('The authentication service is temporarily unavailable. Please retry in a moment.', 'error');
   } finally {
     submitButton.disabled = false;
   }
