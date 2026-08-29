@@ -70,6 +70,30 @@ function show(message, type = 'info') {
   statusBox.className = `status-message is-visible is-${type}`;
 }
 
+function applyRegistrationContext() {
+  try {
+    const raw = sessionStorage.getItem('sih_registration_context');
+    if (!raw) return;
+    const context = JSON.parse(raw);
+
+    if (context.designation) document.querySelector('#designation').value = context.designation;
+    if (context.ministryOrDepartment) document.querySelector('#department').value = context.ministryOrDepartment;
+    if (context.organisation) document.querySelector('#organization').value = context.organisation;
+
+    const firstExperience = experienceList.querySelector('.repeat-card');
+    if (firstExperience) {
+      const organisation = firstExperience.querySelector('[data-key="organization"]');
+      const designation = firstExperience.querySelector('[data-key="designation"]');
+      const department = firstExperience.querySelector('[data-key="department"]');
+      if (organisation && context.organisation) organisation.value = context.organisation;
+      if (designation && context.designation) designation.value = context.designation;
+      if (department && context.ministryOrDepartment) department.value = context.ministryOrDepartment;
+    }
+  } catch {
+    sessionStorage.removeItem('sih_registration_context');
+  }
+}
+
 document.querySelector('#add-education').addEventListener('click', addEducation);
 document.querySelector('#add-experience').addEventListener('click', addExperience);
 document.querySelector('#add-course').addEventListener('click', addCourse);
@@ -79,6 +103,7 @@ addEducation();
 addExperience();
 addCourse();
 addSkill();
+applyRegistrationContext();
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -109,6 +134,7 @@ form.addEventListener('submit', async (event) => {
     const data = await response.json();
     if (response.status === 401) return window.location.assign('/login.html');
     if (!response.ok) return show(data.error || 'Could not save profile.', 'error');
+    sessionStorage.removeItem('sih_registration_context');
     window.location.assign(data.next || '/dashboard.html');
   } catch {
     show('Could not reach the backend.', 'error');
