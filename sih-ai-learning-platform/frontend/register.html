@@ -3,104 +3,198 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Create a test account for the independent SIH26101 student hackathon prototype." />
-  <title>Create prototype account | SIH26101</title>
+  <meta name="description" content="SIH26101 hackathon prototype registration flow inspired by the public iGOT Karmayogi onboarding structure." />
+  <title>Register | SIH26101 Prototype</title>
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./register.css" />
 </head>
 <body class="register-page">
   <main class="register-shell">
-    <section class="register-hero" aria-labelledby="register-title">
-      <div class="register-hero__glow register-hero__glow--one" aria-hidden="true"></div>
-      <div class="register-hero__glow register-hero__glow--two" aria-hidden="true"></div>
+    <aside class="registration-guide" aria-label="Registration guidance">
+      <div class="guide-grid" aria-hidden="true"></div>
+      <div class="guide-glow guide-glow--one" aria-hidden="true"></div>
+      <div class="guide-glow guide-glow--two" aria-hidden="true"></div>
 
-      <header class="register-brand-row">
-        <a class="register-brand" href="./index.html" aria-label="Back to SIH26101 home">
-          <span class="register-brand__mark" aria-hidden="true">
-            <svg viewBox="0 0 48 48">
-              <path d="M10 31c8-2 13-10 14-21 6 8 8 16 5 25" />
-              <path d="M15 38c8-9 17-12 27-10" />
-              <circle cx="32" cy="14" r="3" />
-            </svg>
+      <header class="guide-brand">
+        <a href="./index.html" class="guide-brand__link" aria-label="SIH26101 home">
+          <span class="guide-brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><path d="M10 31c8-2 13-10 14-21 6 8 8 16 5 25"/><path d="M15 38c8-9 17-12 27-10"/><circle cx="32" cy="14" r="3"/></svg>
           </span>
-          <span>
-            <strong>SIH26101 Prototype</strong>
-            <small>Student Hackathon Demo</small>
-          </span>
+          <span><strong>SIH26101 Learning Intelligence</strong><small>Independent Hackathon Prototype</small></span>
         </a>
-        <span class="register-prototype-pill">Prototype</span>
+        <span class="prototype-badge">Prototype</span>
       </header>
 
-      <div class="register-hero__content">
-        <p class="register-eyebrow">Start your competency profile</p>
-        <h1 id="register-title">Create a test account.</h1>
-        <p class="register-hero__lead">
-          Build a demo profile with your role, education, experience and completed learning so the SIH26101 competency engine can analyse gaps.
-        </p>
+      <div class="guide-stage">
+        <div class="guide-orbit guide-orbit--outer" aria-hidden="true"></div>
+        <div class="guide-orbit guide-orbit--inner" aria-hidden="true"></div>
+        <svg class="guide-lines" viewBox="0 0 800 620" aria-hidden="true">
+          <path d="M400 300 L195 135" />
+          <path d="M400 300 L612 145" />
+          <path d="M400 300 L185 500" />
+          <path d="M400 300 L620 490" />
+        </svg>
 
-        <div class="register-steps" aria-label="What happens after account creation">
-          <div class="register-step"><span>01</span><div><strong>Create test account</strong><small>Prototype-only credentials</small></div></div>
-          <div class="register-step"><span>02</span><div><strong>Build profile</strong><small>Add role and learning history</small></div></div>
-          <div class="register-step"><span>03</span><div><strong>Analyse gaps</strong><small>Generate competency evidence</small></div></div>
-        </div>
-      </div>
-
-      <div class="register-safety-note">
-        <span aria-hidden="true">i</span>
-        <p><strong>Independent student demo.</strong> Create a unique test password only for this prototype. Do not enter or reuse credentials from another website or service.</p>
-      </div>
-    </section>
-
-    <section class="register-form-panel" aria-label="Create prototype account form">
-      <div class="register-form-wrap">
-        <div class="register-form-topline">
-          <a href="./index.html">← Back</a>
-          <span>SIH26101</span>
+        <div class="guide-center">
+          <span>Welcome to SIH26101</span>
+          <strong>How to Register</strong>
+          <small>iGOT-style onboarding flow</small>
         </div>
 
-        <div class="register-card">
-          <div class="register-card__heading">
-            <p class="register-eyebrow register-eyebrow--blue">Student prototype</p>
-            <h2>Create test account</h2>
-            <p>You’ll complete your professional and educational demo profile on the next screen.</p>
+        <article class="guide-node guide-node--one">
+          <div class="node-card">
+            <span class="node-number">1</span>
+            <span class="node-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M8 14h32v24H8z"/><path d="M8 16l16 12 16-12"/><path d="M15 8h18"/></svg>
+            </span>
           </div>
+          <p><strong>Government email</strong><span>Official iGOT self-registration begins with an eligible government email.</span></p>
+        </article>
 
-          <form id="register-form" class="register-form" novalidate>
-            <label class="register-field" for="full-name">
-              <span>Full name</span>
-              <input id="full-name" autocomplete="name" placeholder="Enter your name" required />
+        <article class="guide-node guide-node--two">
+          <div class="node-card">
+            <span class="node-number">2</span>
+            <span class="node-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><circle cx="28" cy="16" r="7"/><path d="M17 39c1-10 6-15 11-15s10 5 11 15"/><path d="M8 10h10v10H8zM9 30h9"/></svg>
+            </span>
+          </div>
+          <p><strong>No government email?</strong><span>The official route uses your MDO administrator for onboarding.</span></p>
+        </article>
+
+        <article class="guide-node guide-node--three">
+          <div class="node-card">
+            <span class="node-number">3</span>
+            <span class="node-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M13 7h22v34H13z"/><path d="M18 15h12M18 21h12M18 27h8"/><circle cx="31" cy="31" r="7"/><path d="M36 36l5 5"/></svg>
+            </span>
+          </div>
+          <p><strong>Choose your MDO</strong><span>Select your ministry, organisation and designation before verification.</span></p>
+        </article>
+
+        <article class="guide-node guide-node--four">
+          <div class="node-card">
+            <span class="node-number">4</span>
+            <span class="node-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><rect x="9" y="8" width="30" height="32" rx="4"/><circle cx="24" cy="22" r="7"/><path d="M20 22l3 3 6-7M16 34h16"/></svg>
+            </span>
+          </div>
+          <p><strong>Verify and continue</strong><span>Confirm your email, then complete your prototype profile.</span></p>
+        </article>
+      </div>
+
+      <footer class="guide-footer">
+        <span class="guide-footer__dot" aria-hidden="true"></span>
+        <p><strong>Independent prototype.</strong> The workflow mirrors the public iGOT registration structure but does not connect to official government identity systems.</p>
+      </footer>
+    </aside>
+
+    <section class="registration-panel" aria-labelledby="register-title">
+      <div class="registration-panel__inner">
+        <header class="registration-topbar">
+          <a href="./index.html" class="back-link">← <span>Back</span></a>
+          <span class="topbar-label">SIH26101 Prototype</span>
+        </header>
+
+        <div class="registration-heading">
+          <p class="registration-kicker">Prototype registration</p>
+          <h1 id="register-title">Register</h1>
+          <p>Follow the iGOT-style organisation and email verification flow, then create your demo account.</p>
+        </div>
+
+        <div class="progress-stepper" aria-label="Registration progress">
+          <div class="progress-track"><span id="progress-fill"></span></div>
+          <div class="progress-step is-active" data-progress-step="1"><span>1</span><strong>Step - 1</strong></div>
+          <div class="progress-step" data-progress-step="2"><span>2</span><strong>Step - 2</strong></div>
+        </div>
+
+        <form id="register-form" class="igot-register-form" novalidate>
+          <section class="register-form-step is-active" data-step="1" aria-label="Organisation and email verification">
+            <fieldset class="field-block jurisdiction-block">
+              <legend>Center/State <sup>*</sup></legend>
+              <div class="segmented-control" role="radiogroup" aria-label="Center or State">
+                <button class="segment is-selected" type="button" data-jurisdiction="Center" aria-pressed="true"><span class="radio-dot"></span>Center</button>
+                <button class="segment" type="button" data-jurisdiction="State" aria-pressed="false"><span class="radio-dot"></span>State</button>
+              </div>
+            </fieldset>
+
+            <label class="igot-field" for="ministry-select">
+              <span>Ministry/Department <sup>*</sup></span>
+              <select id="ministry-select" required><option value="">Select ministry</option></select>
             </label>
 
-            <label class="register-field" for="register-email">
-              <span>Email</span>
-              <input id="register-email" type="email" autocomplete="email" placeholder="test@example.com" required />
+            <label class="igot-field" for="organisation-select">
+              <span>Organisation <sup>*</sup></span>
+              <select id="organisation-select" required disabled><option value="">Select organisation</option></select>
             </label>
 
-            <label class="register-field" for="register-password">
-              <span>Create prototype password</span>
-              <input id="register-password" type="password" autocomplete="new-password" minlength="10" placeholder="Minimum 10 characters" required />
+            <div class="field-helper-row"><span>Not found yet?</span><button type="button" class="text-button" id="organisation-help">Request for help</button></div>
+
+            <label class="igot-field" for="designation-select">
+              <span>Designation <sup>*</sup></span>
+              <select id="designation-select" required><option value="">Select designation</option></select>
             </label>
 
-            <div class="register-password-note">
-              <span aria-hidden="true">✓</span>
-              <p>The backend hashes this password before storage. Use a unique test password that you do not use anywhere else.</p>
+            <div class="verification-card" id="email-verification-card">
+              <div class="verification-card__header">
+                <div><span class="verification-icon" aria-hidden="true">@</span><div><strong>Email verification</strong><small>Official iGOT uses a government email for self-registration.</small></div></div>
+                <span class="verification-state" id="email-verification-state">Not verified</span>
+              </div>
+
+              <label class="igot-field" for="register-email">
+                <span>Email <sup>*</sup></span>
+                <input id="register-email" type="email" autocomplete="email" placeholder="Enter your government email address" required />
+              </label>
+
+              <p class="verification-help">Using a non-government email? The official process would route you through your MDO. This hackathon prototype still allows demo verification.</p>
+
+              <div class="verification-actions">
+                <button class="outline-action" type="button" id="send-otp-button">Send OTP</button>
+              </div>
+
+              <div class="demo-otp-panel" id="demo-otp-panel" hidden>
+                <div class="demo-otp-note"><span>Demo delivery</span><strong id="demo-otp-code">------</strong><small>No email provider is connected yet, so the prototype displays the generated OTP here.</small></div>
+                <div class="otp-entry-row">
+                  <label class="igot-field compact-field" for="email-otp"><span>Enter OTP</span><input id="email-otp" inputmode="numeric" maxlength="6" placeholder="6-digit OTP" /></label>
+                  <button class="verify-action" type="button" id="verify-otp-button">Verify</button>
+                </div>
+              </div>
             </div>
 
-            <button class="register-submit" type="submit">
-              <span>Create prototype account</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
-            </button>
+            <div class="step-actions step-actions--right">
+              <button class="primary-action" type="button" id="continue-step-two" disabled>Continue <span>→</span></button>
+            </div>
+          </section>
 
-            <div id="register-status" class="status-message" role="status" aria-live="polite"></div>
-          </form>
+          <section class="register-form-step" data-step="2" aria-label="Account details" hidden>
+            <div class="step-two-intro"><span class="step-two-icon" aria-hidden="true">✓</span><div><strong>Email verified</strong><p>Finish the prototype account details. Professional qualifications and course history are collected after sign-up.</p></div></div>
 
-          <p class="register-switch">Already created a test account? <a href="./login.html">Sign in</a></p>
-        </div>
+            <label class="igot-field" for="full-name"><span>Full name <sup>*</sup></span><input id="full-name" autocomplete="name" placeholder="Enter your full name" required /></label>
 
-        <p class="register-legal">Independent SIH26101 student hackathon prototype.</p>
+            <label class="igot-field" for="group-select"><span>Group <sup>*</sup></span><select id="group-select" required><option value="">Select group</option><option>Group A</option><option>Group B</option><option>Group C</option><option>Other / Not applicable</option></select></label>
+
+            <label class="igot-field" for="mobile-number"><span>Mobile number</span><input id="mobile-number" inputmode="tel" autocomplete="tel" placeholder="Enter mobile number" /></label>
+
+            <label class="igot-field" for="register-password"><span>Create prototype password <sup>*</sup></span><input id="register-password" type="password" autocomplete="new-password" minlength="10" placeholder="Minimum 10 characters" required /></label>
+
+            <div class="security-note"><span aria-hidden="true">✓</span><p>This password is for the SIH26101 demo account only and is hashed by the backend before storage. Do not reuse an external password.</p></div>
+
+            <label class="declaration-row"><input id="declaration-checkbox" type="checkbox" required /><span>I confirm that the prototype information entered above is accurate for this demo.</span></label>
+
+            <div class="step-actions">
+              <button class="secondary-action" type="button" id="back-step-one">← Back</button>
+              <button class="primary-action" type="submit">Create prototype account <span>→</span></button>
+            </div>
+          </section>
+
+          <div id="register-status" class="status-message" role="status" aria-live="polite"></div>
+        </form>
+
+        <p class="registration-login-link">Already registered? <a href="./login.html">Sign in</a></p>
+        <p class="registration-legal">Independent SIH26101 hackathon prototype. Not an official iGOT Karmayogi deployment.</p>
       </div>
     </section>
   </main>
+
   <script src="./register.js"></script>
 </body>
 </html>
