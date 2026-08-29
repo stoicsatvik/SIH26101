@@ -9,7 +9,7 @@ The current frontend is deliberately framework-light: static HTML/CSS/JS served 
 | Page | Purpose |
 |---|---|
 | `index.html` | Public landing page. Describes the SIH26101 prototype and routes users to sign in/register. |
-| `login.html` | Dedicated prototype login screen. Calls the Worker login API. |
+| `login.html` | Dedicated prototype login screen. Calls the Worker login API and now uses its own isolated stylesheet. |
 | `register.html` | Two-step iGOT-style prototype registration flow. Collects organisation context, designation, email verification state, then account details before calling the Worker registration API. |
 | `onboarding.html` | Collects employment/profile/education/work/course/skill data after first registration. |
 | `dashboard.html` | Authenticated dashboard placeholder for the next development phase. |
@@ -28,7 +28,8 @@ The current frontend is deliberately framework-light: static HTML/CSS/JS served 
 | File | Responsibility |
 |---|---|
 | `styles.css` | Shared SIH/public-service visual language and base components. |
-| `alignment-fixes.css` | Landing/login responsive alignment overrides. Keep layout-only changes here where possible. |
+| `alignment-fixes.css` | Landing responsive alignment overrides. |
+| `login.css` | Dedicated login layout. Must not depend on `register.css`; this isolation prevents registration redesigns from breaking login rendering. |
 | `register.css` | Isolated two-step registration layout, animated guide panel, responsive stepper, verification card and lightweight 3D/motion effects. |
 | `onboarding.css` | Profile/onboarding forms and responsive layout. |
 
@@ -68,7 +69,7 @@ This keeps the deployed static Worker build simple while allowing a future frame
 - landing content and prototype-access panel use a split layout,
 - registration uses a blue instructional/visual panel plus a dedicated registration form panel,
 - registration Step 1 and Step 2 animate in-place rather than changing routes,
-- standalone login remains centered and contained.
+- login uses its own split hero/form layout controlled by `login.css`.
 
 ### Mobile
 - landing page shows the hero and a clear login CTA early,
@@ -89,6 +90,10 @@ index.html
         `-- successful registration -> onboarding.html
                                       `-- save -> dashboard.html
 ```
+
+## Styling isolation rule
+
+Login and registration are intentionally separate styling domains. `login.html` must load `login.css`; `register.html` must load `register.css`. Do not reuse one page-specific stylesheet for the other. Shared primitives belong in `styles.css` only.
 
 ## Branding/security note
 
