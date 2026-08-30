@@ -3,123 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Sign in to the independent SIH26101 student hackathon prototype using a prototype account created on this site." />
-  <title>Sign in | SIH26101 Prototype</title>
-  <link rel="stylesheet" href="./styles.css" />
-  <link rel="stylesheet" href="./login.css" />
-  <link rel="stylesheet" href="./login-polish.css" />
+  <meta name="description" content="Sign in to the independent GyanSetu SIH26101 student hackathon prototype." />
+  <title>Log In | GyanSetu</title>
+  <link rel="stylesheet" href="./ui/gyansetu-components.css" />
+  <link rel="stylesheet" href="./ui/gyansetu-auth.css" />
 </head>
-<body class="igot-login-page">
-  <main class="igot-login-shell">
-    <section class="igot-login-guide" aria-labelledby="guide-title">
-      <div class="igot-pattern" aria-hidden="true"></div>
-      <div class="igot-guide-header">
-        <a class="igot-guide-brand" href="./index.html" aria-label="Back to SIH26101 home">
-          <span class="igot-guide-mark" aria-hidden="true">
-            <svg viewBox="0 0 48 48"><path d="M10 31c8-2 13-10 14-21 6 8 8 16 5 25"/><path d="M15 38c8-9 17-12 27-10"/><circle cx="32" cy="14" r="3"/></svg>
-          </span>
-          <span><strong>SIH26101 Prototype</strong><small>Independent student hackathon demo</small></span>
+<body class="gs-auth-page">
+  <main class="gs-auth-layout">
+    <div class="gs-auth-ornament" aria-hidden="true"></div>
+    <div class="gs-auth-flora gs-auth-flora--left" aria-hidden="true"><svg viewBox="0 0 160 340"><path d="M12 330C35 250 28 170 46 95M45 94c-20-12-29-30-28-48 18 6 30 22 30 44M46 121c27-16 47-16 61-2-18 18-39 24-61 16M36 180c-18-8-28-22-30-42 19 2 31 14 36 35M31 232c28-14 49-13 64 2-20 17-41 21-64 12"/></svg></div>
+    <div class="gs-auth-flora gs-auth-flora--right" aria-hidden="true"><svg viewBox="0 0 160 340"><path d="M12 330C35 250 28 170 46 95M45 94c-20-12-29-30-28-48 18 6 30 22 30 44M46 121c27-16 47-16 61-2-18 18-39 24-61 16M36 180c-18-8-28-22-30-42 19 2 31 14 36 35M31 232c28-14 49-13 64 2-20 17-41 21-64 12"/></svg></div>
+
+    <section class="gs-auth-story" aria-labelledby="login-guide-title">
+      <div class="gs-story-inner">
+        <a class="gs-brand-lockup" href="./index.html" aria-label="GyanSetu home">
+          <img class="gs-brand-mark" src="./ui/gyansetu-logo.svg" alt="GyanSetu bridge and learning mark" />
+          <span class="gs-brand-name">GyanSetu</span>
         </a>
-        <span class="igot-prototype-pill">Prototype</span>
-      </div>
+        <div class="gs-brand-divider" aria-hidden="true"><svg><use href="./ui/gyansetu-icons.svg#icon-cap"/></svg></div>
+        <p class="gs-oss-line">For India’s Official Statistical System</p>
 
-      <div class="igot-guide-stage">
-        <article class="igot-callout igot-callout--one">
-          <strong>Use the account created on this prototype</strong>
-          <span class="igot-callout-line"></span>
-          <span class="igot-icon-disc" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg>
-          </span>
-        </article>
-
-        <article class="igot-callout igot-callout--two">
-          <strong>New here? Complete registration first</strong>
-          <span class="igot-callout-line"></span>
-          <span class="igot-icon-disc" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c.7-4 2.7-6 5.5-6s4.8 2 5.5 6M17 8v6M14 11h6"/></svg>
-          </span>
-        </article>
-
-        <div class="igot-guide-center">
-          <span>Welcome to</span>
-          <strong>SIH26101</strong>
-          <b id="guide-title">How to Sign In</b>
-          <small>prototype account access</small>
+        <div class="gs-guide-card">
+          <h2 class="gs-guide-title" id="login-guide-title">How to log in?</h2>
+          <div class="gs-flow-steps" aria-label="Login steps">
+            <div class="gs-flow-step">
+              <span class="gs-flow-icon"><svg><use href="./ui/gyansetu-icons.svg#icon-mail"/></svg></span>
+              <span class="gs-flow-number">1</span>
+              <strong>Enter your email</strong>
+              <small>Use the email linked to your GyanSetu demo account</small>
+            </div>
+            <div class="gs-flow-step">
+              <span class="gs-flow-icon"><svg><use href="./ui/gyansetu-icons.svg#icon-lock"/></svg></span>
+              <span class="gs-flow-number">2</span>
+              <strong>Enter password</strong>
+              <small>Use only the password created for this prototype</small>
+            </div>
+            <div class="gs-flow-step">
+              <span class="gs-flow-icon"><svg><use href="./ui/gyansetu-icons.svg#icon-login"/></svg></span>
+              <span class="gs-flow-number">3</span>
+              <strong>Click Log In</strong>
+              <small>Your credentials are checked by the backend</small>
+            </div>
+            <div class="gs-flow-step">
+              <span class="gs-flow-icon"><svg><use href="./ui/gyansetu-icons.svg#icon-dashboard"/></svg></span>
+              <span class="gs-flow-number">4</span>
+              <strong>Access dashboard</strong>
+              <small>Continue to your competency profile and learning path</small>
+            </div>
+          </div>
+          <div class="gs-info-strip">
+            <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-info"/></svg>
+            <span>Use only credentials created for this GyanSetu prototype. This is not an official Government of India authentication portal.</span>
+          </div>
         </div>
-
-        <article class="igot-callout igot-callout--three">
-          <span class="igot-icon-disc" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M5 11h14v9H5zM8 11V8a4 4 0 018 0v3"/><path d="M12 15v2"/></svg>
-          </span>
-          <span class="igot-callout-line"></span>
-          <strong>Enter your prototype email and password</strong>
-        </article>
-
-        <article class="igot-callout igot-callout--four">
-          <span class="igot-icon-disc" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M8 12l2.5 2.5L16.5 8.5"/></svg>
-          </span>
-          <span class="igot-callout-line"></span>
-          <strong>Continue to your competency profile</strong>
-        </article>
-      </div>
-
-      <div class="igot-guide-note">
-        <span aria-hidden="true">i</span>
-        <p><strong>Independent SIH prototype.</strong> This is not an official iGOT or Government of India authentication service. Use only the test account created here.</p>
       </div>
     </section>
 
-    <section class="igot-login-form-panel" aria-label="Prototype sign-in form">
-      <div class="igot-login-form-wrap">
-        <div class="igot-form-topline">
-          <a href="./index.html" aria-label="Back to home">← <span>Back</span></a>
-          <span>SIH26101</span>
-        </div>
+    <section class="gs-form-side" aria-label="GyanSetu login form">
+      <div class="gs-form-card">
+        <div class="gs-card-bridge" aria-hidden="true"><svg><use href="./ui/gyansetu-icons.svg#icon-bridge"/></svg></div>
+        <header class="gs-form-heading">
+          <h1>Welcome Back!</h1>
+          <p>Sign in to continue to your GyanSetu prototype account.</p>
+        </header>
 
-        <div class="igot-form-content">
-          <div class="igot-form-heading">
-            <p>Prototype access</p>
-            <h1>Sign in</h1>
-            <span>Use the email and password for the test account you created on this site.</span>
-          </div>
+        <form id="auth-form" class="gs-form" novalidate>
+          <label class="gs-field" for="identity">
+            <span>Email Address <b>*</b></span>
+            <span class="gs-input-wrap">
+              <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-mail"/></svg>
+              <input id="identity" name="identity" type="email" autocomplete="username" placeholder="Enter your email" required />
+            </span>
+            <small class="gs-field-error" id="identity-error"></small>
+          </label>
 
-          <form id="auth-form" class="igot-form" novalidate>
-            <label class="igot-field" for="identity">
-              <span>Email <b>*</b></span>
-              <input id="identity" name="identity" type="email" autocomplete="username" placeholder="Enter your prototype email" required />
-              <small class="field-error" id="identity-error"></small>
-            </label>
+          <label class="gs-field" for="password">
+            <span>Password <b>*</b></span>
+            <span class="gs-input-wrap">
+              <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-lock"/></svg>
+              <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required />
+              <button class="gs-icon-button" id="toggle-password" type="button" aria-label="Show password"><svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-eye"/></svg></button>
+            </span>
+            <small class="gs-field-error" id="password-error"></small>
+          </label>
 
-            <label class="igot-field" for="password">
-              <span>Password <b>*</b></span>
-              <div class="igot-password-wrap">
-                <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your prototype password" required />
-                <button id="toggle-password" type="button" aria-label="Show password">Show</button>
-              </div>
-              <small class="field-error" id="password-error"></small>
-            </label>
+          <div class="gs-inline-link"><a href="#" onclick="return false">Forgot Password?</a></div>
 
-            <div class="igot-security-note">
-              <span aria-hidden="true">i</span>
-              <p>Use only credentials created for this student prototype. Do not reuse credentials from another website or service.</p>
-            </div>
+          <button class="gs-primary-dark" id="submit-button" type="submit">
+            <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-login"/></svg>
+            <span>Log In</span>
+          </button>
 
-            <button class="igot-primary-button" id="submit-button" type="submit">
-              <span>Sign in</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"/></svg>
-            </button>
+          <div class="status-message" id="status-message" role="status" aria-live="polite"></div>
+        </form>
 
-            <div class="status-message" id="status-message" role="status" aria-live="polite"></div>
-          </form>
-
-          <div class="igot-register-link">
-            <span>Not registered yet?</span>
-            <a href="./register.html">Create prototype account</a>
-          </div>
-        </div>
-
-        <footer class="igot-login-footer">Independent SIH26101 student hackathon prototype.</footer>
+        <div class="gs-secondary-line"><span>Don’t have an account?</span></div>
+        <a class="gs-secondary-link" href="./register.html">Register</a>
       </div>
     </section>
   </main>
