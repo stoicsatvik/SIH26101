@@ -2,92 +2,145 @@
 
 Last updated: 2026-08-30
 
-This library converts the approved GyanSetu landing-page visual into reusable frontend primitives. The reference direction contains a warm cream government-education theme, saffron/teal corner waves, a central learning/bridge mark, muted education icons, dark pill CTAs, and a civic-building silhouette.
+This library converts the approved GyanSetu reference screens into reusable frontend primitives rather than storing one-off screenshot copies. The current visual system uses a warm cream public-service/education theme, navy + saffron/orange primary colors, teal/green accents, soft dotted ornaments, tricolor corner ribbons, bridge/learning symbolism and dark high-priority CTAs.
 
 ## Live inventory
 
-Open `/ui-library.html` in the deployed site to see the current reusable components.
+Open `/ui-library.html` in the deployed site to inspect reusable elements.
 
 ## Files
 
-- `frontend/ui/gyansetu-logo.svg` — scalable GyanSetu brand mark.
+- `frontend/ui/gyansetu-logo.svg` — scalable bridge/learner/book/data/pathway brand mark.
 - `frontend/ui/gyansetu-icons.svg` — reusable SVG symbol sprite.
-- `frontend/ui/gyansetu-components.css` — design tokens and reusable components.
-- `frontend/ui-library.html` — visual catalogue/showcase of reusable elements.
+- `frontend/ui/gyansetu-components.css` — base GyanSetu tokens/components.
+- `frontend/ui/gyansetu-landing.css` — landing-screen composition from reference picture 1.
+- `frontend/ui/gyansetu-auth.css` — reusable login + two-step registration composition from reference pictures 2–4.
+- `frontend/ui-library.html` — visual catalogue/showcase.
 
-## Element breakdown
+## Picture-to-page mapping
 
-### 1. Page canvas
-Warm cream/off-white background used as the base surface.
+### Reference picture 1 → `index.html`
+Implemented elements:
+- central GyanSetu mark + navy/orange wordmark,
+- graduation-cap divider,
+- `Bridging competency gaps through learning` tagline,
+- `Your pathway to continuous growth` headline,
+- four-stage journey: Identify / Learn / Track / Grow,
+- dark pill Log In and Register CTAs,
+- four supporting trust/use-case items,
+- cream canvas, saffron/teal corner ribbons, dotted texture and floating education icons.
 
-Reusable primitive: `.gs-page`, `.gs-shell`
+### Reference picture 2 → `login.html`
+Implemented elements:
+- left GyanSetu identity block,
+- `For India’s Official Statistical System` use-case line,
+- `How to log in?` four-step visual guide,
+- explanatory prototype safety note,
+- right white authentication card,
+- bridge header ornament,
+- email + password icon fields,
+- password visibility control,
+- Forgot Password visual link,
+- dark Log In CTA,
+- Register secondary link.
 
-### 2. Saffron/teal corner waves
-Large curved color bands in the top-right and bottom-left corners. Implemented with CSS gradients so the shapes scale to mobile/desktop without raster stretching.
+### Reference picture 4 → `register.html` Step 1
+Implemented elements:
+- GyanSetu identity block,
+- `How to register?` four-step visual guide,
+- MoSPI information strip,
+- Organisation dropdown,
+- Designation dropdown,
+- Government Employee Email field,
+- OTP verification box,
+- demo OTP generation/verification,
+- dark Next CTA,
+- two-stage progress stepper.
 
-Reusable primitive: `.gs-shell::before`, `.gs-shell::after`, `.gs-wave-lines`
+### Reference picture 3 → `register.html` Step 2
+Implemented elements:
+- dynamic left-side `You’re Almost There!` state,
+- profile-card / learning-road / bridge / book illustration,
+- Secure Account / Personalized Experience / Ready to Learn benefit cards,
+- Full Name,
+- Employee / Personnel ID,
+- Mobile Number,
+- Password,
+- Confirm Password,
+- secure-account guidance card,
+- Create Account CTA,
+- Sign in secondary link.
 
-### 3. Halftone/dot texture
-Soft decorative dotted fields that create print/government-brochure texture without interfering with content.
+The left registration illustration changes when moving from Step 1 to Step 2 so the website follows the supplied screens state-by-state instead of merely borrowing their colors.
 
-Reusable primitive: `.gs-dot-field`
+## Reusable visual primitives
 
-### 4. Central brand mark
-Bridge + learner + open book + data/learning indicators + pathway.
+### Page canvas and ribbons
+- `.gs-page`, `.gs-shell`
+- `.gs-auth-page`, `.gs-auth-layout`
+- `.gs-wave-lines`, `.gs-dot-field`
 
-Reusable asset: `./ui/gyansetu-logo.svg`
+### Brand system
+- `.gs-logo`, `.gs-brand-word`, `.gs-brand-rule`, `.gs-tagline`
+- `.gs-brand-lockup`, `.gs-brand-mark`, `.gs-brand-name`, `.gs-brand-divider`, `.gs-oss-line`
 
-### 5. GyanSetu wordmark
-Large navy-to-orange word treatment.
+### Landing journey
+- `.gs-growth-title`, `.gs-growth-subtitle`
+- `.gs-feature-grid`, `.gs-feature-card`, `.gs-feature-icon`
+- `.gs-home-actions`, `.gs-trust-row`, `.gs-trust-item`
 
-Reusable primitive: `.gs-brand-word`
+### Authentication guide
+- `.gs-guide-card`, `.gs-guide-title`
+- `.gs-flow-steps`, `.gs-flow-step`, `.gs-flow-icon`, `.gs-flow-number`
+- `.gs-info-strip`
 
-### 6. Graduation-cap divider
-Two horizontal lines with a small education icon between them, navy on the left and saffron on the right.
+### Forms
+- `.gs-form-card`, `.gs-card-bridge`, `.gs-form-heading`
+- `.gs-field`, `.gs-input-wrap`, `.gs-icon-button`
+- `.gs-primary-dark`, `.gs-secondary-line`, `.gs-secondary-link`
+- `.status-message`
 
-Reusable primitive: `.gs-brand-rule`
+### Registration-specific
+- `.gs-stepper`, `.gs-step`, `.gs-stepper-track`
+- `.gs-ministry-note`
+- `.gs-verification-box`, `.gs-small-dark`, `.gs-otp-panel`, `.gs-otp-row`
+- `.gs-security-box`, `.gs-step-actions`, `.gs-back-button`
+- `.gs-journey-card`, `.gs-journey-visual`, `.gs-profile-card`, `.gs-bridge-art`, `.gs-book-orb`, `.gs-benefits`
 
-### 7. Tagline
-Uppercase, widely tracked text: `Bridging competency gaps through learning`.
+## SVG sprite inventory
 
-Reusable primitive: `.gs-tagline`
-
-### 8. Floating education icons
-Muted line icons around the composition: book, chart, graduation cap, lightbulb, gear.
-
-Reusable sprite IDs:
+Current sprite IDs include:
 - `icon-book`
-- `icon-chart`
 - `icon-cap`
+- `icon-chart`
 - `icon-bulb`
 - `icon-gear`
-
-Reusable primitive: `.gs-float-icon`
-
-### 9. Dark pill CTA buttons
-Large rounded black/charcoal buttons with left icon, centered label and optional right arrow. Used for login/register and reusable for other high-priority actions.
-
-Reusable primitive: `.gs-cta`, `.gs-cta__icon`, `.gs-cta__arrow`
-
-Sprite IDs:
 - `icon-login`
 - `icon-register`
 - `icon-arrow`
-
-### 10. Government/civic silhouette
-Low-contrast civic building line art at the bottom of the landing page. Kept decorative and non-branded so it can be reused on other public-sector screens.
-
-Current implementation is inline SVG in `index.html`. If reused widely, move it into the sprite library as `icon-building` or a dedicated `gyansetu-building.svg`.
-
-### 11. Glass surface and badge
-Reusable soft cards/badges for future dashboard/onboarding screens while staying in the same visual family.
-
-Reusable primitives: `.gs-card`, `.gs-badge`
+- `icon-building`
+- `icon-search`
+- `icon-user-star`
+- `icon-shield`
+- `icon-award`
+- `icon-users`
+- `icon-devices`
+- `icon-mail`
+- `icon-lock`
+- `icon-eye`
+- `icon-dashboard`
+- `icon-org`
+- `icon-id`
+- `icon-phone`
+- `icon-send`
+- `icon-info`
+- `icon-check`
+- `icon-bridge`
+- `icon-target`
 
 ## Design tokens
 
-Primary reusable variables include:
-
+Primary reusable variables:
 - `--gs-navy`
 - `--gs-blue`
 - `--gs-teal`
@@ -100,30 +153,14 @@ Primary reusable variables include:
 - `--gs-shadow-cta`
 - `--gs-radius-pill`
 
-Do not hard-code these colors in new screens unless there is a deliberate exception.
-
-## Usage example
-
-```html
-<link rel="stylesheet" href="./ui/gyansetu-components.css" />
-
-<a class="gs-cta" href="./login.html">
-  <span class="gs-cta__icon">
-    <svg><use href="./ui/gyansetu-icons.svg#icon-login" /></svg>
-  </span>
-  <span>Log In</span>
-  <svg class="gs-cta__arrow">
-    <use href="./ui/gyansetu-icons.svg#icon-arrow" />
-  </svg>
-</a>
-```
+Do not create page-specific copies of these colors unless there is a deliberate exception.
 
 ## Maintenance rule
 
 When a visual element becomes reusable across two or more screens:
-1. move it into `frontend/ui/`,
-2. expose it in `ui-library.html`,
+1. put the asset/component under `frontend/ui/`,
+2. expose it in `ui-library.html` when practical,
 3. document it here,
-4. avoid duplicating page-specific copies.
+4. make production screens consume the library instead of duplicating markup/styles.
 
-The landing page should consume the same library rather than owning a private version of these elements.
+The authentication pages now share `gyansetu-auth.css`; landing-specific composition lives in `gyansetu-landing.css`; base design tokens and global brand pieces stay in `gyansetu-components.css`.
