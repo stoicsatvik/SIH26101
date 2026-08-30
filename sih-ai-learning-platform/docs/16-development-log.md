@@ -4,6 +4,19 @@ This log records major implementation changes so contributors can reconstruct wh
 
 ## 2026-08-30
 
+### GyanSetu reference-by-reference authentication implementation
+- Applied the supplied GyanSetu reference screens directly to the production landing/login/registration frontend rather than keeping them as mockups only.
+- Added `frontend/ui/gyansetu-auth.css` as the shared authentication UI system for cream public-service surfaces, tricolor corner ribbons, dotted ornaments, instructional panels, white form cards, stepper, OTP UI and responsive behavior.
+- Added `frontend/ui/gyansetu-landing.css` for the expanded landing reference composition.
+- Expanded `gyansetu-icons.svg` with authentication, organisation, security, learner, device, bridge, target, ID and communication symbols.
+- `index.html` now follows reference picture 1 with the GyanSetu hero, continuous-growth headline, Identify/Learn/Track/Grow row, Log In/Register CTAs and supporting trust/use-case strip.
+- `login.html` now follows reference picture 2 with a GyanSetu identity/How-to-login panel on the left and a white Welcome Back form card on the right. Existing `/api/auth/login` hooks and field IDs were preserved.
+- `register.html` Step 1 now follows reference picture 4 with MoSPI context, Organisation, Designation, Government Employee Email, OTP verification and Next CTA.
+- `register.html` Step 2 now follows reference picture 3 with the `You're Almost There!` illustration state plus Full Name, Employee/Personnel ID, Mobile, Password and Confirm Password fields.
+- Updated `register.js` to switch both the form and the left-side illustration between Step 1 and Step 2, preserve demo OTP verification, validate confirmation/mobile/employee ID and continue calling `/api/auth/register`.
+- Updated `app.js` so password visibility toggling preserves the new eye-icon control and login database dependency errors remain user-friendly.
+- Expanded `docs/17-ui-stock-library.md` with picture-to-page mapping and the reusable auth component inventory.
+
 ### GyanSetu reusable UI stock library
 - Rebuilt the root landing page around the approved cream/saffron/teal GyanSetu visual direction with direct Log In and Register actions.
 - Added `frontend/ui/gyansetu-logo.svg` as the scalable brand mark rather than embedding a page-specific raster logo.
