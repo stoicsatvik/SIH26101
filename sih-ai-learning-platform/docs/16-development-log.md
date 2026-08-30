@@ -2,6 +2,17 @@
 
 This log records major implementation changes so contributors can reconstruct what happened without reverse-engineering every commit.
 
+## 2026-08-30
+
+### GyanSetu reusable UI stock library
+- Rebuilt the root landing page around the approved cream/saffron/teal GyanSetu visual direction with direct Log In and Register actions.
+- Added `frontend/ui/gyansetu-logo.svg` as the scalable brand mark rather than embedding a page-specific raster logo.
+- Added `frontend/ui/gyansetu-icons.svg` as a reusable SVG symbol sprite for book, graduation cap, chart, bulb, gear, login, register, arrow and civic-building motifs.
+- Added `frontend/ui/gyansetu-components.css` containing the shared GyanSetu design tokens and reusable components for page canvas, corner waves, halftone texture, wordmark, tagline, CTA pills, floating icons, cards, badges and responsive behavior.
+- Added `/ui-library.html` as a live component catalogue so future contributors can visually inspect and copy supported primitives.
+- Added `docs/17-ui-stock-library.md` with an element-by-element breakdown, file map, tokens and usage examples.
+- Landing-page components now consume the shared library rather than owning private copies. New reusable elements should be promoted into `frontend/ui/` instead of duplicated across screens.
+
 ## 2026-08-29
 
 ### Login visual polish + database activation prep
