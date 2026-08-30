@@ -1,65 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Independent SIH26101 student hackathon prototype for competency-driven learning." />
-  <title>SIH26101 | Competency Learning Prototype</title>
-  <link rel="stylesheet" href="./styles.css" />
-  <link rel="stylesheet" href="./alignment-fixes.css" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content="GyanSetu, an independent SIH26101 student hackathon prototype for competency-driven learning."/>
+  <title>GyanSetu | SIH26101 Prototype</title>
+  <link rel="stylesheet" href="./ui/gyansetu-components.css"/>
 </head>
-<body>
-  <main class="auth-shell">
-    <section class="brand-panel" aria-labelledby="brand-title">
-      <div class="brand-decoration brand-decoration--top" aria-hidden="true"></div>
-      <div class="brand-decoration brand-decoration--bottom" aria-hidden="true"></div>
-      <div class="brand-inner">
-        <header class="brand-header">
-          <a class="brand-lockup" href="#" aria-label="SIH26101 home">
-            <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 31c8-2 13-10 14-21 6 8 8 16 5 25" /><path d="M15 38c8-9 17-12 27-10" /><circle cx="32" cy="14" r="3" /></svg></span>
-            <span class="brand-name"><strong>SIH26101 Learning Intelligence</strong><small>Independent Student Hackathon Prototype</small></span>
-          </a>
-          <span class="prototype-pill">Prototype</span>
-        </header>
+<body class="gs-page">
+  <main class="gs-shell">
+    <div class="gs-wave-lines" aria-hidden="true"></div>
+    <div class="gs-dot-field gs-dot-field--top" aria-hidden="true"></div>
+    <div class="gs-dot-field gs-dot-field--bottom" aria-hidden="true"></div>
 
-        <div class="brand-content">
-          <p class="eyebrow">Competency-driven capacity building</p>
-          <h1 id="brand-title">Build the skills your role actually needs.</h1>
-          <p class="brand-lead">Identify competency gaps, recommend the right training, and continuously measure progress for the Official Statistical System use case defined by SIH26101.</p>
+    <span class="gs-float-icon gs-float-icon--book" aria-hidden="true"><svg><use href="./ui/gyansetu-icons.svg#icon-book"/></svg></span>
+    <span class="gs-float-icon gs-float-icon--chart" aria-hidden="true"><svg><use href="./ui/gyansetu-icons.svg#icon-chart"/></svg></span>
+    <span class="gs-float-icon gs-float-icon--cap" aria-hidden="true"><svg><use href="./ui/gyansetu-icons.svg#icon-cap"/></svg></span>
+    <span class="gs-float-icon gs-float-icon--bulb" aria-hidden="true"><svg><use href="./ui/gyansetu-icons.svg#icon-bulb"/></svg></span>
+    <span class="gs-float-icon gs-float-icon--gear" aria-hidden="true"><svg><use href="./ui/gyansetu-icons.svg#icon-gear"/></svg></span>
 
-          <a class="mobile-login-cta" href="./login.html">
-            <span><small>Prototype account</small><strong>Sign in to continue</strong></span>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
-          </a>
+    <section class="gs-hero" aria-labelledby="gyansetu-title">
+      <img class="gs-logo" src="./ui/gyansetu-logo.svg" alt="GyanSetu logo"/>
+      <h1 class="gs-brand-word" id="gyansetu-title">GyanSetu</h1>
+      <div class="gs-brand-rule" aria-hidden="true"><svg><use href="./ui/gyansetu-icons.svg#icon-cap"/></svg></div>
+      <p class="gs-tagline">Bridging competency gaps through learning</p>
 
-          <div class="capability-list" aria-label="Platform capabilities">
-            <article class="capability-item"><span class="capability-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9m5 10V5m5 14v-7m5 7V3" /></svg></span><div><strong>Measure competency gaps</strong><p>Compare current proficiency with role-specific competency requirements.</p></div></article>
-            <article class="capability-item"><span class="capability-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18l5-5 4 3 7-9" /><path d="M16 7h4v4" /></svg></span><div><strong>Recommend the next best action</strong><p>Prioritize learning paths using role, history, performance, and available training.</p></div></article>
-            <article class="capability-item"><span class="capability-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" /><path d="M8 12l2.5 2.5L16.5 8.5" /></svg></span><div><strong>Reassess continuously</strong><p>Use assessments and learning evidence to update competency readiness over time.</p></div></article>
-          </div>
-        </div>
-
-        <footer class="brand-footer"><span class="india-dot" aria-hidden="true"></span><span>Independent SIH26101 student prototype</span></footer>
-      </div>
+      <nav class="gs-actions" aria-label="Account actions">
+        <a class="gs-cta" href="./login.html">
+          <span class="gs-cta__icon"><svg><use href="./ui/gyansetu-icons.svg#icon-login"/></svg></span>
+          <span>Log In</span>
+          <svg class="gs-cta__arrow"><use href="./ui/gyansetu-icons.svg#icon-arrow"/></svg>
+        </a>
+        <a class="gs-cta" href="./register.html">
+          <span class="gs-cta__icon"><svg><use href="./ui/gyansetu-icons.svg#icon-register"/></svg></span>
+          <span>Register</span>
+          <svg class="gs-cta__arrow"><use href="./ui/gyansetu-icons.svg#icon-arrow"/></svg>
+        </a>
+      </nav>
     </section>
 
-    <section class="login-panel landing-access-panel" aria-labelledby="access-title">
-      <div class="login-inner">
-        <header class="login-topline"><span>SIH26101 prototype</span><a href="#about">About</a></header>
-        <div class="login-card landing-access-card">
-          <div class="login-card__heading">
-            <p class="eyebrow eyebrow--blue">Hackathon demo</p>
-            <h2 id="access-title">Continue to the learning prototype</h2>
-            <p>This independent student project uses a public-service-inspired visual theme for the SIH26101 problem statement. It is not an official service or identity portal.</p>
-          </div>
-          <a class="primary-button landing-signin-button" href="./login.html" style="text-decoration:none"><span>Sign in with prototype account</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg></a>
-          <div class="separator"><span>first time here?</span></div>
-          <a class="secondary-button" href="./register.html" style="text-decoration:none">Create prototype account</a>
-          <div class="integration-note" id="about"><span class="integration-note__dot" aria-hidden="true"></span><p><strong>Security note.</strong> Accounts created here are demo accounts only. Never reuse credentials from another website or service.</p></div>
-        </div>
-        <footer class="legal-footer"><p>Independent SIH26101 hackathon prototype.</p><nav><a href="#privacy">Privacy</a><a href="#support">Support</a></nav></footer>
-      </div>
-    </section>
+    <div class="gs-building" aria-hidden="true">
+      <svg viewBox="0 0 720 180" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round">
+        <path d="M45 157h630M78 157V97h70v60M572 157V96h70v61M186 157V82h104v75M430 157V82h104v75M305 157V54h110v103M323 54h74M342 54V37h39v17M360 37V23M360 23l17 8h-17"/>
+        <path d="M92 97l21-24 21 24M202 82l36-30 36 30M446 82l36-30 36 30M322 54l38-34 38 34M588 96l19-23 20 23"/>
+        <path d="M105 157v-35m17 35v-35M221 157v-46m28 46v-46M464 157v-46m28 46v-46M338 157V94m22 63V94m22 63V94M600 157v-35m17 35v-35"/>
+      </svg>
+    </div>
+
+    <p class="gs-disclaimer">Independent SIH26101 student hackathon prototype. GyanSetu is not an official Government of India or iGOT Karmayogi authentication service.</p>
   </main>
 </body>
 </html>
