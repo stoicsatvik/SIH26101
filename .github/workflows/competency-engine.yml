@@ -6,6 +6,8 @@ on:
     paths:
       - 'sih-ai-learning-platform/backend/**'
       - 'sih-ai-learning-platform/mock-db/**'
+      - 'sih-ai-learning-platform/frontend/**'
+      - 'src/**'
       - '.github/workflows/competency-engine.yml'
   pull_request:
     branches: [main]
@@ -30,6 +32,18 @@ jobs:
           python-version: '3.12'
       - run: pip install -r requirements.txt
       - run: PYTHONPATH=. pytest -q
+
+  worker-frontend-syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check Worker and browser JavaScript syntax
+        run: |
+          node --check src/worker.js
+          for file in sih-ai-learning-platform/frontend/*.js; do node --check "$file"; done
 
   live-openrouter-smoke:
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_live_openrouter_test }}
