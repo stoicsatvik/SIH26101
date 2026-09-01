@@ -6,7 +6,7 @@ import os
 from fastapi import Depends, FastAPI, Header, HTTPException
 
 from .schemas import AssessmentResult, GenerateAssessmentRequest, GeneratedAssessment, GradeAssessmentRequest, HealthResponse, RoleSummary, SubmitAssessmentRequest
-from .services import create_assessment, get_assessment, get_role, list_roles, llm_live_configured, score_assessment, score_assessment_payload
+from .services_patch import create_assessment, get_assessment, get_role, list_roles, llm_live_configured, score_assessment, score_assessment_payload
 
 app = FastAPI(
     title="GyanSetu Competency & Assessment Engine",
