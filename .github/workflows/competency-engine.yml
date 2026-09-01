@@ -1,0 +1,54 @@
+name: Competency engine checks
+
+on:
+  push:
+    branches: [feature/competency-assessment-engine]
+    paths:
+      - 'sih-ai-learning-platform/backend/**'
+      - 'sih-ai-learning-platform/mock-db/**'
+      - '.github/workflows/competency-engine.yml'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      run_live_openrouter_test:
+        description: 'Use repository secrets to make one live OpenRouter generation request'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  mock-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sih-ai-learning-platform/backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: PYTHONPATH=. pytest -q
+
+  live-openrouter-smoke:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_live_openrouter_test }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sih-ai-learning-platform/backend
+    env:
+      LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+      LLM_MODEL: ${{ secrets.LLM_MODEL }}
+      RUN_LIVE_AI_TEST: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Verify secret presence without printing values
+        run: |
+          test -n "$LLM_API_KEY" || (echo "LLM_API_KEY is missing" && exit 1)
+          test -n "$LLM_MODEL" || (echo "LLM_MODEL is missing" && exit 1)
+      - run: PYTHONPATH=. pytest -q tests/test_openrouter_smoke.py

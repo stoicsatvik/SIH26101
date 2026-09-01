@@ -38,14 +38,22 @@ class Question(BaseModel):
     @model_validator(mode="after")
     def validate_question_shape(self) -> "Question":
         if self.question_type == QuestionType.mcq:
-            if not self.options or len(self.options) < 2:
-                raise ValueError("MCQ questions require at least two options")
+            if not self.options or len(self.options) != 4:
+                raise ValueError("MCQ questions require exactly four options")
             if self.correct_answer not in self.options:
                 raise ValueError("MCQ correct_answer must exactly match one option")
         else:
             if self.options is not None:
                 raise ValueError("Short/long answer questions must use options=null")
+            if not self.evaluation_criteria.key_concepts:
+                raise ValueError("Descriptive questions require at least one key concept")
+            if not self.evaluation_criteria.rubric:
+                raise ValueError("Descriptive questions require a scoring rubric")
         return self
+
+
+class QuestionsEnvelope(BaseModel):
+    questions: list[Question]
 
 
 class PublicQuestion(BaseModel):
@@ -61,8 +69,8 @@ class PublicQuestion(BaseModel):
 class GenerateAssessmentRequest(BaseModel):
     user_id: str
     role_id: str
-    assessment_type: str = "baseline"
-    question_count: int = Field(default=8, ge=1, le=30)
+    assessment_type: str = Field(default="baseline", pattern="^(baseline|reassessment)$")
+    question_count: int = Field(default=8, ge=3, le=30)
     generation_mode: str = Field(default="mock", pattern="^(mock|live)$")
 
 
@@ -73,7 +81,7 @@ class GeneratedAssessment(BaseModel):
     assessment_type: str
     generation_mode: str
     questions: list[PublicQuestion]
-    generator_prompt: str | None = None
+    grading_questions: list[Question]
 
 
 class UserResponse(BaseModel):
@@ -83,6 +91,16 @@ class UserResponse(BaseModel):
 
 class SubmitAssessmentRequest(BaseModel):
     user_id: str
+    responses: list[UserResponse]
+    grading_mode: str = Field(default="mock", pattern="^(mock|live)$")
+
+
+class GradeAssessmentRequest(BaseModel):
+    assessment_id: str
+    user_id: str
+    role_id: str
+    assessment_type: str = Field(pattern="^(baseline|reassessment)$")
+    questions: list[Question]
     responses: list[UserResponse]
     grading_mode: str = Field(default="mock", pattern="^(mock|live)$")
 
@@ -100,6 +118,10 @@ class GradeResult(BaseModel):
         if self.score_awarded > self.max_score:
             raise ValueError("score_awarded cannot exceed max_score")
         return self
+
+
+class GradesEnvelope(BaseModel):
+    grades: list[GradeResult]
 
 
 class SubCompetencyScore(BaseModel):
@@ -121,6 +143,20 @@ class CompetencyScore(BaseModel):
     sub_competencies: list[SubCompetencyScore]
 
 
+class CourseRecommendation(BaseModel):
+    course_id: str
+    course_title: str
+    provider: str
+    external_url: str
+    competency_id: str
+    competency_name: str
+    sub_competency_id: str
+    sub_competency_name: str
+    gap: float
+    priority: str
+    reason: str
+
+
 class AssessmentResult(BaseModel):
     assessment_id: str
     user_id: str
@@ -129,6 +165,7 @@ class AssessmentResult(BaseModel):
     overall_score: float
     grades: list[GradeResult]
     competencies: list[CompetencyScore]
+    recommendations: list[CourseRecommendation] = Field(default_factory=list)
 
 
 class RoleSummary(BaseModel):
@@ -142,4 +179,5 @@ class HealthResponse(BaseModel):
     status: str
     service: str
     llm_live_configured: bool
+    service_auth_configured: bool
     details: dict[str, Any] = Field(default_factory=dict)
