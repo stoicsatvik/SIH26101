@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 
 from app.main import app
 from app.services import get_assessment
+from app.services_patch import robust_extract_json_content
 
 client = TestClient(app)
 
@@ -44,6 +45,12 @@ def test_mock_assessment_end_to_end():
     payload=result.json()
     assert payload["overall_score"] == 100.0
     assert payload["competencies"]
+
+
+def test_openrouter_parser_accepts_wrapped_json():
+    assert robust_extract_json_content('```json\n{"questions": []}\n```') == {"questions": []}
+    assert robust_extract_json_content('Here is the result:\n{"questions": []}\nDone.') == {"questions": []}
+    assert robust_extract_json_content([{"type": "text", "text": '{"grades": []}'}]) == {"grades": []}
 
 
 def test_live_mode_requires_key(monkeypatch):
