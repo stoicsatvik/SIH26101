@@ -1,0 +1,269 @@
+{
+  "framework_version": "1.0",
+  "framework_name": "GyanSetu Generic Technical Competency Framework",
+  "proficiency_levels": {
+    "1": {"name": "Foundation", "description": "Basic conceptual understanding; needs guidance for practical tasks.", "minimum_score": 25},
+    "2": {"name": "Working", "description": "Can perform common tasks with some guidance.", "minimum_score": 50},
+    "3": {"name": "Proficient", "description": "Can independently perform expected role tasks.", "minimum_score": 75},
+    "4": {"name": "Advanced", "description": "Can handle complex tasks, optimize solutions, and guide others.", "minimum_score": 90}
+  },
+  "roles": [
+    {
+      "role_id": "software_developer",
+      "role_name": "Software Developer",
+      "domain": "Software Development",
+      "description": "Develops, tests, maintains, and improves software applications.",
+      "competencies": [
+        {
+          "competency_id": "COMP_PROG_01",
+          "name": "Programming",
+          "description": "Ability to write, understand, debug, and maintain software code.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_PROG_FUND_01", "name": "Programming Fundamentals", "definition": "Understanding variables, data types, operators, control flow, functions, and program structure.", "required_level": 3, "key_concepts": ["control flow", "functions", "data types"]},
+            {"sub_competency_id": "SUB_OOP_02", "name": "Object-Oriented Programming", "definition": "Ability to use classes, objects, abstraction, encapsulation, inheritance, and polymorphism appropriately.", "required_level": 3, "key_concepts": ["classes", "encapsulation", "polymorphism"]},
+            {"sub_competency_id": "SUB_DEBUG_03", "name": "Debugging", "definition": "Ability to identify, diagnose, reproduce, and fix software defects systematically.", "required_level": 3, "key_concepts": ["reproduce defects", "root cause", "fix validation"]}
+          ]
+        },
+        {
+          "competency_id": "COMP_TEST_02",
+          "name": "Software Testing",
+          "description": "Ability to verify software correctness and reliability with suitable tests.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_UNIT_04", "name": "Unit Testing", "definition": "Ability to test individual functions or components in isolation using clear assertions and test cases.", "required_level": 3, "key_concepts": ["isolation", "assertions", "test cases"]},
+            {"sub_competency_id": "SUB_INTEGRATION_05", "name": "Integration Testing", "definition": "Ability to verify that multiple components or services interact correctly across boundaries.", "required_level": 2, "key_concepts": ["component interaction", "service boundaries", "integration failures"]}
+          ]
+        }
+      ]
+    },
+    {
+      "role_id": "frontend_developer",
+      "role_name": "Frontend Developer",
+      "domain": "Software Development",
+      "description": "Builds usable, accessible, and maintainable client-side web interfaces.",
+      "competencies": [
+        {
+          "competency_id": "COMP_WEB_01",
+          "name": "Web Interface Development",
+          "description": "Ability to build browser-based interfaces with modern web standards.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_HTML_01", "name": "Semantic HTML", "definition": "Ability to structure web content using meaningful semantic HTML elements.", "required_level": 3, "key_concepts": ["semantic elements", "document structure", "accessibility"]},
+            {"sub_competency_id": "SUB_CSS_02", "name": "Responsive CSS", "definition": "Ability to create layouts that adapt correctly across screen sizes and devices.", "required_level": 3, "key_concepts": ["responsive layout", "media queries", "flexible sizing"]},
+            {"sub_competency_id": "SUB_JS_03", "name": "Client-Side JavaScript", "definition": "Ability to implement browser-side logic, events, state, and asynchronous interactions.", "required_level": 3, "key_concepts": ["events", "state", "asynchronous operations"]}
+          ]
+        },
+        {
+          "competency_id": "COMP_UX_02",
+          "name": "Frontend Quality",
+          "description": "Ability to produce accessible, performant, and usable interfaces.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_A11Y_04", "name": "Accessibility", "definition": "Ability to build interfaces that can be used by people with different accessibility needs and assistive technologies.", "required_level": 3, "key_concepts": ["keyboard access", "semantic structure", "assistive technology"]},
+            {"sub_competency_id": "SUB_PERF_05", "name": "Frontend Performance", "definition": "Ability to identify and reduce browser loading, rendering, and runtime performance problems.", "required_level": 2, "key_concepts": ["loading performance", "rendering", "runtime performance"]}
+          ]
+        }
+      ]
+    },
+    {
+      "role_id": "backend_developer",
+      "role_name": "Backend Developer",
+      "domain": "Software Development",
+      "description": "Develops server-side applications, APIs, databases, and backend services.",
+      "competencies": [
+        {
+          "competency_id": "COMP_DB_01",
+          "name": "Database Management",
+          "description": "Ability to design, query, maintain, and optimize application databases.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_SQL_01", "name": "SQL", "definition": "Ability to write and reason about SQL queries for reliable data retrieval and modification.", "required_level": 3, "key_concepts": ["queries", "joins", "data modification"]},
+            {"sub_competency_id": "SUB_SCHEMA_02", "name": "Database Design", "definition": "Ability to design schemas, relationships, keys, constraints, and normalized data structures.", "required_level": 3, "key_concepts": ["relationships", "constraints", "normalization"]},
+            {"sub_competency_id": "SUB_IDX_04", "name": "Indexing", "definition": "Ability to select and use database indexes to improve retrieval performance while understanding storage and write trade-offs.", "required_level": 3, "key_concepts": ["disk I/O reduction", "balanced tree structure", "O(log N) time complexity", "avoids full table scan"]},
+            {"sub_competency_id": "SUB_QUERYOPT_05", "name": "Query Optimization", "definition": "Ability to identify inefficient queries and improve execution using plans, indexes, and query restructuring.", "required_level": 3, "key_concepts": ["execution plan", "indexes", "query restructuring"]}
+          ]
+        },
+        {
+          "competency_id": "COMP_API_02",
+          "name": "API Development",
+          "description": "Ability to design, implement, validate, secure, and test service APIs.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_REST_06", "name": "REST API Design", "definition": "Ability to design resource-oriented APIs with appropriate HTTP methods, status codes, and contracts.", "required_level": 3, "key_concepts": ["HTTP methods", "status codes", "resource design"]},
+            {"sub_competency_id": "SUB_AUTHZ_07", "name": "Authentication and Authorization", "definition": "Ability to verify identity and enforce access control correctly in backend services.", "required_level": 3, "key_concepts": ["identity verification", "access control", "permissions"]},
+            {"sub_competency_id": "SUB_VALIDATION_08", "name": "Input Validation", "definition": "Ability to validate untrusted input and reject malformed or unsafe requests before processing.", "required_level": 3, "key_concepts": ["untrusted input", "validation rules", "safe rejection"]}
+          ]
+        }
+      ]
+    },
+    {
+      "role_id": "data_analyst",
+      "role_name": "Data Analyst",
+      "domain": "Data and Analytics",
+      "description": "Prepares, analyses, visualizes, and interprets data to support decisions.",
+      "competencies": [
+        {
+          "competency_id": "COMP_DATA_01",
+          "name": "Data Preparation",
+          "description": "Ability to make raw data reliable and analysis-ready.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_CLEAN_01", "name": "Data Cleaning", "definition": "Ability to detect and address missing, duplicate, inconsistent, and invalid data.", "required_level": 3, "key_concepts": ["missing data", "duplicates", "consistency"]},
+            {"sub_competency_id": "SUB_TRANSFORM_02", "name": "Data Transformation", "definition": "Ability to reshape, encode, aggregate, and transform data for analysis.", "required_level": 3, "key_concepts": ["reshape", "aggregation", "encoding"]}
+          ]
+        },
+        {
+          "competency_id": "COMP_STATS_02",
+          "name": "Statistical Analysis",
+          "description": "Ability to summarize and interpret data using suitable statistical methods.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_DESCSTAT_03", "name": "Descriptive Statistics", "definition": "Ability to summarize distributions using measures of center, spread, and frequency.", "required_level": 3, "key_concepts": ["central tendency", "dispersion", "distribution"]},
+            {"sub_competency_id": "SUB_INFERENCE_04", "name": "Statistical Inference", "definition": "Ability to draw appropriately qualified conclusions about populations using sample evidence.", "required_level": 3, "key_concepts": ["sample evidence", "population", "uncertainty"]}
+          ]
+        }
+      ]
+    },
+    {
+      "role_id": "devops_engineer",
+      "role_name": "DevOps Engineer",
+      "domain": "IT Infrastructure",
+      "description": "Automates software delivery, infrastructure operation, deployment, and monitoring.",
+      "competencies": [
+        {
+          "competency_id": "COMP_CICD_01",
+          "name": "CI/CD",
+          "description": "Ability to automate reliable build, test, and deployment workflows.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_CI_01", "name": "Continuous Integration", "definition": "Ability to automate source integration, build, and test execution for frequent code changes.", "required_level": 3, "key_concepts": ["automated build", "automated tests", "frequent integration"]},
+            {"sub_competency_id": "SUB_CD_02", "name": "Continuous Delivery", "definition": "Ability to automate repeatable release and deployment workflows with appropriate controls.", "required_level": 3, "key_concepts": ["repeatable deployment", "release automation", "deployment controls"]}
+          ]
+        },
+        {
+          "competency_id": "COMP_OBS_02",
+          "name": "Monitoring and Reliability",
+          "description": "Ability to observe systems and respond to operational problems.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_LOG_03", "name": "Logging and Metrics", "definition": "Ability to collect and interpret logs and metrics that describe application and infrastructure health.", "required_level": 3, "key_concepts": ["logs", "metrics", "system health"]},
+            {"sub_competency_id": "SUB_INCIDENT_04", "name": "Incident Response", "definition": "Ability to detect, triage, mitigate, communicate, and learn from operational incidents.", "required_level": 3, "key_concepts": ["triage", "mitigation", "post-incident learning"]}
+          ]
+        }
+      ]
+    },
+    {
+      "role_id": "network_engineer",
+      "role_name": "Network Engineer",
+      "domain": "IT Infrastructure",
+      "description": "Designs, configures, secures, and troubleshoots computer networks.",
+      "competencies": [
+        {
+          "competency_id": "COMP_NET_01",
+          "name": "Networking Fundamentals",
+          "description": "Ability to reason about addressing, routing, switching, and network protocols.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_IP_01", "name": "IP Addressing and Subnetting", "definition": "Ability to assign, interpret, and subnet IPv4/IPv6 address spaces correctly.", "required_level": 3, "key_concepts": ["IP addressing", "subnet mask", "address range"]},
+            {"sub_competency_id": "SUB_ROUTE_02", "name": "Routing", "definition": "Ability to understand and configure how packets are forwarded between networks.", "required_level": 3, "key_concepts": ["routing table", "packet forwarding", "network path"]}
+          ]
+        },
+        {
+          "competency_id": "COMP_NETSEC_02",
+          "name": "Network Security",
+          "description": "Ability to apply controls that protect network traffic and infrastructure.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_FW_03", "name": "Firewall Policy", "definition": "Ability to design and maintain firewall rules that permit required traffic while reducing unnecessary exposure.", "required_level": 3, "key_concepts": ["allow rules", "deny rules", "least exposure"]},
+            {"sub_competency_id": "SUB_NETDIAG_04", "name": "Network Troubleshooting", "definition": "Ability to systematically isolate connectivity, routing, DNS, latency, and packet-loss problems.", "required_level": 3, "key_concepts": ["connectivity", "DNS", "packet loss"]}
+          ]
+        }
+      ]
+    },
+    {
+      "role_id": "cybersecurity_analyst",
+      "role_name": "Cybersecurity Analyst",
+      "domain": "Cybersecurity",
+      "description": "Monitors security events, investigates threats, and supports incident response.",
+      "competencies": [
+        {
+          "competency_id": "COMP_SEC_01",
+          "name": "Security Analysis",
+          "description": "Ability to identify and interpret evidence of suspicious or malicious activity.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_LOGAN_01", "name": "Security Log Analysis", "definition": "Ability to inspect logs and correlate events to identify suspicious behavior.", "required_level": 3, "key_concepts": ["event correlation", "suspicious behavior", "log evidence"]},
+            {"sub_competency_id": "SUB_THREAT_02", "name": "Threat Detection", "definition": "Ability to recognize indicators, attack patterns, and anomalous behavior that may indicate compromise.", "required_level": 3, "key_concepts": ["indicators", "attack patterns", "anomalies"]}
+          ]
+        },
+        {
+          "competency_id": "COMP_IR_02",
+          "name": "Security Incident Response",
+          "description": "Ability to investigate and contain cybersecurity incidents using structured procedures.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_TRIAGE_03", "name": "Incident Triage", "definition": "Ability to validate an alert, assess impact and severity, and prioritize response actions.", "required_level": 3, "key_concepts": ["alert validation", "severity", "impact"]},
+            {"sub_competency_id": "SUB_CONTAIN_04", "name": "Containment", "definition": "Ability to limit the spread and impact of a confirmed incident while preserving necessary evidence.", "required_level": 3, "key_concepts": ["limit spread", "reduce impact", "preserve evidence"]}
+          ]
+        }
+      ]
+    },
+    {
+      "role_id": "hardware_engineer",
+      "role_name": "Computer Hardware Engineer",
+      "domain": "Computer Hardware",
+      "description": "Designs, evaluates, maintains, and troubleshoots computer hardware systems and components.",
+      "competencies": [
+        {
+          "competency_id": "COMP_HWARCH_01",
+          "name": "Computer Architecture",
+          "description": "Understanding of processor, memory, storage, buses, and I/O interaction.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_CPU_01", "name": "CPU Architecture", "definition": "Understanding of instruction execution, registers, arithmetic units, control units, and processor organization.", "required_level": 3, "key_concepts": ["instruction execution", "registers", "control unit"]},
+            {"sub_competency_id": "SUB_MEMORY_02", "name": "Memory Hierarchy", "definition": "Understanding of registers, cache, RAM, storage, locality, and trade-offs across the memory hierarchy.", "required_level": 3, "key_concepts": ["cache", "RAM", "locality"]}
+          ]
+        },
+        {
+          "competency_id": "COMP_HWTROUBLE_02",
+          "name": "Hardware Troubleshooting",
+          "description": "Ability to isolate and resolve failures in computer hardware systems.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_FAULT_03", "name": "Fault Diagnosis", "definition": "Ability to use symptoms, measurements, and controlled tests to isolate the likely failing component.", "required_level": 3, "key_concepts": ["symptoms", "measurements", "isolate component"]},
+            {"sub_competency_id": "SUB_COMPONENT_04", "name": "Component Testing", "definition": "Ability to safely test and validate hardware components using appropriate diagnostic methods and tools.", "required_level": 3, "key_concepts": ["diagnostic tools", "safe testing", "component validation"]}
+          ]
+        }
+      ]
+    },
+    {
+      "role_id": "system_administrator",
+      "role_name": "System Administrator",
+      "domain": "IT Infrastructure",
+      "description": "Operates servers, operating systems, identities, backups, and core organizational IT services.",
+      "competencies": [
+        {
+          "competency_id": "COMP_SYS_01",
+          "name": "Systems Administration",
+          "description": "Ability to configure, operate, and troubleshoot server operating systems and services.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_LINUX_01", "name": "Linux Administration", "definition": "Ability to manage users, permissions, processes, services, packages, and configuration on Linux systems.", "required_level": 3, "key_concepts": ["permissions", "services", "processes"]},
+            {"sub_competency_id": "SUB_IDENTITY_02", "name": "Identity and Access Administration", "definition": "Ability to manage accounts, roles, permissions, and access lifecycle according to organizational policy.", "required_level": 3, "key_concepts": ["accounts", "roles", "access lifecycle"]}
+          ]
+        },
+        {
+          "competency_id": "COMP_RECOVERY_02",
+          "name": "Backup and Recovery",
+          "description": "Ability to protect and restore systems and data after failures.",
+          "required_level": 3,
+          "sub_competencies": [
+            {"sub_competency_id": "SUB_BACKUP_03", "name": "Backup Management", "definition": "Ability to configure, schedule, monitor, test, and retain backups appropriate to recovery needs.", "required_level": 3, "key_concepts": ["backup schedule", "restore testing", "retention"]},
+            {"sub_competency_id": "SUB_DR_04", "name": "Disaster Recovery", "definition": "Ability to restore critical services using documented recovery priorities, dependencies, and procedures.", "required_level": 3, "key_concepts": ["recovery priorities", "dependencies", "restoration procedures"]}
+          ]
+        }
+      ]
+    }
+  ]
+}
