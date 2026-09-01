@@ -32,7 +32,7 @@ jobs:
       - run: PYTHONPATH=. pytest -q
 
   live-openrouter-smoke:
-    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.run_live_openrouter_test) }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_live_openrouter_test }}
     runs-on: ubuntu-latest
     defaults:
       run:
