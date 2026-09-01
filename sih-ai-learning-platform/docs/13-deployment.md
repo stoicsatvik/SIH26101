@@ -1,98 +1,148 @@
 # Deployment
 
-Last updated: 2026-08-28
+Last updated: 2026-09-02
 
-## Current hosting
+## Deployment architecture
 
-Provider: Cloudflare Workers
+GyanSetu currently uses a split deployment model:
 
-Production Worker name: `sih26101`
+```text
+Browser
+  ↓
+Cloudflare Worker + static frontend
+  ├─ authentication/session handling
+  ├─ Neon persistence
+  └─ proxy to competency service
+          ↓
+      FastAPI on Vercel
+          ↓
+      OpenRouter LLM
+```
 
-Current production hostname:
-`https://sih26101.stoicsolutions-in.workers.dev/`
+## Cloudflare application
 
-The current hostname has a Google Safe Browsing deceptive-page warning under review. That is a reputation/review issue, not a Worker build failure.
+Worker name: `sih26101`
 
-## Deployment entry points
-
-Root files:
+Root entry points:
 - `wrangler.jsonc`
 - `package.json`
 - `src/worker.js`
 
-`wrangler.jsonc` currently:
-- points Worker execution to `src/worker.js`,
-- binds `sih-ai-learning-platform/frontend/` as `ASSETS`.
+`wrangler.jsonc` binds `sih-ai-learning-platform/frontend/` as static `ASSETS`.
 
 The Worker routes:
-- `/api/*` to backend handlers,
-- everything else to static frontend assets.
+- `/api/*` to authenticated backend handlers,
+- everything else to frontend assets.
 
-## Cloudflare build settings
+Required Worker configuration:
 
-Current Git-connected deployment:
-- branch: `main`
-- root directory: `/`
-- build command: none
-- deploy command: `npx wrangler deploy`
+```text
+DATABASE_URL=<Neon connection string>
+ASSESSMENT_API_URL=<FastAPI Vercel base URL>
+ASSESSMENT_MODE=live
+```
 
-Dependencies are installed from root `package.json`.
+Optional service authentication:
 
-## Required Cloudflare secret
+```text
+ASSESSMENT_SERVICE_KEY=<same shared secret used by FastAPI SERVICE_API_KEY>
+```
 
-`DATABASE_URL`
+## FastAPI competency service
 
-This must contain the Neon connection string and must be configured as a Worker secret/environment variable. Never store it in Git.
+Vercel project configuration:
+
+```text
+Root Directory: sih-ai-learning-platform/backend
+Branch during testing: feature/competency-assessment-engine
+```
+
+The service uses `pyproject.toml` to expose `app.main:app` as the Vercel FastAPI entrypoint and `vercel.json` for function configuration.
+
+Required Vercel secrets:
+
+```text
+LLM_API_KEY=<OpenRouter API key>
+LLM_MODEL=openrouter/free
+```
+
+Optional:
+
+```text
+OPENROUTER_SITE_URL=<public GyanSetu URL>
+OPENROUTER_APP_NAME=GyanSetu SIH26101
+SERVICE_API_KEY=<shared Worker-to-FastAPI secret>
+```
+
+Verify the service using:
+
+```text
+GET /health
+```
+
+## GitHub Actions
+
+The competency engine workflow runs deterministic FastAPI tests on branch changes and pull requests.
+
+A live OpenRouter smoke test exists as a **manual workflow dispatch** so the free OpenRouter quota is not consumed on every commit.
+
+GitHub Actions secrets:
+
+```text
+LLM_API_KEY
+LLM_MODEL
+```
+
+These CI secrets do not automatically become Vercel runtime environment variables.
 
 ## Database
 
 Neon project: `stoicdb`
 
-The application schema has been prepared and verified on a temporary migration branch, but final application to the main Neon branch still requires explicit approval.
+Migration order:
 
-See `09-database-design.md` for schema status.
+```text
+migrations/001_auth_profile_schema.sql
+migrations/002_competency_assessment_schema.sql
+```
 
-## Google verification/review
+Migration 002 is committed in the repository but has **not been confirmed as applied to the main Neon branch from this integration session**. The connected Neon migration tool currently rejects its own advertised parameter names, so production schema changes must not be assumed complete.
 
-Search Console URL-prefix property is verified using:
-`frontend/google6603f76e5906e835.html`
+After applying migration 002, verify that the assessment/session, competency-result, sub-competency-result, and learning-activity tables are present before enabling `ASSESSMENT_MODE=live` for the full web application.
 
-Current Search Console security classification:
-- `Deceptive pages`
+## End-to-end deployment order
 
-Review/remediation state should be updated in `11-security.md` and `16-development-log.md` when it changes.
+1. Apply database migrations.
+2. Deploy FastAPI service on Vercel.
+3. Add OpenRouter runtime secrets to Vercel.
+4. Verify FastAPI `/health`.
+5. Configure Cloudflare `ASSESSMENT_API_URL`.
+6. Keep `ASSESSMENT_MODE=mock` for first integration test.
+7. Test registration → onboarding → baseline → dashboard.
+8. Change `ASSESSMENT_MODE=live`.
+9. Test OpenRouter quiz generation and descriptive grading.
+10. Test recommendation → course completion → reassessment.
+11. Merge the feature branch only after the full flow passes.
 
 ## Local development
 
-From the repository root:
+Cloudflare application:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Cloudflare Wrangler runs the Worker and static asset binding locally.
-
-A valid local `DATABASE_URL` binding/secret is required for database-backed API calls.
-
-## Deployment command
+FastAPI service:
 
 ```bash
-npm run deploy
+cd sih-ai-learning-platform/backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000 --env-file .env
 ```
 
-Equivalent to:
+## Production caution
 
-```bash
-wrangler deploy
-```
-
-## Future deployment work
-
-- production/staging environment separation,
-- dedicated test database branch,
-- custom domain when available,
-- CI checks before deployment,
-- secret rotation process,
-- monitoring/alerts,
-- database migration automation with explicit review gates.
+The iGOT integration in the prototype is an adapter/mock catalogue. Official iGOT authentication, enrolment/completion APIs, and credential synchronization must use interfaces supplied by the authorized government platform when available.

@@ -1,0 +1,15 @@
+{
+  "catalog_version": "1.0",
+  "note": "Prototype competency-to-learning mappings. These are not claims about the live iGOT catalogue and should be replaced by official catalogue/API metadata when available.",
+  "courses": [
+    {"course_id":"IGOT-MOCK-SW-01","title":"Software Engineering Foundations","provider":"iGOT Karmayogi (mock mapping)","external_url":"https://igotkarmayogi.gov.in/","role_ids":["software_developer"],"tags":["programming","software design","software testing","debugging","unit testing"]},
+    {"course_id":"IGOT-MOCK-FE-01","title":"Modern Web Interface Development","provider":"iGOT Karmayogi (mock mapping)","external_url":"https://igotkarmayogi.gov.in/","role_ids":["frontend_developer"],"tags":["web development","html","css","javascript","responsive design","frontend frameworks","accessibility"]},
+    {"course_id":"IGOT-MOCK-BE-01","title":"Backend APIs and Database Performance","provider":"iGOT Karmayogi (mock mapping)","external_url":"https://igotkarmayogi.gov.in/","role_ids":["backend_developer"],"tags":["backend programming","database management","sql","database design","indexing","query optimization","api development","authentication","authorization"]},
+    {"course_id":"IGOT-MOCK-DA-01","title":"Practical Data Analysis and Visualization","provider":"iGOT Karmayogi (mock mapping)","external_url":"https://igotkarmayogi.gov.in/","role_ids":["data_analyst"],"tags":["data processing","data cleaning","statistics","data visualization","data interpretation"]},
+    {"course_id":"IGOT-MOCK-DO-01","title":"DevOps Delivery and Reliability","provider":"iGOT Karmayogi (mock mapping)","external_url":"https://igotkarmayogi.gov.in/","role_ids":["devops_engineer"],"tags":["ci/cd","continuous integration","continuous deployment","containerization","monitoring","logging","incident response"]},
+    {"course_id":"IGOT-MOCK-NW-01","title":"Network Administration and Troubleshooting","provider":"iGOT Karmayogi (mock mapping)","external_url":"https://igotkarmayogi.gov.in/","role_ids":["network_engineer"],"tags":["networking fundamentals","ip addressing","routing","network security","network troubleshooting"]},
+    {"course_id":"IGOT-MOCK-CS-01","title":"Cybersecurity Monitoring and Incident Response","provider":"iGOT Karmayogi (mock mapping)","external_url":"https://igotkarmayogi.gov.in/","role_ids":["cybersecurity_analyst"],"tags":["security fundamentals","security monitoring","threat detection","incident response","log analysis"]},
+    {"course_id":"IGOT-MOCK-HW-01","title":"Computer Hardware Architecture and Diagnostics","provider":"iGOT Karmayogi (mock mapping)","external_url":"https://igotkarmayogi.gov.in/","role_ids":["hardware_engineer"],"tags":["computer architecture","hardware troubleshooting","fault diagnosis","component testing","embedded systems"]},
+    {"course_id":"IGOT-MOCK-SA-01","title":"Systems Administration and Recovery","provider":"iGOT Karmayogi (mock mapping)","external_url":"https://igotkarmayogi.gov.in/","role_ids":["system_administrator"],"tags":["operating systems","linux administration","windows administration","system security","backup and recovery"]}
+  ]
+}
