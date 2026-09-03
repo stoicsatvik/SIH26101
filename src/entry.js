@@ -1,5 +1,6 @@
 import baseWorker from './worker.js';
 import { getOpenRouterKeyStatus } from './openrouter.js';
+import { handleAssessmentApi, isAssessmentApiPath } from './assessment-api.js';
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -11,7 +12,7 @@ function json(data, status = 200) {
   });
 }
 
-async function authenticated(request, env) {
+async function currentUser(request, env) {
   const url = new URL(request.url);
   url.pathname = '/api/auth/me';
   url.search = '';
@@ -20,11 +21,17 @@ async function authenticated(request, env) {
     headers: request.headers,
   });
   const response = await baseWorker.fetch(authRequest, env);
-  return response.ok;
+  if (!response.ok) return null;
+  try {
+    const data = await response.json();
+    return data?.user || null;
+  } catch {
+    return null;
+  }
 }
 
 async function handleAiHealth(request, env) {
-  if (!(await authenticated(request, env))) {
+  if (!(await currentUser(request, env))) {
     return json({ error: 'Authentication required.' }, 401);
   }
 
@@ -68,9 +75,17 @@ async function handleAiHealth(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
     if (request.method === 'GET' && url.pathname === '/api/ai/health') {
       return handleAiHealth(request, env);
     }
+
+    if (isAssessmentApiPath(url.pathname)) {
+      const user = await currentUser(request, env);
+      if (!user) return json({ error: 'Authentication required.' }, 401);
+      return handleAssessmentApi(request, env, user);
+    }
+
     return baseWorker.fetch(request, env);
   },
 };
