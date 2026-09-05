@@ -1,0 +1,35 @@
+name: ui-foundation
+
+on:
+  pull_request:
+    paths:
+      - 'GyanSetu/frontend/**'
+      - 'wrangler.jsonc'
+      - '.github/workflows/ui-foundation.yml'
+  push:
+    branches:
+      - 'feature/dashboard-ui-foundation'
+
+jobs:
+  validate-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts
+
+      - name: Check frontend JavaScript syntax
+        run: |
+          node --check GyanSetu/frontend/api-client.js
+          node --check GyanSetu/frontend/dashboard.js
+          node --check GyanSetu/frontend/assessment.js
+
+      - name: Bundle Cloudflare Worker and assets
+        run: npx wrangler deploy --dry-run
