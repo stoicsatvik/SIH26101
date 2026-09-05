@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  <title>Baseline Assessment | GyanSetu</title>
+  <link rel="stylesheet" href="./dashboard.css" />
+  <link rel="stylesheet" href="./assessment.css" />
+</head>
+<body class="app-page assessment-page">
+  <div class="app-shell">
+    <aside class="gs-sidebar" aria-label="GyanSetu navigation">
+      <a class="sidebar-brand" href="/dashboard.html" aria-label="GyanSetu home">
+        <img src="./ui/gyansetu-logo.svg" alt="" />
+        <span class="sidebar-brand__word">GyanSetu</span>
+      </a>
+
+      <div class="sidebar-panel">
+        <nav class="sidebar-nav" aria-label="Primary navigation">
+          <a class="nav-item" href="/dashboard.html">
+            <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-dashboard"></use></svg>
+            <span>Home</span>
+          </a>
+          <a class="nav-item" href="#" data-coming-soon="Competency Profile">
+            <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-users"></use></svg>
+            <span>Competency Profile</span>
+          </a>
+          <a class="nav-item is-active" href="#" aria-current="page">
+            <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-award"></use></svg>
+            <span>Assessment</span>
+          </a>
+          <a class="nav-item" href="#" data-coming-soon="My Learning">
+            <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-book"></use></svg>
+            <span>My Learning</span>
+          </a>
+          <a class="nav-item" href="#" data-coming-soon="Recommendations">
+            <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-target"></use></svg>
+            <span>Recommendations</span>
+          </a>
+          <a class="nav-item" href="#" data-coming-soon="Career Roadmap">
+            <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-chart"></use></svg>
+            <span>Career Roadmap</span>
+          </a>
+        </nav>
+
+        <nav class="sidebar-nav sidebar-nav--bottom" aria-label="Account navigation">
+          <button id="logout-button" class="nav-item" type="button">
+            <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-login"></use></svg>
+            <span>Logout</span>
+          </button>
+        </nav>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <header class="topbar">
+        <div class="greeting">
+          <h1 id="assessment-header-name">Baseline Assessment</h1>
+          <p>Diagnostic assessment • Competency-mapped questions • Deterministic scoring</p>
+        </div>
+        <div class="topbar-actions">
+          <a class="secondary-cta" href="/dashboard.html">← Back to Dashboard</a>
+          <div class="user-chip">
+            <span id="user-avatar" class="user-avatar">EN</span>
+            <span id="user-chip-name" class="user-chip__name">Employee</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="assessment-main">
+        <div class="assessment-wrap">
+          <div class="assessment-heading">
+            <div>
+              <h2>Baseline Assessment</h2>
+              <p>Answer each question once. The backend performs scoring after submission.</p>
+            </div>
+            <span id="assessment-role" class="assessment-meta">Loading role…</span>
+          </div>
+
+          <section id="loading-card" class="dashboard-card loading-card" aria-live="polite">
+            <div class="loading-spinner" aria-hidden="true"></div>
+            <h2>Preparing your assessment</h2>
+            <p>Loading the validated question set selected for your role.</p>
+          </section>
+
+          <section id="quiz-card" class="dashboard-card quiz-card hidden" aria-labelledby="question-text">
+            <div class="quiz-progress">
+              <div class="quiz-progress__row">
+                <span id="question-position">Question 1 of 10</span>
+                <span id="answered-count">0 answered</span>
+              </div>
+              <div class="progress-track" aria-hidden="true"><div id="progress-bar" class="progress-bar"></div></div>
+            </div>
+
+            <p id="question-difficulty" class="question-kicker">Diagnostic question</p>
+            <h2 id="question-text" class="question-text">Question text</h2>
+            <div id="option-list" class="option-list" role="radiogroup" aria-labelledby="question-text"></div>
+
+            <div class="quiz-actions">
+              <span id="assessment-message" class="assessment-message" role="status" aria-live="polite"></span>
+              <div class="quiz-actions__right">
+                <button id="previous-button" class="quiz-button quiz-button--secondary" type="button">Previous</button>
+                <button id="next-button" class="quiz-button quiz-button--primary" type="button">Next</button>
+                <button id="submit-button" class="quiz-button quiz-button--primary hidden" type="button">Submit Assessment</button>
+              </div>
+            </div>
+          </section>
+
+          <section id="result-card" class="dashboard-card result-card hidden" aria-live="polite">
+            <h2>Assessment submitted</h2>
+            <p>Your score was calculated by the backend. Proficiency-level mapping remains separate until the team finalizes the score-to-level thresholds.</p>
+            <div id="result-score" class="result-score">0%</div>
+            <div class="result-grid">
+              <div class="result-stat"><strong>Correct answers</strong><span id="result-correct">0 / 0</span></div>
+              <div class="result-stat"><strong>Gap analysis</strong><span id="result-gap-status">Mapping required</span></div>
+            </div>
+            <div class="result-actions"><a class="primary-cta" href="/dashboard.html">Return to Dashboard →</a></div>
+          </section>
+        </div>
+      </main>
+    </section>
+  </div>
+
+  <div id="dashboard-toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./assessment.js"></script>
+</body>
+</html>
