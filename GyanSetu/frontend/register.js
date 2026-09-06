@@ -7,8 +7,7 @@ const organisationSelect = document.querySelector('#organisation-select');
 const designationSelect = document.querySelector('#designation-select');
 const emailInput = document.querySelector('#register-email');
 const sendOtpButton = document.querySelector('#send-otp-button');
-const otpPanel = document.querySelector('#demo-otp-panel');
-const otpCodeLabel = document.querySelector('#demo-otp-code');
+const otpPanel = document.querySelector('#otp-panel');
 const otpInput = document.querySelector('#email-otp');
 const verifyOtpButton = document.querySelector('#verify-otp-button');
 const verificationState = document.querySelector('#email-verification-state');
@@ -40,9 +39,9 @@ const designations = [
 ];
 
 const state = {
-  otp: null,
   emailVerified: false,
   verifiedEmail: '',
+  verificationToken: '',
 };
 
 function show(message = '', type = 'info') {
@@ -67,19 +66,36 @@ function validEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function generateOtp() {
-  const random = new Uint32Array(1);
-  crypto.getRandomValues(random);
-  return String(100000 + (random[0] % 900000));
+async function apiPost(path, payload) {
+  const response = await fetch(path, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  let data = {};
+  try {
+    data = await response.json();
+  } catch {
+    data = {};
+  }
+
+  if (!response.ok) {
+    const error = new Error(data.error || 'Request failed.');
+    error.code = data.code || '';
+    error.status = response.status;
+    throw error;
+  }
+
+  return data;
 }
 
 function resetEmailVerification() {
-  state.otp = null;
   state.emailVerified = false;
   state.verifiedEmail = '';
+  state.verificationToken = '';
   if (otpPanel) otpPanel.hidden = true;
   if (otpInput) otpInput.value = '';
-  if (otpCodeLabel) otpCodeLabel.textContent = '------';
   if (verificationState) verificationState.textContent = 'Not verified';
   updateContinueState();
 }
@@ -89,6 +105,7 @@ function stepOneReady() {
     organisationSelect?.value &&
     designationSelect?.value &&
     state.emailVerified &&
+    state.verificationToken &&
     state.verifiedEmail === emailInput?.value.trim().toLowerCase()
   );
 }
@@ -125,29 +142,54 @@ emailInput?.addEventListener('input', () => {
   if (emailInput.value.trim().toLowerCase() !== state.verifiedEmail) resetEmailVerification();
 });
 
-sendOtpButton?.addEventListener('click', () => {
+sendOtpButton?.addEventListener('click', async () => {
   const email = emailInput.value.trim().toLowerCase();
   if (!validEmail(email)) return show('Enter a valid email address before requesting an OTP.', 'error');
 
-  state.otp = generateOtp();
-  state.emailVerified = false;
-  state.verifiedEmail = '';
-  otpCodeLabel.textContent = state.otp;
-  otpPanel.hidden = false;
-  verificationState.textContent = 'OTP generated';
-  show('Demo OTP generated. In production this will be delivered through the configured email service.', 'info');
-  otpInput.focus();
+  sendOtpButton.disabled = true;
+  resetEmailVerification();
+  show('Sending verification code…', 'info');
+
+  try {
+    await apiPost('/api/auth/email/send-otp', { email });
+    if (otpPanel) otpPanel.hidden = false;
+    if (verificationState) verificationState.textContent = 'Code sent';
+    show('OTP sent to your email. It expires in 10 minutes.', 'success');
+    otpInput?.focus();
+  } catch (error) {
+    show(error.message || 'Could not send the verification code.', 'error');
+  } finally {
+    sendOtpButton.disabled = false;
+  }
 });
 
-verifyOtpButton?.addEventListener('click', () => {
-  if (!state.otp) return show('Request an OTP first.', 'error');
-  if (otpInput.value.trim() !== state.otp) return show('That OTP does not match the generated demo code.', 'error');
+verifyOtpButton?.addEventListener('click', async () => {
+  const email = emailInput.value.trim().toLowerCase();
+  const otp = otpInput?.value.trim() || '';
+  if (!validEmail(email)) return show('Enter a valid email address.', 'error');
+  if (!/^\d{6}$/.test(otp)) return show('Enter the 6-digit OTP.', 'error');
 
-  state.emailVerified = true;
-  state.verifiedEmail = emailInput.value.trim().toLowerCase();
-  verificationState.textContent = 'Verified';
-  show('Email verified for this prototype session.', 'success');
-  updateContinueState();
+  verifyOtpButton.disabled = true;
+  show('Verifying code…', 'info');
+
+  try {
+    const data = await apiPost('/api/auth/email/verify-otp', { email, otp });
+    state.emailVerified = true;
+    state.verifiedEmail = email;
+    state.verificationToken = data.verificationToken || '';
+    if (verificationState) verificationState.textContent = 'Verified';
+    show('Email verified.', 'success');
+    updateContinueState();
+  } catch (error) {
+    state.emailVerified = false;
+    state.verifiedEmail = '';
+    state.verificationToken = '';
+    if (verificationState) verificationState.textContent = 'Not verified';
+    show(error.message || 'Could not verify the OTP.', 'error');
+    updateContinueState();
+  } finally {
+    verifyOtpButton.disabled = false;
+  }
 });
 
 continueButton?.addEventListener('click', () => {
@@ -187,32 +229,31 @@ form?.addEventListener('submit', async (event) => {
     mobile,
     group: 'Other / Not applicable',
     email: state.verifiedEmail,
-    emailVerifiedInPrototype: true,
+    emailVerified: true,
   };
 
   sessionStorage.setItem('sih_registration_context', JSON.stringify(registrationContext));
 
   const submitButton = form.querySelector('button[type="submit"]');
   submitButton.disabled = true;
-  show('Creating your GyanSetu prototype account…', 'info');
+  show('Creating your GyanSetu account…', 'info');
 
   try {
-    const response = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        fullName,
-        email: state.verifiedEmail,
-        password,
-        registrationContext,
-      }),
+    const data = await apiPost('/api/auth/register', {
+      fullName,
+      email: state.verifiedEmail,
+      password,
+      verificationToken: state.verificationToken,
+      registrationContext,
     });
-    const data = await response.json();
-    if (!response.ok) return show(data.error || 'Registration failed.', 'error');
     show('Account created. Opening profile setup…', 'success');
     window.location.assign(data.next || '/onboarding.html');
-  } catch {
-    show('Could not reach the backend.', 'error');
+  } catch (error) {
+    if (error.code === 'EMAIL_NOT_VERIFIED') {
+      resetEmailVerification();
+      setStep(1);
+    }
+    show(error.message || 'Registration failed.', 'error');
   } finally {
     submitButton.disabled = false;
   }
