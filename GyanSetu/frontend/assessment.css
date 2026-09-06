@@ -1,0 +1,51 @@
+.assessment-page .workspace { min-height: 100vh; }
+.assessment-main { padding: 28px 24px 42px; }
+.assessment-wrap { width: min(980px, 100%); margin: 0 auto; display: grid; gap: 18px; }
+.assessment-heading { display: flex; justify-content: space-between; gap: 18px; align-items: end; }
+.assessment-heading h2 { margin: 0; font-size: 25px; letter-spacing: -.025em; }
+.assessment-heading p { margin: 7px 0 0; color: #5d687b; font-size: 13px; }
+.assessment-meta { color: #526074; font-size: 12px; font-weight: 650; }
+.quiz-card { padding: 26px; }
+.quiz-progress { display: grid; gap: 9px; margin-bottom: 24px; }
+.quiz-progress__row { display: flex; justify-content: space-between; gap: 12px; color: #536076; font-size: 12px; }
+.progress-track { height: 8px; border-radius: 999px; overflow: hidden; background: #e8eef5; }
+.progress-bar { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #0b63d8, #3e8ef2); transition: width 180ms ease; }
+.question-kicker { margin: 0 0 8px; color: #0b63d8; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .09em; }
+.question-text { margin: 0 0 22px; font-size: clamp(19px, 2vw, 24px); line-height: 1.45; letter-spacing: -.015em; }
+.option-list { display: grid; gap: 12px; }
+.option-row { position: relative; display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 13px; align-items: center; min-height: 66px; padding: 10px 16px; border: 1px solid #dfe6ee; border-radius: 12px; background: #fff; cursor: pointer; transition: border-color 120ms ease, background 120ms ease, transform 120ms ease; }
+.option-row:hover { border-color: #9dbce5; background: #fbfdff; }
+.option-row.is-selected { border-color: #3d82df; background: #f2f7ff; box-shadow: 0 0 0 2px rgba(61,130,223,.08); }
+.option-row input { position: absolute; opacity: 0; pointer-events: none; }
+.option-letter { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 9px; color: #245c9f; background: #eef5ff; font-weight: 800; }
+.option-row.is-selected .option-letter { color: #fff; background: #0b63d8; }
+.option-text { color: #1c2944; font-size: 14px; line-height: 1.5; }
+.quiz-actions { margin-top: 24px; padding-top: 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; border-top: 1px solid #edf0f4; }
+.quiz-actions__right { display: flex; gap: 10px; }
+.quiz-button { min-height: 44px; padding: 0 18px; border-radius: 10px; font-weight: 750; }
+.quiz-button--secondary { border: 1px solid #cfd9e5; color: #274162; background: #fff; }
+.quiz-button--primary { border: 0; color: #fff; background: #0b63d8; }
+.quiz-button:disabled { opacity: .5; cursor: not-allowed; }
+.assessment-message { min-height: 20px; color: #59667a; font-size: 12px; }
+.assessment-message.is-error { color: #b42318; }
+.loading-card, .result-card { padding: 34px; text-align: center; }
+.loading-spinner { width: 42px; height: 42px; margin: 0 auto 18px; border: 4px solid #e5edf7; border-top-color: #0b63d8; border-radius: 50%; animation: assessmentSpin .85s linear infinite; }
+.loading-card h2, .result-card h2 { margin: 0 0 9px; font-size: 23px; }
+.loading-card p, .result-card p { margin: 0 auto; max-width: 620px; color: #5c687a; font-size: 13px; line-height: 1.6; }
+.result-score { margin: 22px auto 14px; width: 120px; height: 120px; display: grid; place-items: center; border: 10px solid #dcecff; border-radius: 50%; color: #0b63d8; background: #f8fbff; font-size: 28px; font-weight: 850; }
+.result-grid { margin-top: 24px; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; text-align: left; }
+.result-stat { padding: 15px; border: 1px solid #e1e8f0; border-radius: 11px; background: #fbfdff; }
+.result-stat strong { display: block; margin-bottom: 5px; font-size: 12px; }
+.result-stat span { color: #536076; font-size: 12px; }
+.result-actions { margin-top: 24px; display: flex; justify-content: center; }
+.hidden { display: none !important; }
+@keyframes assessmentSpin { to { transform: rotate(360deg); } }
+@media (max-width: 680px) {
+  .assessment-main { padding: 20px 14px 32px; }
+  .assessment-heading { align-items: start; flex-direction: column; }
+  .quiz-card { padding: 20px; }
+  .quiz-actions { align-items: stretch; flex-direction: column; }
+  .quiz-actions__right { display: grid; grid-template-columns: 1fr 1fr; }
+  .result-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .loading-spinner { animation: none; } .progress-bar, .option-row { transition: none; } }
