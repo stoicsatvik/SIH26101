@@ -42,7 +42,7 @@
               <span class="gs-flow-icon"><svg><use href="./ui/gyansetu-icons.svg#icon-shield"/></svg></span>
               <span class="gs-flow-number">3</span>
               <strong>OTP Verification</strong>
-              <small>Confirm the generated verification code</small>
+              <small>Confirm the code sent to your inbox</small>
             </div>
             <div class="gs-flow-step">
               <span class="gs-flow-icon"><svg><use href="./ui/gyansetu-icons.svg#icon-register"/></svg></span>
@@ -114,12 +114,12 @@
             <div class="gs-verification-box" id="email-verification-card">
               <div class="gs-verification-box__head">
                 <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-shield"/></svg>
-                <div><strong>Email Verification</strong><p>We generate a one-time password (OTP) to verify this prototype registration session.</p></div>
+                <div><strong>Email Verification</strong><p>A 6-digit one-time password will be sent to this email address.</p></div>
               </div>
               <div class="gs-verification-actions"><button class="gs-small-dark" id="send-otp-button" type="button"><svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-send"/></svg>Send OTP</button></div>
-              <div class="gs-otp-panel" id="demo-otp-panel" hidden>
-                <div class="gs-demo-code"><span>Demo OTP</span><strong id="demo-otp-code">------</strong><small id="email-verification-state">Not verified</small></div>
-                <div class="gs-otp-row"><input id="email-otp" inputmode="numeric" maxlength="6" placeholder="Enter 6-digit OTP" /><button id="verify-otp-button" type="button">Verify</button></div>
+              <div class="gs-otp-panel" id="otp-panel" hidden>
+                <div class="gs-demo-code"><span>Email OTP</span><strong>Check inbox</strong><small id="email-verification-state">Not verified</small></div>
+                <div class="gs-otp-row"><input id="email-otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Enter 6-digit OTP" /><button id="verify-otp-button" type="button">Verify</button></div>
               </div>
             </div>
 
