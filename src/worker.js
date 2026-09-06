@@ -2,7 +2,10 @@ import { neon } from '@neondatabase/serverless';
 
 const SESSION_COOKIE = 'sih_session';
 const SESSION_DAYS = 7;
-const PBKDF2_ITERATIONS = 210000;
+const OTP_TTL_MINUTES = 10;
+const OTP_RESEND_SECONDS = 60;
+const OTP_MAX_ATTEMPTS = 5;
+const RESEND_API_URL = 'https://api.resend.com/emails';
 
 function json(data, status = 200, headers = {}) {
   return new Response(JSON.stringify(data), {
@@ -15,8 +18,8 @@ function json(data, status = 200, headers = {}) {
   });
 }
 
-function badRequest(message) {
-  return json({ error: message }, 400);
+function badRequest(message, code = 'BAD_REQUEST') {
+  return json({ error: message, code }, 400);
 }
 
 function unauthorized(message = 'Authentication required.') {
@@ -76,73 +79,19 @@ function bytesToHex(bytes) {
   return [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
-function hexToBytes(hex) {
-  const bytes = new Uint8Array(hex.length / 2);
-  for (let i = 0; i < bytes.length; i += 1) {
-    bytes[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
-  }
-  return bytes;
-}
-
 async function sha256Hex(value) {
   const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
   return bytesToHex(new Uint8Array(digest));
 }
 
-async function hashPassword(password) {
-  const salt = crypto.getRandomValues(new Uint8Array(16));
-  const key = await crypto.subtle.importKey(
-    'raw',
-    new TextEncoder().encode(password),
-    'PBKDF2',
-    false,
-    ['deriveBits'],
-  );
-  const bits = await crypto.subtle.deriveBits(
-    {
-      name: 'PBKDF2',
-      hash: 'SHA-256',
-      salt,
-      iterations: PBKDF2_ITERATIONS,
-    },
-    key,
-    256,
-  );
-  return `pbkdf2-sha256$${PBKDF2_ITERATIONS}$${bytesToHex(salt)}$${bytesToHex(new Uint8Array(bits))}`;
-}
-
-async function verifyPassword(password, encoded) {
-  const [algorithm, iterationsText, saltHex, expectedHex] = String(encoded || '').split('$');
-  if (algorithm !== 'pbkdf2-sha256' || !iterationsText || !saltHex || !expectedHex) return false;
-
-  const key = await crypto.subtle.importKey(
-    'raw',
-    new TextEncoder().encode(password),
-    'PBKDF2',
-    false,
-    ['deriveBits'],
-  );
-  const bits = await crypto.subtle.deriveBits(
-    {
-      name: 'PBKDF2',
-      hash: 'SHA-256',
-      salt: hexToBytes(saltHex),
-      iterations: Number(iterationsText),
-    },
-    key,
-    256,
-  );
-  const actual = new Uint8Array(bits);
-  const expected = hexToBytes(expectedHex);
-  if (actual.length !== expected.length) return false;
-
-  let diff = 0;
-  for (let i = 0; i < actual.length; i += 1) diff |= actual[i] ^ expected[i];
-  return diff === 0;
-}
-
 function randomToken() {
   return bytesToHex(crypto.getRandomValues(new Uint8Array(32)));
+}
+
+function randomOtp() {
+  const random = new Uint32Array(1);
+  crypto.getRandomValues(random);
+  return String(100000 + (random[0] % 900000));
 }
 
 function parseCookies(request) {
@@ -205,6 +154,61 @@ function validEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+function otpDeliveryConfigured(env) {
+  return Boolean(env.RESEND_API_KEY && env.AUTH_FROM_EMAIL);
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+async function sendOtpEmail(env, email, otp) {
+  if (!otpDeliveryConfigured(env)) {
+    return {
+      ok: false,
+      response: json({
+        error: 'Email delivery is not configured yet. Add RESEND_API_KEY and AUTH_FROM_EMAIL Worker secrets.',
+        code: 'EMAIL_DELIVERY_NOT_CONFIGURED',
+      }, 503),
+    };
+  }
+
+  const safeEmail = escapeHtml(email);
+  const response = await fetch(RESEND_API_URL, {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${env.RESEND_API_KEY}`,
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: env.AUTH_FROM_EMAIL,
+      to: [email],
+      subject: 'Your GyanSetu verification code',
+      html: `<div style="font-family:Arial,sans-serif;line-height:1.5;color:#102a43"><h2>GyanSetu email verification</h2><p>Use this one-time code to verify <strong>${safeEmail}</strong>:</p><p style="font-size:28px;font-weight:700;letter-spacing:6px">${otp}</p><p>This code expires in ${OTP_TTL_MINUTES} minutes. If you did not request it, you can ignore this email.</p></div>`,
+      tags: [{ name: 'category', value: 'email_verification' }],
+    }),
+  });
+
+  if (!response.ok) {
+    const providerText = await response.text().catch(() => '');
+    console.error('OTP email provider error:', response.status, providerText.slice(0, 500));
+    return {
+      ok: false,
+      response: json({
+        error: 'Could not send the verification email. Check the configured sender and try again.',
+        code: 'EMAIL_DELIVERY_FAILED',
+      }, 502),
+    };
+  }
+
+  return { ok: true };
+}
+
 async function handleHealth(env) {
   if (!env.DATABASE_URL) {
     return json({
@@ -213,6 +217,7 @@ async function handleHealth(env) {
       databaseConfigured: false,
       databaseReachable: false,
       schemaReady: false,
+      emailDeliveryConfigured: otpDeliveryConfigured(env),
     }, 503);
   }
 
@@ -227,12 +232,15 @@ async function handleHealth(env) {
       databaseConfigured: true,
       databaseReachable: false,
       schemaReady: false,
+      emailDeliveryConfigured: otpDeliveryConfigured(env),
     }, 503);
   }
 
   try {
     await sql`SELECT 1 FROM app_users LIMIT 1`;
     await sql`SELECT 1 FROM user_sessions LIMIT 1`;
+    await sql`SELECT 1 FROM email_verification_challenges LIMIT 1`;
+    await sql`SELECT 1 FROM pg_extension WHERE extname = 'pgcrypto' LIMIT 1`;
   } catch (error) {
     if (isMissingRelation(error)) {
       return json({
@@ -241,6 +249,7 @@ async function handleHealth(env) {
         databaseConfigured: true,
         databaseReachable: true,
         schemaReady: false,
+        emailDeliveryConfigured: otpDeliveryConfigured(env),
       }, 503);
     }
     throw error;
@@ -252,7 +261,112 @@ async function handleHealth(env) {
     databaseConfigured: true,
     databaseReachable: true,
     schemaReady: true,
+    emailDeliveryConfigured: otpDeliveryConfigured(env),
   });
+}
+
+async function handleSendOtp(request, env) {
+  const body = await readJson(request);
+  if (!body) return badRequest('Invalid JSON body.');
+
+  const email = normalizeEmail(body.email);
+  if (!validEmail(email)) return badRequest('Enter a valid email address.', 'INVALID_EMAIL');
+
+  const sql = getSql(env);
+  const existing = await sql`SELECT id FROM app_users WHERE email = ${email} LIMIT 1`;
+  if (existing.length) {
+    return json({ error: 'An account with this email already exists.', code: 'EMAIL_ALREADY_REGISTERED' }, 409);
+  }
+
+  const recent = await sql`
+    SELECT created_at
+    FROM email_verification_challenges
+    WHERE email = ${email}
+      AND created_at > now() - (${OTP_RESEND_SECONDS} * interval '1 second')
+    ORDER BY created_at DESC
+    LIMIT 1
+  `;
+  if (recent.length) {
+    return json({
+      error: `Please wait ${OTP_RESEND_SECONDS} seconds before requesting another OTP.`,
+      code: 'OTP_RATE_LIMITED',
+    }, 429);
+  }
+
+  const otp = randomOtp();
+  const challengeRows = await sql`
+    INSERT INTO email_verification_challenges (email, otp_hash, expires_at)
+    VALUES (${email}, crypt(${otp}, gen_salt('bf', 8)), now() + (${OTP_TTL_MINUTES} * interval '1 minute'))
+    RETURNING id
+  `;
+  const challengeId = challengeRows[0]?.id;
+
+  const delivery = await sendOtpEmail(env, email, otp);
+  if (!delivery.ok) {
+    await sql`
+      UPDATE email_verification_challenges
+      SET consumed_at = now()
+      WHERE id = ${challengeId}
+    `;
+    return delivery.response;
+  }
+
+  return json({ ok: true, expiresInSeconds: OTP_TTL_MINUTES * 60 });
+}
+
+async function handleVerifyOtp(request, env) {
+  const body = await readJson(request);
+  if (!body) return badRequest('Invalid JSON body.');
+
+  const email = normalizeEmail(body.email);
+  const otp = String(body.otp || '').trim();
+  if (!validEmail(email)) return badRequest('Enter a valid email address.', 'INVALID_EMAIL');
+  if (!/^\d{6}$/.test(otp)) return badRequest('Enter the 6-digit OTP.', 'INVALID_OTP');
+
+  const sql = getSql(env);
+  const rows = await sql`
+    SELECT id, attempts, crypt(${otp}, otp_hash) = otp_hash AS matches
+    FROM email_verification_challenges
+    WHERE email = ${email}
+      AND consumed_at IS NULL
+      AND verified_at IS NULL
+      AND expires_at > now()
+      AND attempts < ${OTP_MAX_ATTEMPTS}
+    ORDER BY created_at DESC
+    LIMIT 1
+  `;
+  const challenge = rows[0];
+  if (!challenge) {
+    return json({
+      error: 'The OTP has expired or too many attempts were made. Request a new code.',
+      code: 'OTP_EXPIRED',
+    }, 400);
+  }
+
+  if (!challenge.matches) {
+    await sql`
+      UPDATE email_verification_challenges
+      SET attempts = attempts + 1
+      WHERE id = ${challenge.id}
+    `;
+    const attemptsLeft = Math.max(0, OTP_MAX_ATTEMPTS - Number(challenge.attempts || 0) - 1);
+    return json({
+      error: attemptsLeft
+        ? `Incorrect OTP. ${attemptsLeft} attempt${attemptsLeft === 1 ? '' : 's'} remaining.`
+        : 'Incorrect OTP. Request a new code.',
+      code: 'OTP_MISMATCH',
+    }, 400);
+  }
+
+  const verificationToken = randomToken();
+  const verificationTokenHash = await sha256Hex(verificationToken);
+  await sql`
+    UPDATE email_verification_challenges
+    SET verified_at = now(), verification_token_hash = ${verificationTokenHash}
+    WHERE id = ${challenge.id}
+  `;
+
+  return json({ ok: true, verificationToken });
 }
 
 async function handleRegister(request, env) {
@@ -262,21 +376,48 @@ async function handleRegister(request, env) {
   const email = normalizeEmail(body.email);
   const password = String(body.password || '');
   const fullName = String(body.fullName || '').trim() || null;
+  const verificationToken = String(body.verificationToken || '').trim();
+  const registrationContext = body.registrationContext || {};
+  const phone = String(registrationContext.mobile || '').replace(/\D/g, '') || null;
 
   if (!validEmail(email)) return badRequest('Enter a valid email address.');
   if (password.length < 10) return badRequest('Password must be at least 10 characters.');
+  if (!verificationToken) return badRequest('Verify your email before creating the account.', 'EMAIL_NOT_VERIFIED');
 
   const sql = getSql(env);
   const existing = await sql`SELECT id FROM app_users WHERE email = ${email} LIMIT 1`;
   if (existing.length) return json({ error: 'An account with this email already exists.' }, 409);
 
-  const passwordHash = await hashPassword(password);
+  const verificationTokenHash = await sha256Hex(verificationToken);
+  const verifiedRows = await sql`
+    SELECT id
+    FROM email_verification_challenges
+    WHERE email = ${email}
+      AND verified_at IS NOT NULL
+      AND registration_consumed_at IS NULL
+      AND verification_token_hash = ${verificationTokenHash}
+      AND verified_at > now() - interval '20 minutes'
+    ORDER BY verified_at DESC
+    LIMIT 1
+  `;
+  const verification = verifiedRows[0];
+  if (!verification) {
+    return badRequest('Email verification is missing or expired. Verify the email again.', 'EMAIL_NOT_VERIFIED');
+  }
+
   const rows = await sql`
-    INSERT INTO app_users (email, password_hash, full_name)
-    VALUES (${email}, ${passwordHash}, ${fullName})
-    RETURNING id, email, full_name, onboarding_completed
+    INSERT INTO app_users (email, password_hash, full_name, phone)
+    VALUES (${email}, crypt(${password}, gen_salt('bf', 12)), ${fullName}, ${phone})
+    RETURNING id, email, full_name, phone, onboarding_completed
   `;
   const user = rows[0];
+
+  await sql`
+    UPDATE email_verification_challenges
+    SET registration_consumed_at = now(), consumed_at = now()
+    WHERE id = ${verification.id}
+  `;
+
   const token = await createSession(sql, user.id);
 
   return json(
@@ -296,13 +437,14 @@ async function handleLogin(request, env) {
 
   const sql = getSql(env);
   const rows = await sql`
-    SELECT id, email, full_name, password_hash, onboarding_completed
+    SELECT id, email, full_name, onboarding_completed
     FROM app_users
     WHERE email = ${email}
+      AND password_hash = crypt(${password}, password_hash)
     LIMIT 1
   `;
   const user = rows[0];
-  if (!user || !(await verifyPassword(password, user.password_hash))) {
+  if (!user) {
     return unauthorized('Incorrect email or password.');
   }
 
@@ -459,6 +601,8 @@ async function handleApi(request, env) {
   const key = `${request.method} ${url.pathname}`;
 
   if (key === 'GET /api/health') return handleHealth(env);
+  if (key === 'POST /api/auth/email/send-otp') return handleSendOtp(request, env);
+  if (key === 'POST /api/auth/email/verify-otp') return handleVerifyOtp(request, env);
   if (key === 'POST /api/auth/register') return handleRegister(request, env);
   if (key === 'POST /api/auth/login') return handleLogin(request, env);
   if (key === 'POST /api/auth/logout') return handleLogout(request, env);
@@ -481,7 +625,7 @@ export default {
       console.error('Worker request failed:', error);
       const databaseResponse = databaseErrorResponse(error);
       if (databaseResponse) return databaseResponse;
-      return json({ error: 'Server error.' }, 500);
+      return json({ error: 'Server error.', code: 'SERVER_ERROR' }, 500);
     }
   },
 };
