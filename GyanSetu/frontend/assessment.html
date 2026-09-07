@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GyanSetu | Baseline Assessment</title>
+  <link rel="stylesheet" href="./assessment.css" />
+</head>
+<body>
+  <div class="assessment-shell">
+    <aside class="assessment-side">
+      <a class="assessment-brand" href="./dashboard.html"><img src="./ui/gyansetu-logo.svg" alt="GyanSetu"/><div><strong>Gyan<span>Setu</span></strong><small>Official Statistical System</small></div></a>
+      <a class="back-link" href="./dashboard.html"><svg><use href="./ui/gyansetu-icons.svg#icon-arrow"></use></svg> Back to dashboard</a>
+      <div class="side-progress">
+        <span class="side-label">Assessment flow</span>
+        <div class="side-step is-active" data-stage="prepare"><i>1</i><div><strong>Prepare</strong><small>Load role framework</small></div></div>
+        <div class="side-step" data-stage="generate"><i>2</i><div><strong>Generate</strong><small>OpenRouter MCQs</small></div></div>
+        <div class="side-step" data-stage="validate"><i>3</i><div><strong>Validate</strong><small>Embedding similarity</small></div></div>
+        <div class="side-step" data-stage="answer"><i>4</i><div><strong>Answer</strong><small>Complete assessment</small></div></div>
+        <div class="side-step" data-stage="result"><i>5</i><div><strong>Results</strong><small>Score & recommendations</small></div></div>
+      </div>
+      <div class="side-note"><svg><use href="./ui/gyansetu-icons.svg#icon-shield"></use></svg><p><strong>Your answers are scored by backend logic.</strong><span>The LLM generates questions; it does not decide your score.</span></p></div>
+    </aside>
+
+    <main class="assessment-main">
+      <header class="assessment-topbar"><div><span class="eyebrow">Baseline diagnostic</span><h1>Role-Based Competency Assessment</h1></div><div id="ai-chip" class="ai-chip"><span></span> Checking AI</div></header>
+
+      <section id="intro-view" class="view is-visible">
+        <div class="intro-card">
+          <div class="intro-icon"><svg><use href="./ui/gyansetu-icons.svg#icon-target"></use></svg></div>
+          <span class="eyebrow">Before you begin</span>
+          <h2 id="role-title">Field Enumerator Baseline Assessment</h2>
+          <p>This diagnostic checks the role-based concepts you use in field operations, data quality, statistics and digital data collection.</p>
+          <div class="intro-stats"><div><strong id="question-count">10</strong><span>Questions</span></div><div><strong>4</strong><span>Competency areas</span></div><div><strong>~8 min</strong><span>Typical duration</span></div></div>
+          <div class="intro-rules"><div><svg><use href="./ui/gyansetu-icons.svg#icon-check"></use></svg><span>One question per mapped sub-competency</span></div><div><svg><use href="./ui/gyansetu-icons.svg#icon-chart"></use></svg><span>Questions checked against competency embeddings in Neon</span></div><div><svg><use href="./ui/gyansetu-icons.svg#icon-bulb"></use></svg><span>Learning recommendations generated from your weakest areas</span></div></div>
+          <button id="generate-button" class="primary-button" type="button">Generate My Assessment <svg><use href="./ui/gyansetu-icons.svg#icon-arrow"></use></svg></button>
+          <p id="intro-error" class="error-text"></p>
+        </div>
+      </section>
+
+      <section id="loading-view" class="view">
+        <div class="loading-card"><div class="loader-mark"><img src="./ui/gyansetu-logo.svg" alt=""/></div><h2>Building your assessment</h2><p id="loading-copy">Reading your role competency framework...</p><div class="loading-track"><span id="loading-bar"></span></div><div class="loading-details"><span id="load-generate">Generate structured MCQs</span><span id="load-validate">Validate competency alignment</span><span id="load-store">Store validated question bank</span></div></div>
+      </section>
+
+      <section id="quiz-view" class="view">
+        <div class="quiz-header"><div><span id="question-meta" class="meta-pill">Competency</span><h2 id="question-title">Question</h2></div><div class="question-counter"><strong id="question-number">1</strong><span>/ <b id="question-total">10</b></span></div></div>
+        <div class="progress-track"><span id="progress-bar"></span></div>
+        <article class="question-card"><p id="question-text"></p><div id="options" class="options"></div><div class="validation-note"><svg><use href="./ui/gyansetu-icons.svg#icon-shield"></use></svg><span id="validation-copy">Semantic validation checked</span></div></article>
+        <div class="quiz-actions"><button id="prev-button" class="secondary-button" type="button">Previous</button><button id="next-button" class="primary-button" type="button">Next <svg><use href="./ui/gyansetu-icons.svg#icon-arrow"></use></svg></button></div>
+        <p id="quiz-error" class="error-text"></p>
+      </section>
+
+      <section id="result-view" class="view">
+        <div class="result-hero"><div class="score-ring"><strong id="overall-score">0%</strong><span>Overall</span></div><div><span class="eyebrow">Assessment complete</span><h2>Your competency baseline is ready.</h2><p id="score-copy">Your answers have been scored and converted into competency-level evidence.</p></div></div>
+        <div class="result-grid"><article class="result-card"><h3>Competency scores</h3><div id="competency-scores" class="score-list"></div></article><article class="result-card"><h3>Recommended next learning</h3><p id="recommendation-reason" class="muted"></p><div id="recommendations" class="course-list"></div></article></div>
+        <div class="result-actions"><a class="secondary-link" href="./workspace.html?view=competencies">View competency profile</a><a class="primary-link" href="./dashboard.html">Return to dashboard <svg><use href="./ui/gyansetu-icons.svg#icon-arrow"></use></svg></a></div>
+      </section>
+    </main>
+  </div>
+  <script src="./assessment.js"></script>
+</body>
+</html>
