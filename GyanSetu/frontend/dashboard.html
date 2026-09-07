@@ -3,108 +3,116 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GyanSetu Dashboard</title>
+  <title>GyanSetu | Dashboard</title>
   <link rel="stylesheet" href="./dashboard.css" />
 </head>
-<body class="dashboard-body">
-  <div class="dashboard-shell">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-title">Gyan<span>Setu</span></div>
-        <div class="brand-sub">Official Statistical System</div>
-      </div>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="./dashboard.html" aria-label="GyanSetu home">
+        <img src="./ui/gyansetu-logo.svg" alt="GyanSetu" class="brand-logo" />
+        <div class="brand-copy"><strong>Gyan<span>Setu</span></strong><small>Official Statistical System</small></div>
+      </a>
 
-      <nav class="side-nav">
-        <a class="nav-item active" href="./dashboard.html"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></a>
-        <a class="nav-item" href="#"><span class="nav-icon">◫</span><span class="nav-label">Competency Profile</span></a>
-        <a class="nav-item" href="#"><span class="nav-icon">✓</span><span class="nav-label">Assessment</span></a>
-        <a class="nav-item" href="#"><span class="nav-icon">▤</span><span class="nav-label">My Learning</span></a>
-        <a class="nav-item" href="#"><span class="nav-icon">✦</span><span class="nav-label">Recommendations</span></a>
-        <a class="nav-item" href="#"><span class="nav-icon">▥</span><span class="nav-label">Career Roadmap</span></a>
-        <a class="nav-item" href="./onboarding.html"><span class="nav-icon">●</span><span class="nav-label">Profile</span></a>
+      <nav class="nav-group">
+        <a class="nav-link is-active" href="./dashboard.html"><svg><use href="./ui/gyansetu-icons.svg#icon-dashboard"></use></svg><span>Home</span></a>
+        <a class="nav-link" href="./workspace.html?view=competencies"><svg><use href="./ui/gyansetu-icons.svg#icon-chart"></use></svg><span>Competency Profile</span></a>
+        <a class="nav-link" href="./assessment.html"><svg><use href="./ui/gyansetu-icons.svg#icon-check"></use></svg><span>Assessment</span></a>
+        <a class="nav-link" href="./workspace.html?view=learning"><svg><use href="./ui/gyansetu-icons.svg#icon-book"></use></svg><span>My Learning</span></a>
+        <a class="nav-link" href="./workspace.html?view=recommendations"><svg><use href="./ui/gyansetu-icons.svg#icon-bulb"></use></svg><span>Recommendations</span></a>
+        <a class="nav-link" href="./workspace.html?view=roadmap"><svg><use href="./ui/gyansetu-icons.svg#icon-target"></use></svg><span>Career Roadmap</span></a>
+        <a class="nav-link" href="./onboarding.html?edit=1"><svg><use href="./ui/gyansetu-icons.svg#icon-user-star"></use></svg><span>Profile</span></a>
       </nav>
 
-      <div class="side-spacer"></div>
-      <div class="side-footer">
-        <a class="nav-item" href="#"><span class="nav-icon">◔</span><span class="nav-label">Notifications</span></a>
-        <a class="nav-item" href="#"><span class="nav-icon">⚙</span><span class="nav-label">Settings</span></a>
-        <button id="logout-button" class="nav-item" type="button" style="width:100%;border:0;background:transparent;text-align:left"><span class="nav-icon">↪</span><span class="nav-label">Logout</span></button>
+      <div class="sidebar-bottom">
+        <a class="nav-link" href="./workspace.html?view=notifications"><svg><use href="./ui/gyansetu-icons.svg#icon-mail"></use></svg><span>Notifications</span><i class="notification-dot"></i></a>
+        <a class="nav-link" href="./workspace.html?view=settings"><svg><use href="./ui/gyansetu-icons.svg#icon-gear"></use></svg><span>Settings</span></a>
+        <button id="logout-button" class="nav-link nav-button" type="button"><svg><use href="./ui/gyansetu-icons.svg#icon-login"></use></svg><span>Logout</span></button>
       </div>
+
+      <div class="sidebar-motto"><span>Stronger People</span><strong>Stronger Statistics</strong></div>
     </aside>
 
-    <main class="dashboard-main">
+    <main class="main-area">
       <header class="topbar">
-        <div class="greeting">
-          <h1>Good morning, <span id="employee-name">Employee</span> 👋</h1>
-          <p id="role-line">Loading your role and organisation…</p>
-        </div>
-        <div class="top-user">
-          <div id="avatar" class="avatar">GS</div>
-          <div id="header-name" class="user-label">Employee</div>
+        <form id="global-search" class="searchbox" role="search">
+          <svg><use href="./ui/gyansetu-icons.svg#icon-search"></use></svg>
+          <input id="search-input" type="search" placeholder="Search learning resources, skills, or topics..." aria-label="Search GyanSetu" />
+        </form>
+        <div class="top-actions">
+          <a class="icon-link" href="./workspace.html?view=notifications" aria-label="Notifications"><svg><use href="./ui/gyansetu-icons.svg#icon-mail"></use></svg><i></i></a>
+          <a class="user-chip" href="./onboarding.html?edit=1"><span id="avatar" class="avatar">GS</span><strong id="header-name">Employee</strong><span class="chevron">⌄</span></a>
         </div>
       </header>
 
-      <section class="content">
-        <div id="dashboard-error" class="dashboard-error"></div>
-
-        <section class="hero">
-          <div class="hero-left">
-            <div class="hero-illustration">🎯</div>
-            <div>
-              <h2>Build Your Competency Profile</h2>
-              <p>Your competency profile isn’t assessed yet. Take a short baseline assessment so GyanSetu can identify your development opportunities and personalize your learning journey.</p>
-            </div>
+      <section class="page-content">
+        <div class="page-heading">
+          <div>
+            <h1>Good morning, <span id="employee-name">Employee</span> <span aria-hidden="true">👋</span></h1>
+            <p id="role-line">Loading your role and organisation...</p>
           </div>
-          <button id="start-assessment" class="cta" type="button">Start Baseline Assessment&nbsp; →</button>
-        </section>
+          <div class="date-copy"><strong id="today-label"></strong><span>Let’s make progress today.</span></div>
+        </div>
 
-        <section class="summary-grid">
-          <article class="summary-card">
-            <div class="summary-icon">▦</div>
-            <div><h3>Role-Based Competencies</h3><p id="role-card-copy">Mapped to your role</p></div>
-          </article>
-          <article class="summary-card">
-            <div class="summary-icon">◷</div>
-            <div><h3>Assessment Status</h3><p>Not Assessed</p></div>
-          </article>
-          <article class="summary-card">
-            <div class="summary-icon">▥</div>
-            <div><h3>Development Journey</h3><p>Not Started</p></div>
-          </article>
-        </section>
+        <div id="service-banner" class="service-banner" role="status">
+          <svg><use href="./ui/gyansetu-icons.svg#icon-info"></use></svg>
+          <span id="service-banner-text">Checking GyanSetu services...</span>
+          <button id="dismiss-banner" type="button" aria-label="Dismiss">×</button>
+        </div>
 
-        <section class="main-grid">
-          <article class="panel">
-            <h2>Why Baseline Assessment?</h2>
-            <div class="benefit-list">
-              <div class="benefit"><div class="check">✓</div><div><strong>Understand your current competency levels</strong><span>Helps us identify where you stand.</span></div></div>
-              <div class="benefit"><div class="check">✓</div><div><strong>Get personalized recommendations</strong><span>Receive learning resources tailored to your gaps.</span></div></div>
-              <div class="benefit"><div class="check">✓</div><div><strong>Track your growth over time</strong><span>Measure improvement and accelerate progress.</span></div></div>
-            </div>
-            <button class="learn-button" type="button">Learn More About GyanSetu&nbsp; →</button>
-          </article>
-
-          <article class="panel">
-            <h2>What You Can Do</h2>
-            <div class="action-stack">
-              <a class="action-card" href="#"><div class="action-badge">▤</div><div class="action-copy"><strong>Explore Learning Resources</strong><span>Browse available topics and resources.</span></div><div class="arrow">›</div></a>
-              <a class="action-card" href="#"><div class="action-badge">⚑</div><div class="action-copy"><strong>Explore Career Paths</strong><span>Discover roles and growth opportunities.</span></div><div class="arrow">›</div></a>
-            </div>
-          </article>
-        </section>
-
-        <section class="journey">
-          <div class="journey-copy">
-            <h2>Your Development Journey Starts Here</h2>
-            <p>Completing the baseline assessment is the first step towards continuous learning and career growth.</p>
+        <section class="hero-card">
+          <div class="hero-copy">
+            <span class="eyebrow">Get started</span>
+            <h2 id="hero-title">Build Your Competency Profile</h2>
+            <p id="hero-copy">Take a short baseline assessment so GyanSetu can identify your development opportunities and personalize your learning journey.</p>
+            <a id="start-assessment" class="primary-action" href="./assessment.html">Start Baseline Assessment <svg><use href="./ui/gyansetu-icons.svg#icon-arrow"></use></svg></a>
           </div>
-          <div class="steps">
-            <div class="step active"><div class="step-dot">1</div><strong>Baseline Assessment</strong><span>Start here</span></div>
-            <div class="step"><div class="step-dot">2</div><strong>Gap Analysis</strong><span>& Recommendations</span></div>
-            <div class="step"><div class="step-dot">3</div><strong>Learning</strong><span>& Development</span></div>
-            <div class="step"><div class="step-dot">4</div><strong>Reassessment</strong><span>& Progress Tracking</span></div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
+            <div class="visual-card visual-card--book"><svg><use href="./ui/gyansetu-icons.svg#icon-book"></use></svg></div>
+            <div class="visual-card visual-card--chart"><svg><use href="./ui/gyansetu-icons.svg#icon-chart"></use></svg></div>
+            <img src="./ui/gyansetu-logo.svg" alt="" />
+            <div class="visual-note"><small>LEARN</small><strong>Grow with evidence.</strong><span>Better data. Brighter India.</span></div>
           </div>
         </section>
+
+        <section class="metric-grid" aria-label="Dashboard status">
+          <a class="metric-card" href="./workspace.html?view=competencies"><span class="metric-icon metric-blue"><svg><use href="./ui/gyansetu-icons.svg#icon-chart"></use></svg></span><div><strong>Role-Based Competencies</strong><span id="role-card-copy">Mapped to your role</span></div><b>›</b></a>
+          <a class="metric-card" href="./assessment.html"><span class="metric-icon metric-orange"><svg><use href="./ui/gyansetu-icons.svg#icon-check"></use></svg></span><div><strong>Assessment Status</strong><span id="assessment-status">Not assessed</span></div><b>›</b></a>
+          <a class="metric-card" href="./workspace.html?view=recommendations"><span class="metric-icon metric-purple"><svg><use href="./ui/gyansetu-icons.svg#icon-bulb"></use></svg></span><div><strong>Development Journey</strong><span id="journey-status">Not started</span></div><b>›</b></a>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="surface-card baseline-card">
+            <div class="section-heading"><div><h3>Why Baseline Assessment?</h3><p>A smarter starting point for your growth journey.</p></div></div>
+            <div class="benefits">
+              <div class="benefit"><span><svg><use href="./ui/gyansetu-icons.svg#icon-check"></use></svg></span><div><strong>Understand your current competency levels</strong><p>See evidence of where you stand across role-based skills.</p></div></div>
+              <div class="benefit"><span><svg><use href="./ui/gyansetu-icons.svg#icon-check"></use></svg></span><div><strong>Get personalized recommendations</strong><p>Turn your weakest areas into focused learning actions.</p></div></div>
+              <div class="benefit"><span><svg><use href="./ui/gyansetu-icons.svg#icon-check"></use></svg></span><div><strong>Track your growth over time</strong><p>Reassess after learning and compare your improvement.</p></div></div>
+            </div>
+            <a class="secondary-action" href="./workspace.html?view=competencies">View competency framework <svg><use href="./ui/gyansetu-icons.svg#icon-arrow"></use></svg></a>
+          </article>
+
+          <article class="surface-card actions-card">
+            <div class="section-heading"><div><h3>What You Can Do</h3><p>Continue from your profile into the learning journey.</p></div></div>
+            <div class="action-list">
+              <a href="./workspace.html?view=learning" class="action-row"><span class="action-icon learning"><svg><use href="./ui/gyansetu-icons.svg#icon-book"></use></svg></span><div><strong>Explore Learning Resources</strong><p>Browse role-aligned topics and prototype iGOT courses.</p></div><b>›</b></a>
+              <a href="./workspace.html?view=roadmap" class="action-row"><span class="action-icon roadmap"><svg><use href="./ui/gyansetu-icons.svg#icon-target"></use></svg></span><div><strong>Explore Career Paths</strong><p>See how current competencies connect to your next role.</p></div><b>›</b></a>
+            </div>
+          </article>
+        </section>
+
+        <section class="journey-card">
+          <div class="journey-intro"><span class="eyebrow">Your journey</span><h3>Your Development Journey Starts Here</h3><p>Complete the baseline assessment, focus your learning, then reassess to measure progress.</p></div>
+          <div class="journey-steps" id="journey-steps">
+            <a href="./assessment.html" class="journey-step is-current"><span>1</span><strong>Baseline Assessment</strong><small>Assess current competencies</small></a>
+            <a href="./workspace.html?view=competencies" class="journey-step"><span>2</span><strong>Gap Analysis</strong><small>Identify focus areas</small></a>
+            <a href="./workspace.html?view=learning" class="journey-step"><span>3</span><strong>Learning</strong><small>Follow personalized resources</small></a>
+            <a href="./assessment.html" class="journey-step"><span>4</span><strong>Reassessment</strong><small>Measure progress</small></a>
+          </div>
+        </section>
+
+        <footer class="dashboard-footer"><span>GyanSetu · Official Statistical System</span><span>Ministry of Statistics & Programme Implementation · Prototype</span></footer>
       </section>
     </main>
   </div>
