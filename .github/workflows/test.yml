@@ -17,3 +17,6 @@ jobs:
       - run: npm install
       - run: npm test
       - run: npx wrangler deploy --dry-run
+      - name: Smoke-test live Worker
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: node scripts/live-smoke.mjs
