@@ -1,6 +1,7 @@
 import { neon } from '@neondatabase/serverless';
 import baseWorker from './worker.js';
 import {
+  COURSE_CATALOG,
   createBaselineAssessment,
   getAssessmentState,
   publicRole,
@@ -83,6 +84,12 @@ async function handleCompetencies(request, env) {
   return json({ role: publicRole(resolveRole(profile)) });
 }
 
+async function handleCatalog(request, env) {
+  const auth = await authUser(request, env);
+  if (auth.response) return auth.response;
+  return json({ courses: COURSE_CATALOG });
+}
+
 async function handleStartAssessment(request, env) {
   const auth = await authUser(request, env);
   if (auth.response) return auth.response;
@@ -111,6 +118,7 @@ async function handleExtendedApi(request, env) {
   if (key === 'GET /api/ai/health') return handleAiHealth(env);
   if (key === 'GET /api/dashboard/state') return handleDashboardState(request, env);
   if (key === 'GET /api/competencies') return handleCompetencies(request, env);
+  if (key === 'GET /api/catalog') return handleCatalog(request, env);
   if (key === 'POST /api/assessments/start') return handleStartAssessment(request, env);
   if (key === 'POST /api/assessments/submit') return handleSubmitAssessment(request, env);
   return null;
