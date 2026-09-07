@@ -11,16 +11,30 @@ async function readJson(path) {
   return { response, data };
 }
 
+async function readText(path) {
+  const response = await fetch(`${BASE_URL}${path}`, { headers: { accept: 'text/html' } });
+  return { response, text: await response.text() };
+}
+
 for (let attempt = 1; attempt <= attempts; attempt += 1) {
   try {
-    const health = await readJson('/api/health');
-    const ai = await readJson('/api/ai/health');
+    const [health, ai, dashboard, assessment, workspace] = await Promise.all([
+      readJson('/api/health'),
+      readJson('/api/ai/health'),
+      readText('/dashboard.html'),
+      readText('/assessment.html'),
+      readText('/workspace.html'),
+    ]);
+
     const healthy = health.response.ok && health.data?.databaseReachable === true && health.data?.schemaReady === true;
     const aiReady = ai.response.ok && ai.data?.configured === true && ai.data?.reachable === true;
+    const dashboardReady = dashboard.response.ok && dashboard.text.includes('./ui/gyansetu-logo.svg') && dashboard.text.includes('/api/dashboard/state') === false;
+    const assessmentReady = assessment.response.ok && assessment.text.includes('Generate My Assessment') && assessment.text.includes('./assessment.js');
+    const workspaceReady = workspace.response.ok && workspace.text.includes('./workspace.js');
 
-    console.log(`Attempt ${attempt}/${attempts}: health=${health.response.status} ai=${ai.response.status}`);
-    if (healthy && aiReady) {
-      console.log('Live Worker smoke check passed: database/schema and OpenRouter are reachable.');
+    console.log(`Attempt ${attempt}/${attempts}: health=${health.response.status} ai=${ai.response.status} dashboard=${dashboard.response.status} assessment=${assessment.response.status} workspace=${workspace.response.status}`);
+    if (healthy && aiReady && dashboardReady && assessmentReady && workspaceReady) {
+      console.log('Live Worker smoke check passed: database/schema, OpenRouter, official-logo dashboard, assessment UI and workspace UI are live.');
       process.exit(0);
     }
 
@@ -32,6 +46,9 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
         aiStatus: ai.response.status,
         aiConfigured: ai.data?.configured,
         aiReachable: ai.data?.reachable,
+        dashboardReady,
+        assessmentReady,
+        workspaceReady,
       });
       process.exit(1);
     }
