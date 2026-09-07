@@ -2,12 +2,14 @@ import { neon } from '@neondatabase/serverless';
 import baseWorker from './worker.js';
 import {
   COURSE_CATALOG,
-  createBaselineAssessment,
   getAssessmentState,
   publicRole,
   resolveRole,
-  submitBaselineAssessment,
 } from './assessment-engine.js';
+import {
+  createBaselineAssessmentResilient,
+  submitBaselineAssessmentFast,
+} from './resilient-assessment.js';
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -98,7 +100,7 @@ async function handleStartAssessment(request, env) {
   if (!env.OPENROUTER_API_KEY) {
     return json({ error: 'OpenRouter is not configured on the Worker.', code: 'OPENROUTER_NOT_CONFIGURED' }, 503);
   }
-  const assessment = await createBaselineAssessment(sql, env, auth.user.id, profile);
+  const assessment = await createBaselineAssessmentResilient(sql, env, auth.user.id, profile);
   return json({ ok: true, ...assessment });
 }
 
@@ -108,7 +110,7 @@ async function handleSubmitAssessment(request, env) {
   let body;
   try { body = await request.json(); } catch { return json({ error: 'Invalid JSON body.' }, 400); }
   const sql = getSql(env);
-  const result = await submitBaselineAssessment(sql, env, auth.user.id, body);
+  const result = await submitBaselineAssessmentFast(sql, auth.user.id, body);
   return json({ ok: true, result });
 }
 
