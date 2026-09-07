@@ -7,6 +7,10 @@ import {
   scoreAssessmentRows,
   validateGeneratedQuestions,
 } from '../src/assessment-engine.js';
+import {
+  CURATED_FIELD_ENUMERATOR_QUESTIONS,
+  START_TIMEOUT_MS,
+} from '../src/resilient-assessment.js';
 
 test('field enumerator role produces a 10-question assessment', () => {
   assert.equal(questionCountForRole(FIELD_ENUMERATOR_ROLE), 10);
@@ -69,4 +73,21 @@ test('assessment scoring is deterministic and grouped by competency', () => {
   const quality = result.competencies.find((item) => item.id === 'data_quality');
   assert.equal(survey.scorePercentage, 50);
   assert.equal(quality.scorePercentage, 100);
+});
+
+test('curated fallback covers every field-enumerator sub-competency exactly once', () => {
+  assert.equal(CURATED_FIELD_ENUMERATOR_QUESTIONS.length, 10);
+  assert.equal(START_TIMEOUT_MS, 12000);
+  const expected = new Set(
+    FIELD_ENUMERATOR_ROLE.competencies.flatMap((competency) =>
+      competency.subCompetencies.map((sub) => `${competency.competencyId}/${sub.id}`),
+    ),
+  );
+  const actual = new Set(CURATED_FIELD_ENUMERATOR_QUESTIONS.map((question) => `${question.competencyId}/${question.subCompetencyId}`));
+  assert.deepEqual(actual, expected);
+  for (const question of CURATED_FIELD_ENUMERATOR_QUESTIONS) {
+    assert.equal(question.options.length, 4);
+    assert.match(question.correctOption, /^[A-D]$/);
+    assert.ok(question.questionText.length >= 20);
+  }
 });
