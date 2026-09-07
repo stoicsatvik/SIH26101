@@ -4,6 +4,7 @@ const courseList = document.querySelector('#course-list');
 const skillList = document.querySelector('#skill-list');
 const form = document.querySelector('#onboarding-form');
 const statusBox = document.querySelector('#onboarding-status');
+const editMode = new URLSearchParams(window.location.search).get('edit') === '1';
 
 function itemCard(kind, fields) {
   const article = document.createElement('article');
@@ -17,42 +18,55 @@ function itemCard(kind, fields) {
   return article;
 }
 
-function addEducation() {
-  educationList.append(itemCard('education', `
+function fillCard(card, values = {}) {
+  card.querySelectorAll('[data-key]').forEach((input) => {
+    const value = values[input.dataset.key];
+    if (input.type === 'checkbox') input.checked = Boolean(value);
+    else input.value = value == null ? '' : String(value).slice(0, input.type === 'date' ? 10 : undefined);
+  });
+  return card;
+}
+
+function addEducation(values = {}) {
+  const card = itemCard('education', `
     <label>Qualification level<input data-key="qualificationLevel" placeholder="Bachelor's, Master's, Diploma..." /></label>
     <label>Degree / certificate<input data-key="degreeOrCertificate" placeholder="B.Sc. Statistics" /></label>
     <label>Field of study<input data-key="fieldOfStudy" /></label>
     <label>Institution<input data-key="institution" /></label>
     <label>Start year<input data-key="startYear" type="number" min="1950" max="2100" /></label>
     <label>End year<input data-key="endYear" type="number" min="1950" max="2100" /></label>
-  `));
+  `);
+  educationList.append(fillCard(card, values));
 }
 
-function addExperience() {
-  experienceList.append(itemCard('experience', `
+function addExperience(values = {}) {
+  const card = itemCard('experience', `
     <label>Organisation<input data-key="organization" /></label>
     <label>Designation<input data-key="designation" /></label>
     <label>Department<input data-key="department" /></label>
     <label>Start date<input data-key="startDate" type="date" /></label>
     <label>End date<input data-key="endDate" type="date" /></label>
     <label>Responsibilities<input data-key="responsibilities" /></label>
-  `));
+  `);
+  experienceList.append(fillCard(card, values));
 }
 
-function addCourse() {
-  courseList.append(itemCard('course', `
+function addCourse(values = {}) {
+  const card = itemCard('course', `
     <label>Course title<input data-key="courseTitle" /></label>
     <label>Provider<input data-key="provider" placeholder="iGOT, institute, university..." /></label>
     <label>Completion date<input data-key="completionDate" type="date" /></label>
     <label>Score %<input data-key="score" type="number" min="0" max="100" step="0.1" /></label>
-  `));
+  `);
+  courseList.append(fillCard(card, values));
 }
 
-function addSkill() {
-  skillList.append(itemCard('skill', `
+function addSkill(values = {}) {
+  const card = itemCard('skill', `
     <label>Skill<input data-key="skillName" placeholder="Python, sampling, SQL..." /></label>
     <label>Self-rated level (0–5)<input data-key="level" type="number" min="0" max="5" step="0.5" /></label>
-  `));
+  `);
+  skillList.append(fillCard(card, values));
 }
 
 function readCards(container) {
@@ -68,6 +82,13 @@ function readCards(container) {
 function show(message, type = 'info') {
   statusBox.textContent = message;
   statusBox.className = `status-message is-visible is-${type}`;
+}
+
+function addBlankRows() {
+  addEducation();
+  addExperience();
+  addCourse();
+  addSkill();
 }
 
 function applyRegistrationContext() {
@@ -94,16 +115,76 @@ function applyRegistrationContext() {
   }
 }
 
-document.querySelector('#add-education').addEventListener('click', addEducation);
-document.querySelector('#add-experience').addEventListener('click', addExperience);
-document.querySelector('#add-course').addEventListener('click', addCourse);
-document.querySelector('#add-skill').addEventListener('click', addSkill);
+function setMainProfile(profile = {}) {
+  document.querySelector('#employment-status').value = profile.employment_status || '';
+  document.querySelector('#years-experience').value = profile.years_experience ?? '';
+  document.querySelector('#current-job-title').value = profile.current_job_title || '';
+  document.querySelector('#designation').value = profile.designation || '';
+  document.querySelector('#department').value = profile.department || '';
+  document.querySelector('#organization').value = profile.ministry_or_organization || '';
+  document.querySelector('#current-role-summary').value = profile.current_role_summary || '';
+  document.querySelector('#target-role').value = profile.target_role || '';
+}
 
-addEducation();
-addExperience();
-addCourse();
-addSkill();
-applyRegistrationContext();
+async function loadExistingProfile() {
+  show('Loading your saved profile…', 'info');
+  const response = await fetch('/api/profile', { credentials: 'same-origin' });
+  if (response.status === 401) return window.location.replace('/login.html');
+  let data = {};
+  try { data = await response.json(); } catch { data = {}; }
+  if (!response.ok) throw new Error(data.error || 'Could not load your profile.');
+
+  setMainProfile(data.profile || {});
+  educationList.innerHTML = '';
+  experienceList.innerHTML = '';
+  courseList.innerHTML = '';
+  skillList.innerHTML = '';
+
+  const education = Array.isArray(data.education) ? data.education : [];
+  const experience = Array.isArray(data.experience) ? data.experience : [];
+  const courses = Array.isArray(data.completedCourses) ? data.completedCourses : [];
+  const selfReportedSkills = (Array.isArray(data.skills) ? data.skills : []).filter((skill) => skill.source === 'self_reported');
+
+  (education.length ? education : [{}]).forEach((item) => addEducation({
+    qualificationLevel: item.qualification_level,
+    degreeOrCertificate: item.degree_or_certificate,
+    fieldOfStudy: item.field_of_study,
+    institution: item.institution,
+    startYear: item.start_year,
+    endYear: item.end_year,
+  }));
+  (experience.length ? experience : [{}]).forEach((item) => addExperience({
+    organization: item.organization,
+    designation: item.designation,
+    department: item.department,
+    startDate: item.start_date,
+    endDate: item.end_date,
+    responsibilities: item.responsibilities,
+  }));
+  (courses.length ? courses : [{}]).forEach((item) => addCourse({
+    courseTitle: item.course_title,
+    provider: item.provider,
+    completionDate: item.completion_date,
+    score: item.score,
+  }));
+  (selfReportedSkills.length ? selfReportedSkills : [{}]).forEach((item) => addSkill({
+    skillName: item.skill_name,
+    level: item.self_reported_level,
+  }));
+
+  const heading = document.querySelector('.onboarding-header h1');
+  const copy = document.querySelector('.onboarding-header p:not(.eyebrow)');
+  if (heading) heading.textContent = 'Update your GyanSetu profile.';
+  if (copy) copy.textContent = 'Changes here update the evidence used by the competency engine. Assessment-derived scores remain separate.';
+  const submit = form.querySelector('button[type="submit"]');
+  if (submit) submit.textContent = 'Save changes and return';
+  show('Saved profile loaded.', 'success');
+}
+
+document.querySelector('#add-education').addEventListener('click', () => addEducation());
+document.querySelector('#add-experience').addEventListener('click', () => addExperience());
+document.querySelector('#add-course').addEventListener('click', () => addCourse());
+document.querySelector('#add-skill').addEventListener('click', () => addSkill());
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -141,20 +222,13 @@ form.addEventListener('submit', async (event) => {
     });
 
     let data = {};
-    try {
-      data = await response.json();
-    } catch {
-      data = {};
-    }
+    try { data = await response.json(); } catch { data = {}; }
 
     if (response.status === 401) {
       navigating = true;
       return window.location.replace('/login.html');
     }
-
-    if (!response.ok) {
-      return show(data.error || `Could not save profile (${response.status}).`, 'error');
-    }
+    if (!response.ok) return show(data.error || `Could not save profile (${response.status}).`, 'error');
 
     sessionStorage.removeItem('sih_registration_context');
     show('Profile saved. Opening dashboard…', 'success');
@@ -175,13 +249,21 @@ form.addEventListener('submit', async (event) => {
   try {
     const response = await fetch('/api/auth/me', { credentials: 'same-origin' });
     if (response.status === 401) return window.location.replace('/login.html');
-    if (!response.ok) return;
+    if (!response.ok) {
+      addBlankRows();
+      return;
+    }
 
     const data = await response.json();
-    if (data?.user?.onboarding_completed) {
-      window.location.replace('/dashboard.html');
+    if (editMode) {
+      await loadExistingProfile();
+      return;
     }
-  } catch {
-    show('Backend connection is not ready yet.', 'error');
+    if (data?.user?.onboarding_completed) return window.location.replace('/dashboard.html');
+    addBlankRows();
+    applyRegistrationContext();
+  } catch (error) {
+    if (!educationList.children.length) addBlankRows();
+    show(error?.message || 'Backend connection is not ready yet.', 'error');
   }
 })();
