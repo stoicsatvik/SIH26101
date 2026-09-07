@@ -3,41 +3,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard | SIH26101</title>
-  <link rel="stylesheet" href="./styles.css" />
-  <link rel="stylesheet" href="./onboarding.css" />
+  <title>GyanSetu Dashboard</title>
+  <link rel="stylesheet" href="./dashboard.css" />
 </head>
-<body class="onboarding-page">
-  <main class="onboarding-shell">
-    <header class="onboarding-header">
-      <div>
-        <p class="eyebrow eyebrow--blue">SIH26101</p>
-        <h1>Your profile is ready.</h1>
-        <p id="dashboard-copy">Loading your profile…</p>
+<body class="dashboard-body">
+  <div class="dashboard-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-title">Gyan<span>Setu</span></div>
+        <div class="brand-sub">Official Statistical System</div>
       </div>
-      <button id="logout-button" class="ghost-button" type="button">Log out</button>
-    </header>
-    <section class="onboarding-card">
-      <h2>Next system layer</h2>
-      <p>This is the handoff point for the competency engine, skill-gap analysis, course recommendations, assessments and readiness dashboard.</p>
-      <pre id="profile-preview" style="white-space:pre-wrap;overflow:auto;background:#f7f9fc;padding:16px;border-radius:12px"></pre>
-    </section>
-  </main>
-  <script>
-    const preview = document.querySelector('#profile-preview');
-    const copy = document.querySelector('#dashboard-copy');
-    (async () => {
-      const response = await fetch('/api/profile');
-      if (response.status === 401) return location.assign('/login.html');
-      const data = await response.json();
-      if (!response.ok) { copy.textContent = data.error || 'Could not load profile.'; return; }
-      copy.textContent = `Signed in as ${data.user.full_name || data.user.email}.`;
-      preview.textContent = JSON.stringify(data, null, 2);
-    })();
-    document.querySelector('#logout-button').addEventListener('click', async () => {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      location.assign('/login.html');
-    });
-  </script>
+
+      <nav class="side-nav">
+        <a class="nav-item active" href="./dashboard.html"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></a>
+        <a class="nav-item" href="#"><span class="nav-icon">◫</span><span class="nav-label">Competency Profile</span></a>
+        <a class="nav-item" href="#"><span class="nav-icon">✓</span><span class="nav-label">Assessment</span></a>
+        <a class="nav-item" href="#"><span class="nav-icon">▤</span><span class="nav-label">My Learning</span></a>
+        <a class="nav-item" href="#"><span class="nav-icon">✦</span><span class="nav-label">Recommendations</span></a>
+        <a class="nav-item" href="#"><span class="nav-icon">▥</span><span class="nav-label">Career Roadmap</span></a>
+        <a class="nav-item" href="./onboarding.html"><span class="nav-icon">●</span><span class="nav-label">Profile</span></a>
+      </nav>
+
+      <div class="side-spacer"></div>
+      <div class="side-footer">
+        <a class="nav-item" href="#"><span class="nav-icon">◔</span><span class="nav-label">Notifications</span></a>
+        <a class="nav-item" href="#"><span class="nav-icon">⚙</span><span class="nav-label">Settings</span></a>
+        <button id="logout-button" class="nav-item" type="button" style="width:100%;border:0;background:transparent;text-align:left"><span class="nav-icon">↪</span><span class="nav-label">Logout</span></button>
+      </div>
+    </aside>
+
+    <main class="dashboard-main">
+      <header class="topbar">
+        <div class="greeting">
+          <h1>Good morning, <span id="employee-name">Employee</span> 👋</h1>
+          <p id="role-line">Loading your role and organisation…</p>
+        </div>
+        <div class="top-user">
+          <div id="avatar" class="avatar">GS</div>
+          <div id="header-name" class="user-label">Employee</div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div id="dashboard-error" class="dashboard-error"></div>
+
+        <section class="hero">
+          <div class="hero-left">
+            <div class="hero-illustration">🎯</div>
+            <div>
+              <h2>Build Your Competency Profile</h2>
+              <p>Your competency profile isn’t assessed yet. Take a short baseline assessment so GyanSetu can identify your development opportunities and personalize your learning journey.</p>
+            </div>
+          </div>
+          <button id="start-assessment" class="cta" type="button">Start Baseline Assessment&nbsp; →</button>
+        </section>
+
+        <section class="summary-grid">
+          <article class="summary-card">
+            <div class="summary-icon">▦</div>
+            <div><h3>Role-Based Competencies</h3><p id="role-card-copy">Mapped to your role</p></div>
+          </article>
+          <article class="summary-card">
+            <div class="summary-icon">◷</div>
+            <div><h3>Assessment Status</h3><p>Not Assessed</p></div>
+          </article>
+          <article class="summary-card">
+            <div class="summary-icon">▥</div>
+            <div><h3>Development Journey</h3><p>Not Started</p></div>
+          </article>
+        </section>
+
+        <section class="main-grid">
+          <article class="panel">
+            <h2>Why Baseline Assessment?</h2>
+            <div class="benefit-list">
+              <div class="benefit"><div class="check">✓</div><div><strong>Understand your current competency levels</strong><span>Helps us identify where you stand.</span></div></div>
+              <div class="benefit"><div class="check">✓</div><div><strong>Get personalized recommendations</strong><span>Receive learning resources tailored to your gaps.</span></div></div>
+              <div class="benefit"><div class="check">✓</div><div><strong>Track your growth over time</strong><span>Measure improvement and accelerate progress.</span></div></div>
+            </div>
+            <button class="learn-button" type="button">Learn More About GyanSetu&nbsp; →</button>
+          </article>
+
+          <article class="panel">
+            <h2>What You Can Do</h2>
+            <div class="action-stack">
+              <a class="action-card" href="#"><div class="action-badge">▤</div><div class="action-copy"><strong>Explore Learning Resources</strong><span>Browse available topics and resources.</span></div><div class="arrow">›</div></a>
+              <a class="action-card" href="#"><div class="action-badge">⚑</div><div class="action-copy"><strong>Explore Career Paths</strong><span>Discover roles and growth opportunities.</span></div><div class="arrow">›</div></a>
+            </div>
+          </article>
+        </section>
+
+        <section class="journey">
+          <div class="journey-copy">
+            <h2>Your Development Journey Starts Here</h2>
+            <p>Completing the baseline assessment is the first step towards continuous learning and career growth.</p>
+          </div>
+          <div class="steps">
+            <div class="step active"><div class="step-dot">1</div><strong>Baseline Assessment</strong><span>Start here</span></div>
+            <div class="step"><div class="step-dot">2</div><strong>Gap Analysis</strong><span>& Recommendations</span></div>
+            <div class="step"><div class="step-dot">3</div><strong>Learning</strong><span>& Development</span></div>
+            <div class="step"><div class="step-dot">4</div><strong>Reassessment</strong><span>& Progress Tracking</span></div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+  <script src="./dashboard.js"></script>
 </body>
 </html>
