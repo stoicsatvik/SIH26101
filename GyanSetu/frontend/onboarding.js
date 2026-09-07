@@ -108,6 +108,12 @@ applyRegistrationContext();
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
+  const submitButton = form.querySelector('button[type="submit"]');
+  submitButton.disabled = true;
+  const originalLabel = submitButton.textContent;
+  submitButton.textContent = 'Saving…';
+  show('Saving profile…', 'info');
+
   const payload = {
     profile: {
       employmentStatus: document.querySelector('#employment-status').value,
@@ -125,26 +131,56 @@ form.addEventListener('submit', async (event) => {
     skills: readCards(skillList),
   };
 
+  let navigating = false;
   try {
     const response = await fetch('/api/profile', {
       method: 'PUT',
+      credentials: 'same-origin',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(payload),
     });
-    const data = await response.json();
-    if (response.status === 401) return window.location.assign('/login.html');
-    if (!response.ok) return show(data.error || 'Could not save profile.', 'error');
+
+    let data = {};
+    try {
+      data = await response.json();
+    } catch {
+      data = {};
+    }
+
+    if (response.status === 401) {
+      navigating = true;
+      return window.location.replace('/login.html');
+    }
+
+    if (!response.ok) {
+      return show(data.error || `Could not save profile (${response.status}).`, 'error');
+    }
+
     sessionStorage.removeItem('sih_registration_context');
-    window.location.assign(data.next || '/dashboard.html');
-  } catch {
-    show('Could not reach the backend.', 'error');
+    show('Profile saved. Opening dashboard…', 'success');
+    navigating = true;
+    window.location.replace('/dashboard.html');
+  } catch (error) {
+    console.error('Profile save failed:', error);
+    show('Could not reach the backend. Please try once more.', 'error');
+  } finally {
+    if (!navigating) {
+      submitButton.disabled = false;
+      submitButton.textContent = originalLabel;
+    }
   }
 });
 
 (async () => {
   try {
-    const response = await fetch('/api/auth/me');
-    if (response.status === 401) window.location.assign('/login.html');
+    const response = await fetch('/api/auth/me', { credentials: 'same-origin' });
+    if (response.status === 401) return window.location.replace('/login.html');
+    if (!response.ok) return;
+
+    const data = await response.json();
+    if (data?.user?.onboarding_completed) {
+      window.location.replace('/dashboard.html');
+    }
   } catch {
     show('Backend connection is not ready yet.', 'error');
   }
