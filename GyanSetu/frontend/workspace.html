@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GyanSetu | Workspace</title>
+  <link rel="stylesheet" href="./dashboard.css" />
+  <link rel="stylesheet" href="./workspace.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="./dashboard.html"><img src="./ui/gyansetu-logo.svg" alt="GyanSetu" class="brand-logo"/><div class="brand-copy"><strong>Gyan<span>Setu</span></strong><small>Official Statistical System</small></div></a>
+      <nav class="nav-group">
+        <a class="nav-link" data-view="home" href="./dashboard.html"><svg><use href="./ui/gyansetu-icons.svg#icon-dashboard"></use></svg><span>Home</span></a>
+        <a class="nav-link" data-view="competencies" href="./workspace.html?view=competencies"><svg><use href="./ui/gyansetu-icons.svg#icon-chart"></use></svg><span>Competency Profile</span></a>
+        <a class="nav-link" data-view="assessment" href="./assessment.html"><svg><use href="./ui/gyansetu-icons.svg#icon-check"></use></svg><span>Assessment</span></a>
+        <a class="nav-link" data-view="learning" href="./workspace.html?view=learning"><svg><use href="./ui/gyansetu-icons.svg#icon-book"></use></svg><span>My Learning</span></a>
+        <a class="nav-link" data-view="recommendations" href="./workspace.html?view=recommendations"><svg><use href="./ui/gyansetu-icons.svg#icon-bulb"></use></svg><span>Recommendations</span></a>
+        <a class="nav-link" data-view="roadmap" href="./workspace.html?view=roadmap"><svg><use href="./ui/gyansetu-icons.svg#icon-target"></use></svg><span>Career Roadmap</span></a>
+        <a class="nav-link" href="./onboarding.html?edit=1"><svg><use href="./ui/gyansetu-icons.svg#icon-user-star"></use></svg><span>Profile</span></a>
+      </nav>
+      <div class="sidebar-bottom">
+        <a class="nav-link" data-view="notifications" href="./workspace.html?view=notifications"><svg><use href="./ui/gyansetu-icons.svg#icon-mail"></use></svg><span>Notifications</span></a>
+        <a class="nav-link" data-view="settings" href="./workspace.html?view=settings"><svg><use href="./ui/gyansetu-icons.svg#icon-gear"></use></svg><span>Settings</span></a>
+        <button id="workspace-logout" class="nav-link nav-button" type="button"><svg><use href="./ui/gyansetu-icons.svg#icon-login"></use></svg><span>Logout</span></button>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <a class="workspace-back" href="./dashboard.html">← Dashboard</a>
+        <div class="top-actions"><a class="user-chip" href="./onboarding.html?edit=1"><span id="workspace-avatar" class="avatar">GS</span><strong id="workspace-user">Employee</strong></a></div>
+      </header>
+      <section class="workspace-content">
+        <header class="workspace-heading"><span id="workspace-eyebrow" class="workspace-eyebrow">GYANSETU</span><h1 id="workspace-title">Loading...</h1><p id="workspace-subtitle">Preparing your learning workspace.</p></header>
+        <div id="workspace-status" class="workspace-status"></div>
+        <div id="workspace-body"></div>
+      </section>
+    </main>
+  </div>
+  <script src="./workspace.js"></script>
+</body>
+</html>
