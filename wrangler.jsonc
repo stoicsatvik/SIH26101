@@ -6,8 +6,21 @@
   "vars": {
     "OPENROUTER_MODEL": "openrouter/free",
     "EMBEDDING_MODEL": "sentence-transformers/all-minilm-l12-v2",
-    "SEMANTIC_VALIDATION_THRESHOLD": "0.55"
+    "SEMANTIC_VALIDATION_THRESHOLD": "0.55",
+    "OPENROUTER_FREE_RPM": "20",
+    "OPENROUTER_FREE_RPD": "50",
+    "AI_LIVE_ASSESSMENTS_PER_DAY": "15"
   },
+  "ratelimits": [
+    {
+      "name": "AI_START_LIMITER",
+      "namespace_id": "2610101",
+      "simple": {
+        "limit": 6,
+        "period": 60
+      }
+    }
+  ],
   "assets": {
     "directory": "./GyanSetu/frontend",
     "binding": "ASSETS"

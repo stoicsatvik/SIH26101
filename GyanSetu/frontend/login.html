@@ -7,6 +7,7 @@
   <title>Log In | GyanSetu</title>
   <link rel="stylesheet" href="./ui/gyansetu-components.css" />
   <link rel="stylesheet" href="./ui/gyansetu-auth.css" />
+  <link rel="stylesheet" href="./demo-access.css" />
 </head>
 <body class="gs-auth-page">
   <main class="gs-auth-layout">
@@ -30,30 +31,30 @@
               <span class="gs-flow-icon"><svg><use href="./ui/gyansetu-icons.svg#icon-mail"/></svg></span>
               <span class="gs-flow-number">1</span>
               <strong>Enter your email</strong>
-              <small>Use the email linked to your GyanSetu demo account</small>
+              <small>Use your GyanSetu account, or choose the public demo</small>
             </div>
             <div class="gs-flow-step">
               <span class="gs-flow-icon"><svg><use href="./ui/gyansetu-icons.svg#icon-lock"/></svg></span>
               <span class="gs-flow-number">2</span>
               <strong>Enter password</strong>
-              <small>Use only the password created for this prototype</small>
+              <small>Normal accounts use the password created during registration</small>
             </div>
             <div class="gs-flow-step">
               <span class="gs-flow-icon"><svg><use href="./ui/gyansetu-icons.svg#icon-login"/></svg></span>
               <span class="gs-flow-number">3</span>
               <strong>Click Log In</strong>
-              <small>Your credentials are checked by the backend</small>
+              <small>Credentials are verified by the backend</small>
             </div>
             <div class="gs-flow-step">
               <span class="gs-flow-icon"><svg><use href="./ui/gyansetu-icons.svg#icon-dashboard"/></svg></span>
               <span class="gs-flow-number">4</span>
               <strong>Access dashboard</strong>
-              <small>Continue to your competency profile and learning path</small>
+              <small>Continue to competency assessment and learning</small>
             </div>
           </div>
           <div class="gs-info-strip">
             <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-info"/></svg>
-            <span>Use only credentials created for this GyanSetu prototype. This is not an official Government of India authentication portal.</span>
+            <span>This SIH26101 student prototype is not an official Government of India authentication portal.</span>
           </div>
         </div>
       </div>
@@ -96,6 +97,19 @@
 
           <div class="status-message" id="status-message" role="status" aria-live="polite"></div>
         </form>
+
+        <section class="gs-demo-access" aria-label="Public demo account">
+          <div class="gs-demo-access__copy">
+            <span class="gs-demo-badge">PUBLIC DEMO</span>
+            <strong>Explore GyanSetu instantly</strong>
+            <p>No OTP, registration or password needed. The shared demo profile is read-only and assessment usage is quota-protected.</p>
+            <code>demo@gyansetu.app</code>
+          </div>
+          <button class="gs-demo-button" id="demo-login-button" type="button">
+            <svg aria-hidden="true"><use href="./ui/gyansetu-icons.svg#icon-dashboard"/></svg>
+            <span>Continue as Demo</span>
+          </button>
+        </section>
 
         <div class="gs-secondary-line"><span>Don’t have an account?</span></div>
         <a class="gs-secondary-link" href="./register.html">Register</a>
