@@ -2,6 +2,7 @@ const form = document.querySelector('#auth-form');
 const identityInput = document.querySelector('#identity');
 const passwordInput = document.querySelector('#password');
 const submitButton = document.querySelector('#submit-button');
+const demoLoginButton = document.querySelector('#demo-login-button');
 const statusMessage = document.querySelector('#status-message');
 const togglePasswordButton = document.querySelector('#toggle-password');
 
@@ -50,17 +51,50 @@ if (togglePasswordButton) {
 identityInput?.addEventListener('input', () => setFieldError('identity', ''));
 passwordInput?.addEventListener('input', () => setFieldError('password', ''));
 
+demoLoginButton?.addEventListener('click', async () => {
+  setStatus();
+  demoLoginButton.disabled = true;
+  if (submitButton) submitButton.disabled = true;
+  const label = demoLoginButton.querySelector('span');
+  const originalLabel = label?.textContent || 'Continue as Demo';
+  if (label) label.textContent = 'Opening demo…';
+  setStatus('Starting a protected public demo session…', 'info');
+
+  try {
+    const response = await fetch('/api/auth/demo', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { accept: 'application/json' },
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      setStatus(data.error || 'Could not start the demo session.', 'error');
+      return;
+    }
+    setStatus('Demo ready. Redirecting…', 'success');
+    window.location.replace(data.next || '/dashboard.html');
+  } catch {
+    setStatus('Could not reach the GyanSetu demo backend.', 'error');
+  } finally {
+    demoLoginButton.disabled = false;
+    if (submitButton) submitButton.disabled = false;
+    if (label) label.textContent = originalLabel;
+  }
+});
+
 form?.addEventListener('submit', async (event) => {
   event.preventDefault();
   setStatus();
   if (!validate()) return;
 
   submitButton.disabled = true;
+  if (demoLoginButton) demoLoginButton.disabled = true;
   setStatus('Signing in to GyanSetu…', 'info');
 
   try {
     const response = await fetch('/api/auth/login', {
       method: 'POST',
+      credentials: 'include',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         email: identityInput.value.trim(),
@@ -79,10 +113,11 @@ form?.addEventListener('submit', async (event) => {
     }
 
     setStatus('Signed in. Redirecting…', 'success');
-    window.location.assign(data.next || '/onboarding.html');
+    window.location.replace(data.next || '/onboarding.html');
   } catch {
     setStatus('Could not reach the GyanSetu authentication backend.', 'error');
   } finally {
     submitButton.disabled = false;
+    if (demoLoginButton) demoLoginButton.disabled = false;
   }
 });
