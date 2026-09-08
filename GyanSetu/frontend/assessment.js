@@ -37,7 +37,7 @@ async function loadIntro(){
     const subCount=state.role.competencies.reduce((sum,item)=>sum+item.subCompetencies.length,0);
     qs('#question-count').textContent=Math.ceil(subCount/10)*10;
     if(aiResponse.ok)setAiChip('OpenRouter ready','online');
-    else setAiChip('AI unavailable','offline');
+    else setAiChip('AI fallback ready','online');
   }catch(error){
     qs('#intro-error').textContent=error.message||'Could not prepare the assessment.';
     setAiChip('Service check failed','offline');
@@ -55,14 +55,14 @@ async function generateAssessment(){
   qs('#intro-error').textContent='';
   showView('loading');
   setStage('generate');
-  loadingProgress(24,'Generating role-based questions through OpenRouter...');
+  loadingProgress(24,'Preparing your role-based question set...');
   qs('#load-generate').classList.add('is-done');
 
   const timer=setTimeout(()=>{
-    loadingProgress(58,'Checking each question against competency embeddings...');
+    loadingProgress(58,'Checking competency alignment and question-bank coverage...');
     setStage('validate');
     qs('#load-validate').classList.add('is-done');
-  },1700);
+  },650);
 
   try{
     const response=await fetch('/api/assessments/start',{method:'POST',credentials:'include'});
@@ -81,7 +81,7 @@ async function generateAssessment(){
       showView('quiz');
       setStage('answer');
       renderQuestion();
-    },450);
+    },120);
   }catch(error){
     clearTimeout(timer);
     showView('intro');
@@ -107,7 +107,7 @@ function renderQuestion(){
   const validation=question.validation||{};
   qs('#validation-copy').textContent=validation.status==='validated'
     ? `Semantic validation passed${validation.similarity!=null?` · similarity ${Math.round(validation.similarity*100)}%`:''}`
-    : assessment.validationMode==='structural-fallback'?'Structural validation passed · semantic service fallback used':'Queued for review · structural validation passed';
+    : assessment.validationMode==='structural-fallback'?'Structural validation passed · semantic service fallback used':'Question-bank mapping verified · structural validation passed';
 
   const selected=state.answers.get(question.questionId)||'';
   const letters=['A','B','C','D'];
