@@ -15,6 +15,7 @@ import {
   createCachedAiAssessment,
   createInstantCuratedAssessment,
   dailyLiveAssessmentLimit,
+  submitInstantCuratedAssessment,
 } from './fast-assessment.js';
 
 const DEMO_EMAIL = 'demo@gyansetu.app';
@@ -170,8 +171,10 @@ async function handleDashboardState(request, env) {
   const auth = await authUser(request, env);
   if (auth.response) return auth.response;
   const sql = getSql(env);
-  const profile = await profileForUser(sql, auth.user.id);
-  const assessment = await getAssessmentState(sql, auth.user.id, profile);
+  const [profile, assessment] = await Promise.all([
+    profileForUser(sql, auth.user.id),
+    getAssessmentState(sql, auth.user.id, {}),
+  ]);
   return json({
     user: auth.user,
     profile,
@@ -259,7 +262,10 @@ async function handleSubmitAssessment(request, env) {
   let body;
   try { body = await request.json(); } catch { return json({ error: 'Invalid JSON body.' }, 400); }
   const sql = getSql(env);
-  const result = await submitBaselineAssessmentFast(sql, auth.user.id, body);
+  const assessmentId = String(body.assessmentId || '');
+  const result = assessmentId.includes(':instant-')
+    ? await submitInstantCuratedAssessment(sql, auth.user.id, body)
+    : await submitBaselineAssessmentFast(sql, auth.user.id, body);
   return json({ ok: true, result });
 }
 
